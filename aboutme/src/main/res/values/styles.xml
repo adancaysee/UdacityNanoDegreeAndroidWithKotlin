@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="NameStyle">
+        <item name="android:fontFamily">@font/aclonica</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+</resources>
