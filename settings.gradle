@@ -16,3 +16,4 @@ rootProject.name = "UdacityNanoDegreeAndroidWithKotlin"
 include ':app'
 include ':aboutme'
 include ':colormyviews'
+include ':trivia'
