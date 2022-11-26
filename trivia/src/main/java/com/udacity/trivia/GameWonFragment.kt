@@ -8,6 +8,7 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.Navigation
 import com.udacity.trivia.databinding.FragmentGameWonBinding
 
@@ -21,7 +22,7 @@ class GameWonFragment : Fragment(), MenuProvider {
     ): View {
         //add menu
         val host: MenuHost = requireActivity()
-        host.addMenuProvider(this)
+        host.addMenuProvider(this,viewLifecycleOwner,Lifecycle.State.RESUMED)
 
         val binding = DataBindingUtil.inflate<FragmentGameWonBinding>(
             inflater,

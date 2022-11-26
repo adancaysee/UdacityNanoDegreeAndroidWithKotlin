@@ -13,7 +13,7 @@ import androidx.navigation.ui.NavigationUI
 import com.udacity.trivia.databinding.FragmentTitleBinding
 
 
-class TitleFragment : Fragment() ,MenuProvider{
+class TitleFragment : Fragment(), MenuProvider {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,7 +47,7 @@ class TitleFragment : Fragment() ,MenuProvider{
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
         return NavigationUI.onNavDestinationSelected(
             menuItem, requireView().findNavController()
-        ) || onMenuItemSelected(menuItem)
+        )
     }
 
 }
