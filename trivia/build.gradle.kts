@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+    id("androidx.navigation.safeargs")
 }
 
 android {
@@ -47,6 +49,9 @@ dependencies {
     implementation(Libraries.constraintLayout)
     implementation(Libraries.androidxNavigationUi)
     implementation(Libraries.androidxNavigationFragment)
+    implementation("androidx.appcompat:appcompat:1.5.1")
+    implementation("com.google.android.material:material:1.4.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
     testImplementation(TestLibraries.junit)
 

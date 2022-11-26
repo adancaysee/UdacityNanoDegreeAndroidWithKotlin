@@ -3,34 +3,45 @@ package com.udacity.trivia
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
 import com.udacity.trivia.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private var navController: NavController? = null
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var appBarConfiguration: AppBarConfiguration
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        @Suppress("UNUSED_VARIABLE")
         val binding =
             DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-        navController = findNavController()
-        navController?.let {
-            NavigationUI.setupActionBarWithNavController(this, it)
-        }
+        drawerLayout = binding.drawerLayout
+        val navController = getNavController()
+        binding.navView.setupWithNavController(navController)
 
+        NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
+        appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
+        // prevent nav gesture if not on start destination
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return navController?.navigateUp() ?: false
+        val navController = this.findNavController(R.id.myNavHostFragment)
+        return NavigationUI.navigateUp(navController, appBarConfiguration)
     }
 
-
-    private fun findNavController(): NavController? {
+    private fun getNavController(): NavController {
         val navHostFragment =
-            this.supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as? NavHostFragment
-        return navHostFragment?.navController
+            supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
+        return navHostFragment.navController
     }
 }
+
+
+
