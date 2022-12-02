@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.udacity.trivia"
+    namespace = "com.udacity.dessertpusher"
     compileSdk = Config.compileSdkVersion
 
     defaultConfig {
-        applicationId = "com.udacity.trivia"
+        applicationId = "com.udacity.dessertpusher"
         minSdk = Config.minSdkVersion
         targetSdk = Config.targetSdkVersion
         versionCode = 1
