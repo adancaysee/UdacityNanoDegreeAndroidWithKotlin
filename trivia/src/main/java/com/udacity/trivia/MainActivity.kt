@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.drawerlayout.widget.DrawerLayout.*
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -20,6 +21,8 @@ import com.udacity.trivia.databinding.ActivityMainBinding
  * Step 4: NavigationUI.navigateUp(getNavController(),drawerLayout) -- trigger when up and menu button pressed
  * Step 5: binding.navView.setupWithNavController(navController) -- for drawer menu items navigation
  * You can use appbar configuration
+ *
+ * NOTE : app:defaultNavHost = "true" --> Because navhostfragment intercept back button
 
  */
 
@@ -33,12 +36,25 @@ class MainActivity : AppCompatActivity() {
         val binding =
             DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         drawerLayout = binding.drawerLayout
+
         val navController = getNavController()
-
-        NavigationUI.setupActionBarWithNavController(this, navController,drawerLayout)
-        binding.navView.setupWithNavController(navController)
-
         appBarConfiguration = AppBarConfiguration(navController.graph,drawerLayout)
+        //appBarConfiguration = AppBarConfiguration(setOf(R.id.titleFragment,R.id.gameOverFragment),drawerLayout) -- only test
+        NavigationUI.setupActionBarWithNavController(this, navController,appBarConfiguration)
+        binding.navView.setupWithNavController(navController)
+        addNavigationListener(navController)
+
+
+    }
+
+    private fun addNavigationListener(navController: NavController) {
+        navController.addOnDestinationChangedListener { controller, destination, _ ->
+            if (controller.graph.startDestinationId == destination.id) {
+                drawerLayout.setDrawerLockMode(LOCK_MODE_UNLOCKED)
+            }else {
+                drawerLayout.setDrawerLockMode(LOCK_MODE_LOCKED_CLOSED)
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

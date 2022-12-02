@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import com.udacity.trivia.databinding.FragmentGameWonBinding
 
 class GameWonFragment : Fragment(), MenuProvider {
@@ -30,11 +31,21 @@ class GameWonFragment : Fragment(), MenuProvider {
             container,
             false
         )
+
+        //navigation by safe-arg
         binding.nextMatchButton.setOnClickListener(
             Navigation.createNavigateOnClickListener(
                 GameWonFragmentDirections.actionGameWonFragmentToGameFragment()
             )
         )
+        //navigation by actions
+        /*binding.nextMatchButton.setOnClickListener {
+            requireView().findNavController().navigate(R.id.action_gameWonFragment_to_gameFragment)
+        }*/
+        //navigation by destinations
+        /*binding.nextMatchButton.setOnClickListener {
+            requireView().findNavController().navigate(R.id.game_dest)
+        }*/
         return binding.root
     }
 
@@ -62,7 +73,8 @@ class GameWonFragment : Fragment(), MenuProvider {
 
     @Suppress("unused")
     private fun getShareIntent(): Intent {
-        val arguments = GameWonFragmentArgs.fromBundle(requireArguments())
+        //val arguments = GameWonFragmentArgs.fromBundle(requireArguments())
+        val arguments by navArgs<GameWonFragmentArgs>()
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.setType("text/plain")
             .putExtra(
