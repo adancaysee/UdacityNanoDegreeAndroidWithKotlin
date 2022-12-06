@@ -20,6 +20,10 @@ import timber.log.Timber
  * LifecycleObserver == observe LifecycleOwner
  */
 
+private const val KEY_REVENUE = "key_revenue"
+private const val KEY_DESSERT_SOLD = "key_dessert_sold"
+
+
 class MainActivity : AppCompatActivity(), MenuProvider {
 
 
@@ -53,10 +57,15 @@ class MainActivity : AppCompatActivity(), MenuProvider {
         this.addMenuProvider(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        if (savedInstanceState != null) {
+            revenue = savedInstanceState.getInt(KEY_REVENUE)
+            dessertsSold = savedInstanceState.getInt(KEY_DESSERT_SOLD)
+        }
+
         binding.revenue = revenue
         binding.amountSold = dessertsSold
 
-        dessertTimer = DessertTimer(this.lifecycle)
+        dessertTimer = DessertTimer(this.lifecycle) /** this --> lifecycle owner*/
 
         binding.dessertButton.setImageResource(currentDessert.imageId)
 
@@ -101,11 +110,18 @@ class MainActivity : AppCompatActivity(), MenuProvider {
         Timber.i("state : ${this.lifecycle.currentState.name}")
     }
 
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        Timber.i("onRestoreInstanceState called")
+       /* revenue = savedInstanceState.getInt(KEY_REVENUE)
+        dessertsSold = savedInstanceState.getInt(KEY_DESSERT_SOLD)
+        binding.revenue = revenue
+        binding.amountSold = dessertsSold*/
+    }
 
     override fun onRestart() {
         super.onRestart()
         Timber.i("onRestart Called")
-        Timber.i("state : ${this.lifecycle.currentState.name}")
     }
 
     override fun onResume() {
@@ -117,13 +133,18 @@ class MainActivity : AppCompatActivity(), MenuProvider {
     override fun onPause() {
         super.onPause()
         Timber.i("onPause Called")
-        Timber.i("state : ${this.lifecycle.currentState.name}")
     }
 
     override fun onStop() {
         super.onStop()
         Timber.i("onStop Called")
-        Timber.i("state : ${this.lifecycle.currentState.name}")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Timber.i("onSaveInstanceState called")
+        outState.putInt(KEY_REVENUE,revenue)
+        outState.putInt(KEY_DESSERT_SOLD,dessertsSold)
     }
 
     override fun onDestroy() {
@@ -131,8 +152,6 @@ class MainActivity : AppCompatActivity(), MenuProvider {
         Timber.i("onDestroy Called")
         Timber.i("state : ${this.lifecycle.currentState.name}")
     }
-
-
 
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {

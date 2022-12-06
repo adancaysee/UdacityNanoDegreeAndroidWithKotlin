@@ -95,6 +95,7 @@
             android:fontFamily="sans-serif-medium"
             android:text="@string/dessert_sold"
             android:textSize="@dimen/medium_text_size"
+            android:textColor="@color/grey"
             app:layout_constraintBottom_toBottomOf="@+id/amount_sold_text"
             app:layout_constraintStart_toStartOf="@+id/margin_start_guide" />
 
