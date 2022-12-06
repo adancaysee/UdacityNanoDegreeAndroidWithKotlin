@@ -5,7 +5,7 @@ import android.os.Looper
 import androidx.lifecycle.*
 import timber.log.Timber
 
-class DessertTimer(lifecycle: Lifecycle) : DefaultLifecycleObserver {
+class DessertTimer(lifecycle: Lifecycle) : LifecycleEventObserver {
     var secondCount = 0
 
     private var handler = Handler(Looper.getMainLooper())
@@ -15,17 +15,8 @@ class DessertTimer(lifecycle: Lifecycle) : DefaultLifecycleObserver {
         lifecycle.addObserver(this)
     }
 
-    override fun onStart(owner: LifecycleOwner) {
-        super.onStart(owner)
-        startTimer()
-    }
-
-    override fun onStop(owner: LifecycleOwner) {
-        super.onStop(owner)
-        stopTimer()
-    }
-
-    fun startTimer() {
+    private fun startTimer() {
+        Timber.i("Timer started")
         runnable = Runnable {
             secondCount++
             Timber.i("Timer is at : $secondCount")
@@ -35,7 +26,16 @@ class DessertTimer(lifecycle: Lifecycle) : DefaultLifecycleObserver {
         handler.postDelayed(runnable,1000)
     }
 
-    fun stopTimer() {
+    private fun stopTimer() {
         handler.removeCallbacks(runnable)
+        Timber.i("Timer stopped")
+    }
+
+    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+        if (event == Lifecycle.Event.ON_START) {
+            startTimer()
+        }else if (event == Lifecycle.Event.ON_STOP) {
+            stopTimer()
+        }
     }
 }
