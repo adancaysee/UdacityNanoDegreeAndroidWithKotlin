@@ -14,6 +14,12 @@ import androidx.databinding.DataBindingUtil
 import com.udacity.dessertpusher.databinding.ActivityMainBinding
 import timber.log.Timber
 
+/**
+ * this.lifecycle == android lifecycle object
+ * LifecycleOwner == has a lifecycle --> activities and fragment (these has their own lifecycle object)
+ * LifecycleObserver == observe LifecycleOwner
+ */
+
 class MainActivity : AppCompatActivity(), MenuProvider {
 
 
@@ -50,7 +56,7 @@ class MainActivity : AppCompatActivity(), MenuProvider {
         binding.revenue = revenue
         binding.amountSold = dessertsSold
 
-        dessertTimer = DessertTimer()
+        dessertTimer = DessertTimer(this.lifecycle)
 
         binding.dessertButton.setImageResource(currentDessert.imageId)
 
@@ -93,7 +99,6 @@ class MainActivity : AppCompatActivity(), MenuProvider {
         super.onStart()
         Timber.i("onStart Called")
         Timber.i("state : ${this.lifecycle.currentState.name}")
-        dessertTimer.startTimer()
     }
 
 
@@ -118,7 +123,6 @@ class MainActivity : AppCompatActivity(), MenuProvider {
     override fun onStop() {
         super.onStop()
         Timber.i("onStop Called")
-        dessertTimer.stopTimer()
         Timber.i("state : ${this.lifecycle.currentState.name}")
     }
 
