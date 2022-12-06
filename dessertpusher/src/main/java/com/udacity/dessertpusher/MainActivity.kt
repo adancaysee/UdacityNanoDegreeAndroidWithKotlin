@@ -4,7 +4,6 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -13,54 +12,14 @@ import androidx.core.app.ShareCompat
 import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
 import com.udacity.dessertpusher.databinding.ActivityMainBinding
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity(), MenuProvider {
 
 
     private lateinit var binding: ActivityMainBinding
-
-    private val TAG = this::class.java.simpleName
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.i(TAG,"onCreate Called")
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
-
-        this.addMenuProvider(this)
-
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Log.i(TAG,"onStart Called")
-    }
-
-
-    override fun onRestart() {
-        super.onRestart()
-        Log.i(TAG,"onRestart Called")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.i(TAG,"onResume Called")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.i(TAG,"onPause Called")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.i(TAG,"onStop Called")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.i(TAG,"onDestroy Called")
-    }
+    private var revenue = 0
+    private var dessertsSold = 0
 
     private val allDesserts = listOf(
         Dessert(R.drawable.cupcake, 5, 0),
@@ -77,6 +36,100 @@ class MainActivity : AppCompatActivity(), MenuProvider {
         Dessert(R.drawable.nougat, 5000, 16000),
         Dessert(R.drawable.oreo, 6000, 20000)
     )
+    private var currentDessert = allDesserts[0]
+
+    private lateinit var dessertTimer: DessertTimer
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Timber.i("onCreate Called")
+        this.addMenuProvider(this)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        binding.revenue = revenue
+        binding.amountSold = dessertsSold
+
+        dessertTimer = DessertTimer()
+
+        binding.dessertButton.setImageResource(currentDessert.imageId)
+
+        binding.dessertButton.setOnClickListener {
+            onDessertClicked()
+        }
+
+
+
+    }
+
+    private fun onDessertClicked() {
+
+        revenue += currentDessert.price
+        dessertsSold++
+
+        binding.revenue = revenue
+        binding.amountSold = dessertsSold
+
+        // Show the next dessert
+        showCurrentDessert()
+    }
+
+    private fun showCurrentDessert() {
+        var newDessert = allDesserts[0]
+        for (dessert in allDesserts) {
+            if (dessertsSold >= dessert.startProductionAmount) {
+                newDessert = dessert
+            }
+            else break
+        }
+
+        if (newDessert != currentDessert) {
+            currentDessert = newDessert
+            binding.dessertButton.setImageResource(newDessert.imageId)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Timber.i("onStart Called")
+        Timber.i("state : ${this.lifecycle.currentState.name}")
+        dessertTimer.startTimer()
+    }
+
+
+    override fun onRestart() {
+        super.onRestart()
+        Timber.i("onRestart Called")
+        Timber.i("state : ${this.lifecycle.currentState.name}")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Timber.i("onResume Called")
+        Timber.i("state : ${this.lifecycle.currentState.name}")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Timber.i("onPause Called")
+        Timber.i("state : ${this.lifecycle.currentState.name}")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Timber.i("onStop Called")
+        dessertTimer.stopTimer()
+        Timber.i("state : ${this.lifecycle.currentState.name}")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Timber.i("onDestroy Called")
+        Timber.i("state : ${this.lifecycle.currentState.name}")
+    }
+
+
+
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.main_menu, menu)
@@ -89,14 +142,13 @@ class MainActivity : AppCompatActivity(), MenuProvider {
             Toast.makeText(this, getString(R.string.sharing_not_available),
                 Toast.LENGTH_LONG).show()
         }
-
         return true
     }
 
     private fun getShareIntent(): Intent {
         return ShareCompat.IntentBuilder(this)
             .setType("text/plain")
-            .setText("test")
+            .setText(getString(R.string.share_text, dessertsSold, revenue))
             .intent
     }
 }

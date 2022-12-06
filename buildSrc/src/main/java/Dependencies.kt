@@ -8,6 +8,8 @@ object Libraries {
     const val androidxNavigationFragment = "androidx.navigation:navigation-fragment-ktx:${Versions.navVersion}"
     const val androidxNavigationUi = "androidx.navigation:navigation-ui-ktx:${Versions.navVersion}"
 
+    const val timber = "com.jakewharton.timber:timber:5.0.1"
+
 }
 
 object TestLibraries {
