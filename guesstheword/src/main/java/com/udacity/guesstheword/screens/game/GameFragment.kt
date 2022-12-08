@@ -6,17 +6,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.udacity.guesstheword.R
 import com.udacity.guesstheword.databinding.FragmentGameBinding
+import timber.log.Timber
+
+
+/**
+ * UIController only displays and gets user/OS events
+ * ViewModels hold data for UI
+ * ViewModel make decision and process data
+ * ViewModel never references fragments,activities or views
+ */
 
 class GameFragment : Fragment() {
 
     private lateinit var binding: FragmentGameBinding
-
-    private lateinit var wordList: MutableList<String>
-    private var word = ""
-    private var score = 0
+    private lateinit var viewModel: GameViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,75 +36,35 @@ class GameFragment : Fragment() {
             false
         )
 
-        resetList()
-        nextWord()
+        Timber.i("Called ViewModelProvider()")
+        viewModel = ViewModelProvider(this)[GameViewModel::class.java]
 
         binding.correctButton.setOnClickListener {
-            onCorrect()
+            viewModel.onCorrect()
+            updateWordText()
+            updateScoreText()
         }
         binding.skipButton.setOnClickListener {
-            onSkip()
+            viewModel.onSkip()
+            updateWordText()
+            updateScoreText()
         }
+
+        updateWordText()
+        updateScoreText()
 
         return binding.root
     }
 
-    private fun onSkip() {
-        score--
-        nextWord()
-    }
-
-    private fun onCorrect() {
-        score++
-        nextWord()
-    }
-
-    private fun nextWord() {
-        if (wordList.isEmpty()) {
-            gameFinished()
-        } else {
-            word = wordList.removeAt(0)
-        }
-        updateWordText()
-        updateScoreText()
-    }
-
     private fun gameFinished() {
-        findNavController().navigate(GameFragmentDirections.actionGameToScore(score))
-    }
-
-    private fun resetList() {
-        wordList = mutableListOf(
-            "queen",
-            "hospital",
-            "basketball",
-            "cat",
-            "change",
-            "snail",
-            "soup",
-            "calendar",
-            "sad",
-            "desk",
-            "guitar",
-            "home",
-            "railway",
-            "zebra",
-            "jelly",
-            "car",
-            "crow",
-            "trade",
-            "bag",
-            "roll",
-            "bubble"
-        )
-        wordList.shuffle()
+        findNavController().navigate(GameFragmentDirections.actionGameToScore(viewModel.score))
     }
 
     private fun updateWordText() {
-        binding.wordText.text = word
+        binding.wordText.text = viewModel.word
     }
 
     private fun updateScoreText() {
-        binding.scoreText.text = score.toString()
+        binding.scoreText.text = viewModel.score.toString()
     }
 }
