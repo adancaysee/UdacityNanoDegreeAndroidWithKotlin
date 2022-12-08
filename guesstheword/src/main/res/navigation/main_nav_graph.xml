@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/title_destination">
+
+    <fragment
+        android:id="@+id/title_destination"
+        android:name="com.udacity.guesstheword.screens.title.TitleFragment"
+        android:label="fragment_title"
+        tools:layout="@layout/fragment_title" >
+        <action
+            android:id="@+id/action_title_to_game"
+            app:destination="@id/game_destination"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/game_destination"
+        android:name="com.udacity.guesstheword.screens.game.GameFragment"
+        android:label="fragment_game"
+        tools:layout="@layout/fragment_game" >
+        <action
+            android:id="@+id/action_game_to_score"
+            app:destination="@id/score_destination"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/score_destination"
+        android:name="com.udacity.guesstheword.screens.score.ScoreFragment"
+        android:label="fragment_score"
+        tools:layout="@layout/fragment_score" >
+        <action
+            android:id="@+id/action_restart"
+            app:destination="@id/game_destination"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
+        <argument
+            android:name="score"
+            app:argType="integer" />
+    </fragment>
+</navigation>

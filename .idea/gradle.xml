@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/colormyviews" />
             <option value="$PROJECT_DIR$/dessertpusher" />
+            <option value="$PROJECT_DIR$/guesstheword" />
             <option value="$PROJECT_DIR$/trivia" />
           </set>
         </option>
