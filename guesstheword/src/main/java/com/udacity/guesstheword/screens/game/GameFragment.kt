@@ -1,6 +1,7 @@
 package com.udacity.guesstheword.screens.game
 
 import android.os.Bundle
+import android.text.format.DateUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.udacity.guesstheword.R
 import com.udacity.guesstheword.databinding.FragmentGameBinding
-import timber.log.Timber
-
 
 /**
  * UIController only displays and gets user/OS events
@@ -29,42 +28,44 @@ class GameFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate<FragmentGameBinding>(
+        binding = DataBindingUtil.inflate(
             layoutInflater,
             R.layout.fragment_game,
             container,
             false
         )
 
-        Timber.i("Called ViewModelProvider()")
         viewModel = ViewModelProvider(this)[GameViewModel::class.java]
 
-        binding.correctButton.setOnClickListener {
-            viewModel.onCorrect()
-            updateWordText()
-            updateScoreText()
-        }
-        binding.skipButton.setOnClickListener {
-            viewModel.onSkip()
-            updateWordText()
-            updateScoreText()
+        viewModel.word.observe(viewLifecycleOwner) { newWord ->
+            binding.wordText.text = newWord
         }
 
-        updateWordText()
-        updateScoreText()
+        viewModel.score.observe(viewLifecycleOwner) { newScore ->
+            binding.scoreText.text = newScore.toString()
+        }
+
+        viewModel.currentTime.observe(viewLifecycleOwner) { time ->
+            binding.timerText.text = DateUtils.formatElapsedTime(time)
+        }
+
+        viewModel.eventGameFinish.observe(viewLifecycleOwner) { hasFinished ->
+            if (hasFinished) {
+                gameFinished()
+                viewModel.onGameFinishComplete()
+            }
+        }
+
+        binding.correctButton.setOnClickListener { viewModel.onCorrect() }
+        binding.skipButton.setOnClickListener { viewModel.onSkip() }
 
         return binding.root
     }
 
     private fun gameFinished() {
-        findNavController().navigate(GameFragmentDirections.actionGameToScore(viewModel.score))
+        findNavController().navigate(
+            GameFragmentDirections.actionGameToScore(viewModel.score.value ?: 0)
+        )
     }
 
-    private fun updateWordText() {
-        binding.wordText.text = viewModel.word
-    }
-
-    private fun updateScoreText() {
-        binding.scoreText.text = viewModel.score.toString()
-    }
 }

@@ -6,12 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.Navigation
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.udacity.guesstheword.R
 import com.udacity.guesstheword.databinding.FragmentScoreBinding
 
 
 class ScoreFragment : Fragment() {
+
+    private lateinit var scoreViewModel: ScoreViewModel
+    private lateinit var scoreViewModelFactory: ScoreViewModelFactory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,11 +29,26 @@ class ScoreFragment : Fragment() {
             false
         )
 
-        binding.playAgainButton.setOnClickListener(
-            Navigation.createNavigateOnClickListener(
-                ScoreFragmentDirections.actionRestart()
-            )
-        )
+        val args:ScoreFragmentArgs by navArgs()
+        scoreViewModelFactory = ScoreViewModelFactory(args.score)
+        scoreViewModel = ViewModelProvider(this,scoreViewModelFactory)[ScoreViewModel::class.java]
+
+        binding.scoreText.text = args.score.toString()
+
+        scoreViewModel.score.observe(viewLifecycleOwner) { score ->
+            binding.scoreText.text = score.toString()
+        }
+
+        binding.playAgainButton.setOnClickListener {
+            scoreViewModel.onPlayAgain()
+        }
+
+        scoreViewModel.eventPlayAgain.observe(viewLifecycleOwner) { isPlayAgain->
+            if (isPlayAgain) {
+                findNavController().navigate(ScoreFragmentDirections.actionRestart())
+                scoreViewModel.onPlayAgainComplete()
+            }
+        }
 
         return binding.root
     }
