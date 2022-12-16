@@ -1,8 +1,10 @@
 package com.udacity.guesstheword.screens.game
 
 import android.os.CountDownTimer
+import android.text.format.DateUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import timber.log.Timber
 
@@ -25,12 +27,16 @@ class GameViewModel : ViewModel() {
         get() = _score
 
     private val _eventGameFinish = MutableLiveData<Boolean>()
-    val eventGameFinish: MutableLiveData<Boolean>
+    val eventGameFinish: LiveData<Boolean>
         get() = _eventGameFinish
 
     private val _currentTime = MutableLiveData<Long>()
-    val currentTime: MutableLiveData<Long>
+    val currentTime: LiveData<Long>
         get() = _currentTime
+
+    val currentTimeString = Transformations.map(currentTime) { time ->
+        DateUtils.formatElapsedTime(time)
+    }
 
     private var timer: CountDownTimer
 
@@ -43,7 +49,7 @@ class GameViewModel : ViewModel() {
 
         timer = object : CountDownTimer(COUNTDOWN_TIME, ONE_SECOND) {
             override fun onTick(millisUntilFinished: Long) {
-                _currentTime.postValue(millisUntilFinished/ ONE_SECOND)
+                _currentTime.postValue(millisUntilFinished / ONE_SECOND)
 
             }
 

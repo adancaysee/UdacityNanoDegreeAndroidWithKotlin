@@ -1,7 +1,6 @@
 package com.udacity.guesstheword.screens.game
 
 import android.os.Bundle
-import android.text.format.DateUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -38,18 +37,7 @@ class GameFragment : Fragment() {
         viewModel = ViewModelProvider(this)[GameViewModel::class.java]
 
         binding.gameViewModel = viewModel
-
-        viewModel.word.observe(viewLifecycleOwner) { newWord ->
-            binding.wordText.text = newWord
-        }
-
-        viewModel.score.observe(viewLifecycleOwner) { newScore ->
-            binding.scoreText.text = newScore.toString()
-        }
-
-        viewModel.currentTime.observe(viewLifecycleOwner) { time ->
-            binding.timerText.text = DateUtils.formatElapsedTime(time)
-        }
+        binding.lifecycleOwner = viewLifecycleOwner
 
         viewModel.eventGameFinish.observe(viewLifecycleOwner) { hasFinished ->
             if (hasFinished) {
