@@ -5,9 +5,16 @@ object Libraries {
     const val material = "com.google.android.material:material:1.7.0"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.4"
 
+    //Navigation
     const val androidxNavigationFragment = "androidx.navigation:navigation-fragment-ktx:${Versions.navVersion}"
     const val androidxNavigationUi = "androidx.navigation:navigation-ui-ktx:${Versions.navVersion}"
 
+    //Room
+    const val androidxRoomRuntime = "androidx.room:room-runtime:${Versions.roomVersion}"
+    const val androidxRoomCompiler = "androidx.room:room-compiler:${Versions.roomVersion}"
+    const val androidxRoomKtx = "androidx.room:room-ktx:${Versions.roomVersion}"
+
+    //Timber
     const val timber = "com.jakewharton.timber:timber:5.0.1"
 
 }
