@@ -17,6 +17,7 @@ Guess the Word App
 -> UIController-ViewModel architecture
 -> Add ViewModel and Livedata to Data binding 
 
+
 ### DEVELOPING ANDROID APP WITH KOTLIN - PART2 ###
 
 Track My Sleep Quality App
