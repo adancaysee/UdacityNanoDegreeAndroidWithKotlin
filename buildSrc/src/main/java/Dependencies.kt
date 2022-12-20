@@ -26,5 +26,7 @@ object TestLibraries {
 object AndroidTestLibraries {
     const val junit = "androidx.test.ext:junit:1.1.4"
     const val espressoCore = "androidx.test.espresso:espresso-core:3.5.0"
+    const val room = "androidx.room:room-testing:${Versions.roomVersion}"
+    const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutineVersion}"
 }
 
