@@ -8,6 +8,7 @@ MyColorViews App
 
 Trivia App
 -> Navigation component
+-> Menu Provider
 
 Dessert Pusher App
 -> Activity & Fragment lifecycle
