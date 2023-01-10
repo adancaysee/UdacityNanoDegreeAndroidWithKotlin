@@ -20,6 +20,7 @@ import com.udacity.guesstheword.databinding.FragmentGameBinding
  * ViewModels hold data for UI
  * ViewModel make decision and process data
  * ViewModel never references fragments,activities or views
+ * binding.lifecycleOwner = viewLifecycleOwner --> to observe state from ui(this is necessary)
  */
 
 class GameFragment : Fragment() {

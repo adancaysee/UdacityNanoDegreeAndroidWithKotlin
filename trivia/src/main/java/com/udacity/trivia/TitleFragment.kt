@@ -44,6 +44,9 @@ class TitleFragment : Fragment(), MenuProvider {
         menuInflater.inflate(R.menu.overflow_menu, menu)
     }
 
+    /**
+     * We don't create an actions for menu items. Because menus are used to navigate more than one destination
+     */
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
         return NavigationUI.onNavDestinationSelected(
             menuItem, requireView().findNavController()
