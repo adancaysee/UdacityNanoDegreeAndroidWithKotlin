@@ -11,13 +11,15 @@ import com.udacity.trackmysleepquality.databinding.FragmentSleepTrackerBinding
 
 class SleepTrackerFragment : Fragment() {
 
-    private lateinit var binding:FragmentSleepTrackerBinding
+    private lateinit var binding: FragmentSleepTrackerBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_sleep_tracker, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_sleep_tracker, container, false)
+
         return binding.root
     }
 
