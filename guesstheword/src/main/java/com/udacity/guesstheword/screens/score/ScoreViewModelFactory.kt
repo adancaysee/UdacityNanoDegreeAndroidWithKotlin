@@ -4,7 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
 class ScoreViewModelFactory(private val score:Int) : ViewModelProvider.Factory {
+    @Suppress("unchecked_cast")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return ScoreViewModel(score) as T
+        if (modelClass.isAssignableFrom(ScoreViewModel::class.java)) {
+            return ScoreViewModel(score) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+
     }
 }
