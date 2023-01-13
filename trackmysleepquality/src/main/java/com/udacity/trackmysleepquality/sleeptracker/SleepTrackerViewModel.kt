@@ -8,7 +8,6 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.viewModelScope
 import com.udacity.trackmysleepquality.database.SleepDao
 import com.udacity.trackmysleepquality.database.SleepNight
-import formatNights
 import kotlinx.coroutines.launch
 
 class SleepTrackerViewModel(
@@ -23,10 +22,6 @@ class SleepTrackerViewModel(
     private val _navigateToSleepQualityEvent = MutableLiveData<SleepNight?>()
     val navigateToSleepQualityEvent: LiveData<SleepNight?>
         get() = _navigateToSleepQualityEvent
-
-    val nightsString = Transformations.map(nights) { nights ->
-        formatNights(nights, application.resources)
-    }
 
     val startButtonEnable = Transformations.map(tonight) {
         it == null
