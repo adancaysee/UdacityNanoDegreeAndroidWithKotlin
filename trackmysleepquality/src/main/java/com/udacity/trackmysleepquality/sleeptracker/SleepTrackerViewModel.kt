@@ -16,7 +16,7 @@ class SleepTrackerViewModel(
     application: Application
 ) : AndroidViewModel(application) {
 
-    private val nights = sleepDao.getAllNights()
+    val nights = sleepDao.getAllNights()
 
     private var tonight = MutableLiveData<SleepNight?>()
 
