@@ -45,7 +45,7 @@ class SleepTrackerFragment : Fragment() {
              * LiveData observers are sometimes passed null
              */
             it?.let {
-                adapter.sleepNights = it
+                adapter.submitList(it)
             }
         }
 

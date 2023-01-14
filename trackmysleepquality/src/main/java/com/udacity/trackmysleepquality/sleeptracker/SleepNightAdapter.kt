@@ -1,11 +1,12 @@
 package com.udacity.trackmysleepquality.sleeptracker
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.udacity.trackmysleepquality.R
 import com.udacity.trackmysleepquality.database.SleepNight
@@ -22,9 +23,10 @@ root == parent == recyclerview
 if we set attachToRoot = true --> view is inflated and added automatically to the parent view
 
  ***
- * Recyclerview don't care about data. So you should notify if
+ * notifyDataSetChanged() --> Recyclerview don't care about data. So you should notify it
 
  ***
+ * Set/Reset
  * Recyclerview reuse the view. So you should write set and reset logic together
 
  ***
@@ -33,14 +35,7 @@ if we set attachToRoot = true --> view is inflated and added automatically to th
  * The viewHolder is responsible for everything related to manage views
  */
 
-class SleepNightAdapter : RecyclerView.Adapter<SleepNightAdapter.ViewHolder>() {
-
-    var sleepNights = listOf<SleepNight>()
-        @SuppressLint("NotifyDataSetChanged")
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+class SleepNightAdapter : ListAdapter<SleepNight,SleepNightAdapter.ViewHolder>(SleepNightDiffCallback) {
 
     /**
     onCreateViewHolder --> Create a new view for recyclerview
@@ -53,11 +48,10 @@ class SleepNightAdapter : RecyclerView.Adapter<SleepNightAdapter.ViewHolder>() {
     onBindViewHolder --> Draw a view with content
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = sleepNights[position]
+        val item = getItem(position)
         holder.bind(item)
     }
 
-    override fun getItemCount(): Int = sleepNights.size
 
     class ViewHolder private constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val sleepLengthTexView: TextView = itemView.findViewById(R.id.sleep_length_texview)
@@ -92,5 +86,22 @@ class SleepNightAdapter : RecyclerView.Adapter<SleepNightAdapter.ViewHolder>() {
         }
     }
 
+    object SleepNightDiffCallback : DiffUtil.ItemCallback<SleepNight>() {
+        /**
+         * Check if an item added,removed,moved
+         */
+        override fun areItemsTheSame(oldItem: SleepNight, newItem: SleepNight): Boolean {
+            return oldItem.nightId == newItem.nightId
+        }
+
+        /**
+         * Check if an item updated
+         * Data class(SleepNight is a data class) default override equal method
+         */
+        override fun areContentsTheSame(oldItem: SleepNight, newItem: SleepNight): Boolean {
+            return oldItem == newItem
+        }
+
+    }
 
 }
