@@ -28,9 +28,13 @@ if we set attachToRoot = true --> view is inflated and added automatically to th
  * Separate concerns
  * The adapter is responsible for adapting our data to RecyclerView API
  * The viewHolder is responsible for everything related to manage views
+
+ ***
+ * binding.executePendingBindings()
+ * This forces the bindings to run immediately instead of delaying them until the next frame
  */
 
-class SleepNightAdapter :
+class SleepNightAdapter(private val sleepNightAdapterListener: SleepNightAdapterListener) :
     ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(SleepNightDiffCallback) {
 
     /**
@@ -45,24 +49,23 @@ class SleepNightAdapter :
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        holder.bind(item,sleepNightAdapterListener)
     }
 
 
     class ViewHolder private constructor(private val binding: ItemSleepNightBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: SleepNight) {
+        fun bind(item: SleepNight, sleepNightAdapterListener: SleepNightAdapterListener) {
             binding.sleepNight = item
-            /**
-             * This forces the bindings to run immediately instead of delaying them until the next frame
-             */
+            binding.adapterListener = sleepNightAdapterListener
             binding.executePendingBindings()
         }
 
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
+
                 /**
                  * Prev
                  * val view = LayoutInflater.from(parent.context).inflate(R.layout.item_sleep_night, parent, false)
@@ -94,4 +97,8 @@ class SleepNightAdapter :
 
     }
 
+}
+
+class SleepNightAdapterListener(val itemClickListener: (nightId: Long) -> Unit) {
+    fun onClick(sleepNight: SleepNight) = itemClickListener(sleepNight.nightId)
 }

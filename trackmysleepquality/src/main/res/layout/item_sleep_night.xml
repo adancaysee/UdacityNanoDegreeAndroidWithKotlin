@@ -9,12 +9,16 @@
             name="sleepNight"
             type="com.udacity.trackmysleepquality.database.SleepNight" />
 
+        <variable
+            name="adapterListener"
+            type="com.udacity.trackmysleepquality.sleeptracker.SleepNightAdapterListener" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:onClick="@{() -> adapterListener.onClick(sleepNight)}">
 
         <ImageView
             android:id="@+id/quality_image_view"
@@ -31,29 +35,15 @@
             tools:srcCompat="@drawable/ic_sleep_5" />
 
         <TextView
-            android:id="@+id/sleep_length_texview"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/quality_image_view"
-            app:layout_constraintTop_toTopOf="@+id/quality_image_view"
-            app:sleepDurationFormatted="@{sleepNight}"
-            tools:text="Wednesday" />
-
-        <TextView
             android:id="@+id/quality_string_textview"
             android:layout_width="0dp"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="@+id/sleep_length_texview"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/sleep_length_texview"
-            app:layout_constraintTop_toBottomOf="@+id/sleep_length_texview"
-            app:sleepQualityString="@{sleepNight}"
-            tools:text="Excellent!!!" />
+            app:layout_constraintEnd_toEndOf="@+id/quality_image_view"
+            app:layout_constraintStart_toStartOf="@+id/quality_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/quality_image_view"
+            app:sleepQualityString="@{sleepNight}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

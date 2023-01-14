@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.udacity.trackmysleepquality.R
 import com.udacity.trackmysleepquality.database.SleepDatabase
@@ -40,7 +41,11 @@ class SleepTrackerFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
-        val adapter = SleepNightAdapter()
+        val gridLayoutManager = GridLayoutManager(requireContext(), 3)
+        val adapter = SleepNightAdapter(SleepNightAdapterListener { nightId ->
+            sleepTrackerViewModel.onSleepNightClicked(nightId)
+        })
+        binding.sleepNightList.layoutManager = gridLayoutManager
         binding.sleepNightList.adapter = adapter
 
         sleepTrackerViewModel.nights.observe(viewLifecycleOwner) {
@@ -59,7 +64,19 @@ class SleepTrackerFragment : Fragment() {
                         night.nightId
                     )
                 )
-                sleepTrackerViewModel.doneNavigating()
+                sleepTrackerViewModel.doneNavigatingToSleepQuality()
+            }
+
+        }
+
+        sleepTrackerViewModel.navigateToSleepDetailEvent.observe(viewLifecycleOwner) { nightId ->
+            nightId?.let {
+                findNavController().navigate(
+                    SleepTrackerFragmentDirections.actionSleepTrackerFragmentToSleepDetailFragment(
+                        it
+                    )
+                )
+                sleepTrackerViewModel.doneNavigatingToSleepDetail()
             }
 
         }

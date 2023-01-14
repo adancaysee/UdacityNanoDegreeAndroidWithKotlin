@@ -13,6 +13,11 @@
         <action
             android:id="@+id/action_sleepTrackerFragment_to_sleepQualityFragment"
             app:destination="@id/sleepQualityFragment" />
+        <action
+            android:id="@+id/action_sleep_tracker_fragment_to_sleepDetailFragment"
+            app:destination="@id/sleep_detail_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_in_right" />
     </fragment>
     <fragment
         android:id="@+id/sleepQualityFragment"
@@ -28,5 +33,22 @@
         <argument
             android:name="sleepNightKey"
             app:argType="long" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/sleep_detail_fragment"
+        android:name="com.udacity.trackmysleepquality.sleepdetail.SleepDetailFragment"
+        android:label="fragment_sleep_detail"
+        tools:layout="@layout/fragment_sleep_detail" >
+    <argument
+        android:name="sleepNightKey"
+        app:argType="long" />
+        <action
+            android:id="@+id/action_sleep_detail_fragment_to_sleepTrackerFragment"
+            app:destination="@id/sleepTrackerFragment"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/sleepTrackerFragment"
+            app:popUpToInclusive="true" />
+
     </fragment>
 </navigation>
