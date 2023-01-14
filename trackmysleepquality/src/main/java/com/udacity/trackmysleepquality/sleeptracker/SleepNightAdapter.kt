@@ -5,11 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.udacity.trackmysleepquality.R
 import com.udacity.trackmysleepquality.database.SleepNight
 import com.udacity.trackmysleepquality.databinding.ItemSleepNightBinding
-import convertDurationToFormatted
-import convertNumericQualityToString
 
 /**
 LayoutInflater.from(context).inflate(R.layout.item_textview,parent,false)
@@ -33,7 +30,8 @@ if we set attachToRoot = true --> view is inflated and added automatically to th
  * The viewHolder is responsible for everything related to manage views
  */
 
-class SleepNightAdapter : ListAdapter<SleepNight,SleepNightAdapter.ViewHolder>(SleepNightDiffCallback) {
+class SleepNightAdapter :
+    ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(SleepNightDiffCallback) {
 
     /**
     onCreateViewHolder --> Create a new view for recyclerview
@@ -51,39 +49,27 @@ class SleepNightAdapter : ListAdapter<SleepNight,SleepNightAdapter.ViewHolder>(S
     }
 
 
-    class ViewHolder private constructor(private val binding: ItemSleepNightBinding) : RecyclerView.ViewHolder(binding.root) {
-
+    class ViewHolder private constructor(private val binding: ItemSleepNightBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: SleepNight) {
-            val res = itemView.context.resources
-            binding.sleepLengthTexview.text =
-                convertDurationToFormatted(item.startTimeMilli, item.endTimeMilli, res)
-            binding.qualityStringTextview.text =
-                convertNumericQualityToString(item.sleepQuality, res)
-            binding.qualityImageView.setImageResource(
-                when (item.sleepQuality) {
-                    0 -> R.drawable.ic_sleep_0
-                    1 -> R.drawable.ic_sleep_1
-                    2 -> R.drawable.ic_sleep_2
-                    3 -> R.drawable.ic_sleep_3
-                    4 -> R.drawable.ic_sleep_4
-                    5 -> R.drawable.ic_sleep_5
-                    else -> R.drawable.ic_sleep_active
-                }
-            )
+            binding.sleepNight = item
+            /**
+             * This forces the bindings to run immediately instead of delaying them until the next frame
+             */
+            binding.executePendingBindings()
         }
 
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-
                 /**
                  * Prev
                  * val view = LayoutInflater.from(parent.context).inflate(R.layout.item_sleep_night, parent, false)
                  * Option
                  *  val binding = DataBindingUtil.inflate<ItemSleepNightBinding>(layoutInflater,R.layout.item_sleep_night,parent,false)
                  */
-                val binding = ItemSleepNightBinding.inflate(layoutInflater,parent,false)
+                val binding = ItemSleepNightBinding.inflate(layoutInflater, parent, false)
 
                 return ViewHolder(binding)
             }
