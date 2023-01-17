@@ -47,13 +47,17 @@ dependencies {
     implementation(Libraries.androidxAppcompat)
     implementation(Libraries.material)
     implementation(Libraries.constraintLayout)
+
     implementation(Libraries.androidxNavigationUi)
     implementation(Libraries.androidxNavigationFragment)
-    implementation(Libraries.timber)
+
     implementation(Libraries.androidxRoomRuntime)
     implementation(Libraries.androidxRoomKtx)
     kapt(Libraries.androidxRoomCompiler)
 
+    implementation(Libraries.lifecycleLivedataKtx)
+
+    implementation(Libraries.timber)
 
     testImplementation(TestLibraries.junit)
 

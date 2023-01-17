@@ -5,6 +5,9 @@ object Libraries {
     const val material = "com.google.android.material:material:1.7.0"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.4"
 
+    //Lifecycle and live data
+    const val lifecycleLivedataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
+
     //Navigation
     const val androidxNavigationFragment = "androidx.navigation:navigation-fragment-ktx:${Versions.navVersion}"
     const val androidxNavigationUi = "androidx.navigation:navigation-ui-ktx:${Versions.navVersion}"

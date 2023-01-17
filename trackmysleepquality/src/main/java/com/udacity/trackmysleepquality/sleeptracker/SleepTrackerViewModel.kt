@@ -1,14 +1,19 @@
 package com.udacity.trackmysleepquality.sleeptracker
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.udacity.trackmysleepquality.database.SleepDao
 import com.udacity.trackmysleepquality.database.SleepNight
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
+
+/**
+ * LiveData Coroutine Support
+ *  val nights2 = liveData {
+       emit(sleepDao.getAllNights2())
+    }
+ */
 
 class SleepTrackerViewModel(
     private val sleepDao: SleepDao,
@@ -16,6 +21,17 @@ class SleepTrackerViewModel(
 ) : AndroidViewModel(application) {
 
     val nights = sleepDao.getAllNights()
+
+    /**
+     * If we use livedata with emit, only we observer this run.(it's block)
+     */
+    /*val nights2 = liveData(Dispatchers.IO) {
+        try {
+            emit(sleepDao.getAllNights3())
+        }catch (ex:Exception) {
+            Timber.i(ex.message)
+        }
+    }*/
 
     private var tonight = MutableLiveData<SleepNight?>()
 
@@ -46,6 +62,15 @@ class SleepTrackerViewModel(
 
     init {
         initializeTonight()
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                _navigateToSleepDetailEvent.value = 0
+            }catch (ex:Exception) {
+                Timber.i(ex.message)
+            }
+
+        }
     }
 
     private fun initializeTonight() {
