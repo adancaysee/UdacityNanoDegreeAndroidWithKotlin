@@ -129,7 +129,7 @@ class SleepNightAdapter(private val sleepNightAdapterListener: SleepNightAdapter
 
     }
 
-    object SleepNightDiffCallback : DiffUtil.ItemCallback<DataItem>() {
+    companion object SleepNightDiffCallback : DiffUtil.ItemCallback<DataItem>() {
         /**
          * Check if an item added,removed,moved
          */
