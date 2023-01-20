@@ -22,14 +22,9 @@ class OverviewFragment : Fragment() {
         binding.lifecycleOwner = this
 
         val adapter = PhotoGridAdapter(PhotoGridAdapter.OnItemClickListener { marsProperty ->
-            Toast.makeText(context, marsProperty.imgSrcUrl, Toast.LENGTH_LONG).show()
+            Toast.makeText(context, marsProperty.id, Toast.LENGTH_LONG).show()
         })
         binding.photosGrid.adapter = adapter
-
-        viewModel.response.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-            Toast.makeText(requireContext(), it.size.toString(), Toast.LENGTH_LONG).show()
-        }
 
         return binding.root
     }

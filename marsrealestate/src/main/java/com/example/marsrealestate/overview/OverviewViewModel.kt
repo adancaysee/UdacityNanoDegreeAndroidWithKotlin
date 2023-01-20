@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.marsrealestate.network.MarsProperty
 import com.example.marsrealestate.network.MarsRetrofitClient
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 enum class MarsApiStatus {
     LOADING, SUCCESS, FAILURE
@@ -19,9 +18,9 @@ class OverviewViewModel : ViewModel() {
     val status: LiveData<MarsApiStatus>
         get() = _status
 
-    private val _response = MutableLiveData<List<MarsProperty>>()
-    val response: LiveData<List<MarsProperty>>
-        get() = _response
+    private val _marsProperties = MutableLiveData<List<MarsProperty>>()
+    val marsProperties: LiveData<List<MarsProperty>>
+        get() = _marsProperties
 
     init {
         getRealEstates()
@@ -33,7 +32,7 @@ class OverviewViewModel : ViewModel() {
             try {
                 _status.value = MarsApiStatus.SUCCESS
                 val list = MarsRetrofitClient.marsApiService.getRealEstates()
-                _response.value = list
+                _marsProperties.value = list
             }catch (e:Exception) {
                 _status.value = MarsApiStatus.FAILURE
             }
