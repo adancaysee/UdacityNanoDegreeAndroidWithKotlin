@@ -14,6 +14,18 @@ object Libraries {
     const val androidxRoomCompiler = "androidx.room:room-compiler:${Versions.roomVersion}"
     const val androidxRoomKtx = "androidx.room:room-ktx:${Versions.roomVersion}"
 
+    //Moshi
+    const val moshi = "com.squareup.moshi:moshi:1.14.0"
+    const val moshiKotlin = "com.squareup.moshi:moshi-kotlin:1.13.0"
+
+
+    //Glide
+    const val glide = "com.github.bumptech.glide:glide:4.14.2"
+
+    //Retrofit
+    const val retrofitScalarsConverter = "com.squareup.retrofit2:converter-scalars:${Versions.retrofitVersion}"
+    const val retrofitMoshiConverter = "com.squareup.retrofit2:converter-moshi:${Versions.retrofitVersion}"
+
     //Timber
     const val timber = "com.jakewharton.timber:timber:5.0.1"
 

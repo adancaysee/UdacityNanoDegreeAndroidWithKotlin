@@ -51,6 +51,8 @@ dependencies {
     implementation(Libraries.androidxNavigationUi)
     implementation(Libraries.androidxNavigationFragment)
 
+    implementation(Libraries.retrofitScalarsConverter)
+    implementation(Libraries.glide)
 
     implementation(Libraries.timber)
 
