@@ -2,6 +2,15 @@
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="itemClickListener"
+            type="com.example.marsrealestate.overview.PhotoGridAdapter.OnItemClickListener" />
+        <variable
+            name="marsProperty"
+            type="com.example.marsrealestate.network.MarsProperty" />
+    </data>
     <ImageView
         android:id="@+id/mars_image"
         android:layout_width="match_parent"
@@ -10,5 +19,6 @@
         android:adjustViewBounds="true"
         android:padding="2dp"
         android:contentDescription="@null"
-        tools:src="@tools:sample/backgrounds/scenic"/>
+        tools:src="@tools:sample/backgrounds/scenic"
+        android:onClick="@{() -> itemClickListener.onClick(marsProperty)}"/>
 </layout>

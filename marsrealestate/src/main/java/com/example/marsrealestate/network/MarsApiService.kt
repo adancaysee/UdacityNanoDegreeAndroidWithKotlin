@@ -2,7 +2,6 @@ package com.example.marsrealestate.network
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
@@ -41,7 +40,7 @@ private val retrofit = Retrofit.Builder()
 
 interface MarsApiService {
     @GET("realestate")
-    fun getRealEstates(): Call<List<MarsProperty>>
+    suspend fun getRealEstates(): List<MarsProperty>
 }
 
 object MarsRetrofitClient {

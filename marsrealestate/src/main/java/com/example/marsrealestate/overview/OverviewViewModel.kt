@@ -3,14 +3,12 @@ package com.example.marsrealestate.overview
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.marsrealestate.network.MarsProperty
+import androidx.lifecycle.viewModelScope
 import com.example.marsrealestate.network.MarsRetrofitClient
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.launch
 
-enum class MarsApiStatus(status: String) {
-    LOADING("loading"), SUCCESS("done"), FAILURE("failure")
+enum class MarsApiStatus {
+    LOADING, SUCCESS, FAILURE
 }
 
 class OverviewViewModel : ViewModel() {
@@ -29,19 +27,15 @@ class OverviewViewModel : ViewModel() {
 
     private fun getRealEstates() {
         _status.value = MarsApiStatus.LOADING
-        MarsRetrofitClient.marsApiService.getRealEstates().enqueue(object : Callback<List<MarsProperty>> {
-            override fun onResponse(call: Call<List<MarsProperty>>, response: Response<List<MarsProperty>>) {
+        viewModelScope.launch {
+            try {
                 _status.value = MarsApiStatus.SUCCESS
-                response.body()?.let {
-                    _response.value = it.size.toString()
-                }
-            }
-
-            override fun onFailure(call: Call<List<MarsProperty>>, t: Throwable) {
+                val list = MarsRetrofitClient.marsApiService.getRealEstates()
+                _response.value = list.size.toString()
+            }catch (t:Throwable) {
                 _status.value = MarsApiStatus.FAILURE
             }
-
-        })
+        }
     }
 
 
