@@ -1,5 +1,6 @@
 package com.example.marsrealestate.util
 
+import android.view.View
 import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
@@ -8,11 +9,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.marsrealestate.R
 import com.example.marsrealestate.network.MarsProperty
+import com.example.marsrealestate.overview.MarsApiStatus
 import com.example.marsrealestate.overview.PhotoGridAdapter
 
 
 @BindingAdapter("listData")
-fun bindListData(recyclerView: RecyclerView,list: List<MarsProperty>?) {
+fun bindListData(recyclerView: RecyclerView, list: List<MarsProperty>?) {
     list?.let {
         val adapter = recyclerView.adapter as PhotoGridAdapter
         adapter.submitList(list)
@@ -33,5 +35,26 @@ fun bindImageUrl(imageView: ImageView, imageUrl: String?) {
             )
             .into(imageView)
     }
+}
+
+@BindingAdapter("marsApiStatus")
+fun bindMarsApiStatusToImage(imageView: ImageView, marsApiStatus: MarsApiStatus?) {
+    marsApiStatus?.let {
+        when(it) {
+            MarsApiStatus.LOADING -> {
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.loading_animation)
+            }
+            MarsApiStatus.FAILURE -> {
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.ic_connection_error)
+            }
+            MarsApiStatus.SUCCESS -> {
+                imageView.visibility = View.GONE
+            }
+        }
+    }
+
+
 
 }

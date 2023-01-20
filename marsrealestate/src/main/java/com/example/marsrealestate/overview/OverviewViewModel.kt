@@ -35,6 +35,7 @@ class OverviewViewModel : ViewModel() {
                 _marsProperties.value = list
             }catch (e:Exception) {
                 _status.value = MarsApiStatus.FAILURE
+                _marsProperties.value = ArrayList()
             }
         }
     }
