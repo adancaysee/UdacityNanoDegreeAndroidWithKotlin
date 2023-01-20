@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/overview_destination">
+
+    <fragment
+        android:id="@+id/overview_destination"
+        android:name="com.example.marsrealestate.overview.OverviewFragment"
+        android:label="OverviewFragment"
+        tools:layout="@layout/fragment_overview">
+        <action
+            android:id="@+id/action_overview_destination_to_detail_destination"
+            app:destination="@id/detail_destination" />
+    </fragment>
+    <fragment
+        android:id="@+id/detail_destination"
+        android:name="com.example.marsrealestate.detail.DetailFragment"
+        android:label="DetailFragment"
+        tools:layout="@layout/fragment_detail"/>
+</navigation>
