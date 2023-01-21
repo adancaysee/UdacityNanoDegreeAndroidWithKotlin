@@ -1,4 +1,4 @@
-package com.example.marsrealestate.util
+package com.example.marsrealestate.overview
 
 import android.view.View
 import android.widget.ImageView
@@ -9,8 +9,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.marsrealestate.R
 import com.example.marsrealestate.network.MarsProperty
-import com.example.marsrealestate.overview.MarsApiStatus
-import com.example.marsrealestate.overview.PhotoGridAdapter
 
 
 @BindingAdapter("listData")
