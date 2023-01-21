@@ -42,12 +42,10 @@ private val retrofit = Retrofit.Builder()
 
 interface MarsApiService {
     @GET("realestate")
-    suspend fun getRealEstates(@Query("filter") type:String): List<MarsProperty>
+    suspend fun getRealEstates(@Query("filter") type: String): List<MarsProperty>
 }
 
 object MarsRetrofitClient {
     //Retrofit create call is expensive. So we only get service once
-    val marsApiService: MarsApiService by lazy {
-        retrofit.create(MarsApiService::class.java)
-    }
+    val marsApiService: MarsApiService by lazy { retrofit.create(MarsApiService::class.java) }
 }

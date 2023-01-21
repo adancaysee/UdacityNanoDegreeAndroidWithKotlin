@@ -9,9 +9,7 @@ import com.example.marsrealestate.network.MarsProperty
 import com.example.marsrealestate.network.MarsRetrofitClient
 import kotlinx.coroutines.launch
 
-enum class MarsApiStatus {
-    LOADING, SUCCESS, FAILURE
-}
+enum class MarsApiStatus { LOADING, SUCCESS, FAILURE }
 
 class OverviewViewModel : ViewModel() {
 
@@ -33,12 +31,11 @@ class OverviewViewModel : ViewModel() {
     }
 
     private fun getRealEstates(filter: MarsApiFilter) {
-        _status.value = MarsApiStatus.LOADING
         viewModelScope.launch {
+            _status.value = MarsApiStatus.LOADING
             try {
+                _marsProperties.value = MarsRetrofitClient.marsApiService.getRealEstates(filter.value)
                 _status.value = MarsApiStatus.SUCCESS
-                val list = MarsRetrofitClient.marsApiService.getRealEstates(filter.value)
-                _marsProperties.value = list
             } catch (e: Exception) {
                 _status.value = MarsApiStatus.FAILURE
                 _marsProperties.value = ArrayList()

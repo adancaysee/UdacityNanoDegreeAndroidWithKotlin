@@ -14,31 +14,29 @@ import com.example.marsrealestate.network.MarsApiFilter
 
 class OverviewFragment : Fragment(), MenuProvider {
 
-    private lateinit var overviewViewModel: OverviewViewModel
+    private val overviewViewModel: OverviewViewModel by lazy {
+        ViewModelProvider(this)[OverviewViewModel::class.java]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
-        val binding = FragmentOverviewBinding.inflate(inflater, container, false)
 
-        overviewViewModel = ViewModelProvider(this)[OverviewViewModel::class.java]
+        val binding = FragmentOverviewBinding.inflate(inflater, container, false)
 
         binding.overviewViewModel = overviewViewModel
         binding.lifecycleOwner = this
 
-        val adapter = PhotoGridAdapter(PhotoGridAdapter.OnItemClickListener { marsProperty ->
-            overviewViewModel.displayPropertyDetails(marsProperty)
-        })
-        binding.photosGrid.adapter = adapter
+        binding.photosGrid.adapter = PhotoGridAdapter(PhotoGridAdapter.OnItemClickListener { marsProperty ->
+                overviewViewModel.displayPropertyDetails(marsProperty)
+            })
 
         overviewViewModel.navigateToDetailEvent.observe(viewLifecycleOwner) {
             it?.let {
                 findNavController().navigate(
-                    OverviewFragmentDirections.actionOverviewDestinationToDetailDestination(
-                        it
-                    )
+                    OverviewFragmentDirections.actionOverviewDestinationToDetailDestination(it)
                 )
                 overviewViewModel.doneNavigating()
             }
