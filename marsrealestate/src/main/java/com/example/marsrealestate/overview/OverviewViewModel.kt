@@ -22,6 +22,11 @@ class OverviewViewModel : ViewModel() {
     val marsProperties: LiveData<List<MarsProperty>>
         get() = _marsProperties
 
+    private val _navigateToDetailEvent = MutableLiveData<MarsProperty?>()
+    val navigateToDetailEvent: LiveData<MarsProperty?>
+        get() = _navigateToDetailEvent
+
+
     init {
         getRealEstates()
     }
@@ -33,12 +38,22 @@ class OverviewViewModel : ViewModel() {
                 _status.value = MarsApiStatus.SUCCESS
                 val list = MarsRetrofitClient.marsApiService.getRealEstates()
                 _marsProperties.value = list
-            }catch (e:Exception) {
+            } catch (e: Exception) {
                 _status.value = MarsApiStatus.FAILURE
                 _marsProperties.value = ArrayList()
             }
         }
     }
+
+    fun displayPropertyDetails(marsProperty: MarsProperty) {
+        _navigateToDetailEvent.value = marsProperty
+    }
+
+    fun doneNavigating() {
+        _navigateToDetailEvent.value = null
+    }
+
+
 
 
 }
