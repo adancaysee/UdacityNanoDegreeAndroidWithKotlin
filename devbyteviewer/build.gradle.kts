@@ -50,6 +50,10 @@ dependencies {
     implementation(Libraries.androidxNavigationUi)
     implementation(Libraries.androidxNavigationFragment)
 
+    implementation(Libraries.moshiKotlin)
+    implementation(Libraries.retrofitMoshiConverter)
+    implementation(Libraries.glide)
+
     implementation(Libraries.timber)
 
     testImplementation(TestLibraries.junit)
