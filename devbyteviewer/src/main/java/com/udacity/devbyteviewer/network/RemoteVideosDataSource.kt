@@ -24,11 +24,11 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 
-interface DevByteService {
+interface DevByteVideosService {
     @GET("devbytes.json")
     suspend fun getPlayList(): DevByteVideoContainer
 }
 
-object DevByteApiClient {
-    val service: DevByteService by lazy { retrofit.create(DevByteService::class.java) }
+object RemoteVideosDataSource {
+    val service: DevByteVideosService by lazy { retrofit.create(DevByteVideosService::class.java) }
 }

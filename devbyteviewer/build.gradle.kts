@@ -54,6 +54,10 @@ dependencies {
     implementation(Libraries.retrofitMoshiConverter)
     implementation(Libraries.glide)
 
+    implementation(Libraries.androidxRoomRuntime)
+    implementation(Libraries.androidxRoomKtx)
+    kapt(Libraries.androidxRoomCompiler)
+
     implementation(Libraries.timber)
 
     testImplementation(TestLibraries.junit)
