@@ -52,7 +52,7 @@ dependencies {
 
     implementation(Libraries.moshiKotlin)
     implementation(Libraries.retrofitMoshiConverter)
-    implementation(Libraries.glide)
+    implementation(Libraries.coil)
 
     implementation(Libraries.androidxRoomRuntime)
     implementation(Libraries.androidxRoomKtx)

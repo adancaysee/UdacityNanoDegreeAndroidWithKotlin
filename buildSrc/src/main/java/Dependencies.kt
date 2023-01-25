@@ -18,13 +18,20 @@ object Libraries {
     const val moshi = "com.squareup.moshi:moshi:1.14.0"
     const val moshiKotlin = "com.squareup.moshi:moshi-kotlin:1.13.0"
 
+    //Coil
+    const val coil = "io.coil-kt:coil:1.1.1"
 
     //Glide
     const val glide = "com.github.bumptech.glide:glide:4.14.2"
 
+    //Kotlin Serialization
+    const val kotlinxSerialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
+
     //Retrofit
+    const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofitVersion}"
     const val retrofitScalarsConverter = "com.squareup.retrofit2:converter-scalars:${Versions.retrofitVersion}"
     const val retrofitMoshiConverter = "com.squareup.retrofit2:converter-moshi:${Versions.retrofitVersion}"
+    const val retrofitKotlinxSerializationConverter = "jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
 
     //Timber
     const val timber = "com.jakewharton.timber:timber:5.0.1"
