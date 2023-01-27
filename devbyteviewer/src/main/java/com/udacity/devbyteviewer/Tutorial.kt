@@ -24,3 +24,17 @@ package com.udacity.devbyteviewer
  *       1. Always show data from the database
  *       2. Server saves value every time --> database is up to date
  */
+
+/**
+ * Repository
+ *  -- Our app my have contain multiple source of data(local database,remote server,file system etc.)
+ *  -- Serve as a single source of truth for the app's data
+ *  -- Abstract the source of the data (network, cache, etc.) out of the view model.
+ *
+ * It's used for
+ *   -- Expose data
+ *   -- Centralize changes
+ *   -- Resolve conflicts
+ *   -- Contain business logic
+ *
+ */

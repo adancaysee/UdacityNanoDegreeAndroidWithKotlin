@@ -8,7 +8,7 @@
 
         <variable
             name="video"
-            type="com.udacity.devbyteviewer.network.DevByteVideo" />
+            type="com.udacity.devbyteviewer.domain.DevByteVideo" />
 
         <variable
             name="onItemClickListener"
@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
-                android:text="@{video.description}"
+                android:text="@{video.shortDescription}"
                 android:textAlignment="viewStart"
                 android:textAllCaps="false"
                 android:textColor="@color/text_light"

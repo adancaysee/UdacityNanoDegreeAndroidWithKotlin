@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.udacity.devbyteviewer.databinding.DevbyteItemBinding
-import com.udacity.devbyteviewer.network.DevByteVideo
+import com.udacity.devbyteviewer.domain.DevByteVideo
 
 class DevByteVideoAdapter(private val onItemClickListener: OnItemClickListener) :
     ListAdapter<DevByteVideo, DevByteVideoAdapter.ViewHolder>(DiffCallBack) {
@@ -16,13 +16,13 @@ class DevByteVideoAdapter(private val onItemClickListener: OnItemClickListener) 
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position),onItemClickListener)
+        holder.bind(getItem(position), onItemClickListener)
     }
 
     class ViewHolder private constructor(private val binding: DevbyteItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(video: DevByteVideo,itemClickListener: OnItemClickListener) {
+        fun bind(video: DevByteVideo, itemClickListener: OnItemClickListener) {
             binding.video = video
             binding.onItemClickListener = itemClickListener
             binding.executePendingBindings()

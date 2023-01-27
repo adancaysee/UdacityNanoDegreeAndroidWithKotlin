@@ -1,48 +1,17 @@
 package com.udacity.devbyteviewer.database
 
-import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.lifecycle.LiveData
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 
-@Database(entities = [DevByteVideoEntity::class], version = 2, exportSchema = false)
-abstract class DevByteDatabase : RoomDatabase() {
+@Dao
+interface LocalVideosDataSource {
 
-    abstract val dao: DevByteVideoDao
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertPlayList(list: List<EntityDevByteVideo>)
 
-    companion object {
-        @Volatile
-        private var INSTANCE: DevByteDatabase? = null
-        fun getInstance(context: Context): DevByteDatabase {
-            synchronized(this) {
-                var instance = INSTANCE
-                if (instance == null) {
-                    instance = Room.databaseBuilder(
-                        context,
-                        DevByteDatabase::class.java,
-                        "dev_byte_database"
-                    ).build()
-                }
-                INSTANCE = instance
-                return instance
-            }
-        }
-    }
-}
-
-//OTHER METHOD IN UDACITY COURSE
-@Volatile
-private lateinit var INSTANCE: DevByteDatabase
-
-fun getDatabase(context: Context): DevByteDatabase {
-    synchronized(DevByteDatabase::class.java) {
-        if (!::INSTANCE.isInitialized) {
-            INSTANCE = Room.databaseBuilder(
-                context,
-                DevByteDatabase::class.java,
-                "dev_byte_database"
-            ).build()
-        }
-    }
-    return INSTANCE
+    @Query("SELECT * FROM dev_byte_playlist_table")
+    fun getPlayList(): LiveData<List<EntityDevByteVideo>>
 }

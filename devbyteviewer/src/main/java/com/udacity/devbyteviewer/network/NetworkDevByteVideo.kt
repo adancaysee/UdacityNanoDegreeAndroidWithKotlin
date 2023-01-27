@@ -1,8 +1,9 @@
 package com.udacity.devbyteviewer.network
 
-import com.udacity.devbyteviewer.database.DevByteVideoEntity
+import com.udacity.devbyteviewer.database.EntityDevByteVideo
 
-data class DevByteVideo(
+
+data class NetworkDevByteVideo(
     val title: String,
     val description: String,
     val url: String,
@@ -11,13 +12,13 @@ data class DevByteVideo(
     val closedCaptions: String?
 )
 
-data class DevByteVideoContainer(
-    val videos: List<DevByteVideo>
+data class NetworkDevByteVideoContainer(
+    val videos: List<NetworkDevByteVideo>
 )
 
-fun List<DevByteVideo>.asDatabaseModel() : List<DevByteVideoEntity> {
+fun List<NetworkDevByteVideo>.asDatabaseModel() : List<EntityDevByteVideo> {
     return map {
-        DevByteVideoEntity(
+        EntityDevByteVideo(
             url = it.url,
             updated = it.updated,
             title = it.title,

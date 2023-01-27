@@ -1,32 +1,22 @@
 package com.udacity.devbyteviewer.videos_dev_byte
 
-import android.app.Application
 import android.view.View
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.viewModelScope
-import com.udacity.devbyteviewer.database.DevByteDatabase
-import com.udacity.devbyteviewer.database.DevByteVideoEntity
-import com.udacity.devbyteviewer.network.RemoteVideosDataSource
-import com.udacity.devbyteviewer.network.DevByteApiStatus
-import com.udacity.devbyteviewer.network.asDatabaseModel
+import androidx.lifecycle.*
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.udacity.devbyteviewer.DevByteViewerApplication
+import com.udacity.devbyteviewer.repository.DevByteApiStatus
+import com.udacity.devbyteviewer.repository.VideosRepository
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
 
-class DevByteViewModel(application: Application) : AndroidViewModel(application) {
+class DevByteViewModel(private val repository: VideosRepository) : ViewModel() {
 
     private val _status = MutableLiveData<DevByteApiStatus>()
 
-    private val database = DevByteDatabase.getInstance(application.applicationContext)
-    private val dao = database.dao
-
-
-    val playList = Transformations.map(_status) {
-        when (_status.value) {
-            is DevByteApiStatus.Success -> (_status.value as DevByteApiStatus.Success).list
-            else -> null
-        }
-    }
+    val playList = repository.videos
 
     val loadingVisibility = Transformations.map(_status) {
         when (_status.value) {
@@ -43,21 +33,25 @@ class DevByteViewModel(application: Application) : AndroidViewModel(application)
         viewModelScope.launch {
             _status.value = DevByteApiStatus.Loading
             try {
-                val listContainer = RemoteVideosDataSource.service.getPlayList()
-                _status.value = DevByteApiStatus.Success(listContainer.videos)
-                savePlayList(listContainer.videos.asDatabaseModel())
-            } catch (e: Throwable) {
+                repository.refreshVideos()
+                _status.value = DevByteApiStatus.Success
+            } catch (e: IOException) {
+                _status.value = DevByteApiStatus.Failure(e.message ?: "Unknown error occurred")
+            } catch (e: HttpException) {
                 _status.value = DevByteApiStatus.Failure(e.message ?: "Unknown error occurred")
             }
         }
     }
 
-    private fun savePlayList(list: List<DevByteVideoEntity>) {
-        viewModelScope.launch {
-            dao.insertPlayList(list)
+    companion object {
+        val Factory = viewModelFactory {
+            initializer {
+                val application = this[APPLICATION_KEY] as DevByteViewerApplication
+                val repository = application.appContainer.videosRepository
+                DevByteViewModel(repository)
+            }
         }
     }
 
-
-
 }
+

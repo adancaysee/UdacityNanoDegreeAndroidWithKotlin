@@ -1,4 +1,4 @@
-package com.udacity.devbyteviewer.videos_dev_byte
+package com.udacity.devbyteviewer.util
 
 import android.widget.ImageView
 import androidx.core.net.toUri
