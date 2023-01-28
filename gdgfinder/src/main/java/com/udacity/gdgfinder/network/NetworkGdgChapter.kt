@@ -1,34 +1,50 @@
 package com.udacity.gdgfinder.network
 
-import android.os.Parcelable
 import com.squareup.moshi.Json
-import kotlinx.parcelize.Parcelize
+import com.udacity.gdgfinder.domain.GdgChapter
+import com.udacity.gdgfinder.domain.LatLong
 
-@Parcelize
-data class GdgChapter(
+data class NetworkGdgChapter(
     @Json(name = "chapter_name") val name: String,
     @Json(name = "cityarea") val city: String,
     val country: String,
     val region: String,
     val website: String,
-    val geo: LatLong
-) : Parcelable
+    val geo: NetworkLatLong
+)
 
-@Parcelize
-data class LatLong(
+data class NetworkLatLong(
     val lat: Double,
     @Json(name = "lng")
     val long: Double
-) : Parcelable
+)
 
-@Parcelize
 data class GdgResponse(
     @Json(name = "filters_") val filters: Filter,
-    @Json(name = "data") val chapters: List<GdgChapter>
-): Parcelable
+    @Json(name = "data") val chapters: List<NetworkGdgChapter>
+)
 
-@Parcelize
 data class Filter(
     @Json(name = "region") val regions: List<String>
-): Parcelable
+)
 
+
+fun List<NetworkGdgChapter>.asDomain(): List<GdgChapter> {
+    return map {
+        GdgChapter(
+            name = it.name,
+            city = it.city,
+            country = it.country,
+            region = it.region,
+            website = it.website,
+            geo = it.geo.asDomain()
+        )
+    }
+}
+
+fun NetworkLatLong.asDomain(): LatLong {
+    return LatLong(
+        lat = this.lat,
+        long = this.long
+    )
+}

@@ -7,7 +7,7 @@ import timber.log.Timber
 
 class GdgFinderApplication : Application() {
 
-    private lateinit var appContainer: AppContainer
+    lateinit var appContainer: AppContainer
 
     override fun onCreate() {
         super.onCreate()
