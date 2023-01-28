@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/home_destination">
+
+    <fragment
+        android:id="@+id/home_destination"
+        android:name="com.udacity.gdgfinder.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_home_destination_to_gdg_list_destination"
+            app:destination="@id/gdg_list_destination" />
+        <action
+            android:id="@+id/action_home_destination_to_add_gdg_destination"
+            app:destination="@id/add_gdg_destination" />
+    </fragment>
+    <fragment
+        android:id="@+id/gdg_list_destination"
+        android:name="com.udacity.gdgfinder.search.GdgListFragment"
+        android:label="GdgListFragment"
+        tools:layout="@layout/fragment_gdg_list"/>
+    <fragment
+        android:id="@+id/add_gdg_destination"
+        android:name="com.udacity.gdgfinder.add.AddGdgFragment"
+        android:label="AddGdgFragment"
+        tools:layout="@layout/fragment_add_gdg"/>
+</navigation>

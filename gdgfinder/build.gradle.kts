@@ -1,6 +1,9 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+    id("androidx.navigation.safeargs")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -15,6 +18,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        dataBinding = true
     }
 
     buildTypes {
@@ -43,4 +50,15 @@ dependencies {
     implementation(Libraries.constraintLayout)
     implementation(Libraries.androidxNavigationUi)
     implementation(Libraries.androidxNavigationFragment)
+
+    implementation(Libraries.moshiKotlin)
+    implementation(Libraries.retrofitMoshiConverter)
+    implementation(Libraries.coil)
+
+    implementation(Libraries.timber)
+
+    testImplementation(TestLibraries.junit)
+
+    androidTestImplementation(AndroidTestLibraries.junit)
+    androidTestImplementation(AndroidTestLibraries.espressoCore)
 }
