@@ -24,7 +24,7 @@ class HomeFragment : Fragment() {
 
         binding.viewModel = viewModel
 
-        viewModel.navigateToSearch.observe(viewLifecycleOwner) {
+        viewModel.navigateToSearchEvent.observe(viewLifecycleOwner) {
             it?.let {
                 if (it) {
                     findNavController().navigate(HomeFragmentDirections.actionHomeDestinationToGdgListDestination())
