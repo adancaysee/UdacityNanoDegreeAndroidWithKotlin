@@ -33,6 +33,9 @@ object Libraries {
     const val retrofitMoshiConverter = "com.squareup.retrofit2:converter-moshi:${Versions.retrofitVersion}"
     const val retrofitKotlinxSerializationConverter = "jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
 
+    //Work Manager
+    const val workManagerKtx = "androidx.work:work-runtime-ktx:${Versions.workVersion}"
+
     //Timber
     const val timber = "com.jakewharton.timber:timber:5.0.1"
 

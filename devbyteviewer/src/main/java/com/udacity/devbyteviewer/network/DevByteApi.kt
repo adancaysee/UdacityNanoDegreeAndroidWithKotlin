@@ -17,7 +17,12 @@ private val retrofit: Retrofit = Retrofit.Builder()
     .addConverterFactory(MoshiConverterFactory.create(moshi))
     .build()
 
-fun getRetrofit() = retrofit
+
+object DevByteApi {
+    val remoteVideosDataSource: RemoteVideosDataSource by lazy {
+        retrofit.create(RemoteVideosDataSource::class.java)
+    }
+}
 
 
 
