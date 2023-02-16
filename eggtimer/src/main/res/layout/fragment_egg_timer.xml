@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="eggTimerViewModel"
+            type="com.udacity.eggtimer.ui.EggTimerViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".ui.EggTimerFragment">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.EggTimerFragment">
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:elapsedTime="@{eggTimerViewModel.elapsedTime}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +35,9 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:entries="@array/egg_array"
+            android:onItemSelected="@{(parent,view,position,id) -> eggTimerViewModel.setSelectedTime(position)}"
             android:prompt="@string/egg_prompt"
+            android:selectedItemPosition="@{eggTimerViewModel.timeSelection}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/on_off_switch"
             app:layout_constraintStart_toStartOf="parent"
@@ -39,6 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
+            android:checked="@{eggTimerViewModel.isAlarmOn}"
+            android:onCheckedChanged="@{(buttonView,isChecked) -> eggTimerViewModel.setAlarm(isChecked)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/minutes_spinner"
@@ -52,11 +64,12 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:contentDescription="@string/egg"
+            android:src="@drawable/cooked_egg"
             app:layout_constraintBottom_toTopOf="@id/minutes_spinner"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/cooked_egg"/>
+            tools:src="@drawable/cooked_egg" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
