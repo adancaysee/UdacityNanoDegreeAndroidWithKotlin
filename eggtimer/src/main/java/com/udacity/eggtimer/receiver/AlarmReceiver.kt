@@ -13,7 +13,7 @@ class AlarmReceiver : BroadcastReceiver() {
         context?.let {
             getNotificationManager(context).sendNotification(
                 context,
-                context.getString(R.string.timer_running)
+                context.getString(R.string.eggs_ready)
             )
         }
 
