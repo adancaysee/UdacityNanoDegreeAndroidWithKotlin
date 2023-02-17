@@ -1,9 +1,11 @@
 package com.udacity.eggtimer.util
 
 import android.Manifest
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -25,6 +27,26 @@ fun NotificationManager.sendNotification(applicationContext: Context, messageBod
 
     //Step2: Send notification
     notify(NOTIFICATION_ID, notification)
+}
+
+fun createEggTimerNotificationChannel(
+    notificationManager: NotificationManager,
+    channelId: String,
+    channelName: String
+) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val notificationChannel = NotificationChannel(
+            channelId,
+            channelName,
+            NotificationManager.IMPORTANCE_LOW
+        )
+        notificationChannel.enableLights(true)
+        notificationChannel.lightColor = Color.RED
+        notificationChannel.enableVibration(true)
+        notificationChannel.description = "Time for breakfast"
+
+        notificationManager.createNotificationChannel(notificationChannel)
+    }
 }
 
 fun hasNotificationPermission(applicationContext: Context) =

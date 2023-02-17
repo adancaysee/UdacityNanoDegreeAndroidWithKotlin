@@ -11,9 +11,7 @@ import androidx.lifecycle.*
 import com.udacity.eggtimer.R
 import com.udacity.eggtimer.receiver.AlarmReceiver
 import com.udacity.eggtimer.util.getAlarmManager
-import com.udacity.eggtimer.util.getNotificationManager
 import com.udacity.eggtimer.util.getPreference
-import com.udacity.eggtimer.util.sendNotification
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -21,7 +19,7 @@ import kotlinx.coroutines.withContext
 private const val TRIGGER_TIME = "TRIGGER_AT"
 private const val REQUEST_CODE = 0
 
-class EggTimerViewModel(private val application: Application) : AndroidViewModel(application) {
+class EggTimerViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _timeSelection = MutableLiveData<Int>()
     val timeSelection: LiveData<Int>
@@ -97,11 +95,6 @@ class EggTimerViewModel(private val application: Application) : AndroidViewModel
                     AlarmManager.ELAPSED_REALTIME_WAKEUP,
                     triggerTime,
                     notifyPendingIntent
-                )
-
-                getNotificationManager(application).sendNotification(
-                    application,
-                    application.getString(R.string.timer_running)
                 )
 
                 viewModelScope.launch {

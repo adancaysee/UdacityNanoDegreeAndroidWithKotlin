@@ -3,7 +3,6 @@ package com.udacity.eggtimer
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.udacity.eggtimer.util.hasNotificationPermission
 
@@ -23,8 +22,6 @@ class MainActivity : AppCompatActivity() {
             ) {}
             if (!hasNotificationPermission(this)) {
                 requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
-            }else {
-                Toast.makeText(this,"permission allowed",Toast.LENGTH_LONG).show()
             }
         }
     }

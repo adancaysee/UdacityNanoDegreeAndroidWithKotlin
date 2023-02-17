@@ -15,7 +15,7 @@ fun getPreference(application: Application): SharedPreferences =
 fun getAlarmManager(application: Application): AlarmManager =
     application.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-fun getNotificationManager(application: Application): NotificationManager =
-    application.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+fun getNotificationManager(context: Context): NotificationManager =
+    context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
 
