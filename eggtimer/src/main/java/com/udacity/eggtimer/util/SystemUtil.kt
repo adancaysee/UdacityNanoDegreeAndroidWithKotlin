@@ -12,8 +12,8 @@ fun getPreference(application: Application): SharedPreferences =
         Context.MODE_PRIVATE
     )
 
-fun getAlarmManager(application: Application): AlarmManager =
-    application.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+fun getAlarmManager(context: Context): AlarmManager =
+    context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
 fun getNotificationManager(context: Context): NotificationManager =
     context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

@@ -7,51 +7,93 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.udacity.eggtimer.MainActivity
 import com.udacity.eggtimer.R
+import com.udacity.eggtimer.receiver.SnoozeReceiver
 
 /**
  * Pending intent = System will use it to open your app.
  */
 
 private const val NOTIFICATION_ID = 0
+private const val REQUEST_CODE = 1
 
 fun NotificationManager.sendNotification(applicationContext: Context, messageBody: String) {
 
     //Step1: Create content intent
-    val flag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-    } else {
-        PendingIntent.FLAG_UPDATE_CURRENT
-    }
+    val contentPendingIntent = createContentPendingIntent(applicationContext)
 
-    val contentIntent = Intent(applicationContext, MainActivity::class.java)
-    //System
-    val contentPendingIntent = PendingIntent.getActivity(
-        applicationContext,
-        NOTIFICATION_ID,
-        contentIntent,
-        flag
+    //Step2: Create an action
+    val snoozePendingIntent = createSnoozePendingIntent(applicationContext)
+
+    //Step3: Create a style
+    val eggImageBitmap = BitmapFactory.decodeResource(
+        applicationContext.resources,
+        R.drawable.cooked_egg
     )
+    val bigPictureStyle = NotificationCompat.BigPictureStyle()
+        .bigPicture(eggImageBitmap)
+        .bigLargeIcon(null) // when expanded big picture for notification is gone
 
-    // Step2: Create notification
+
+    // Step4: Create notification
     val notification = NotificationCompat.Builder(
         applicationContext,
         applicationContext.getString(R.string.egg_notification_channel_id)
     )
         .setSmallIcon(R.drawable.cooked_egg)
+        .setLargeIcon(eggImageBitmap)
         .setContentTitle(applicationContext.getString(R.string.notification_title))
         .setContentText(messageBody)
         .setContentIntent(contentPendingIntent)
         .setAutoCancel(true)
+        .setStyle(bigPictureStyle)
+        .setPriority(NotificationCompat.PRIORITY_HIGH)
+        .addAction(
+            R.drawable.egg_icon,
+            applicationContext.getString(R.string.snooze),
+            snoozePendingIntent
+        )
         .build()
 
-    //Step3: Send notification
+    //Step5: Send notification
     notify(NOTIFICATION_ID, notification)
+}
+
+
+private fun createContentPendingIntent(applicationContext: Context): PendingIntent {
+    val flag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+    } else {
+        PendingIntent.FLAG_UPDATE_CURRENT
+    }
+    val contentIntent = Intent(applicationContext, MainActivity::class.java)
+    return PendingIntent.getActivity(
+        applicationContext,
+        NOTIFICATION_ID,
+        contentIntent,
+        flag
+    )
+}
+
+private fun createSnoozePendingIntent(applicationContext: Context): PendingIntent {
+    val flag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_ONE_SHOT
+    } else {
+        PendingIntent.FLAG_ONE_SHOT
+    }
+    val snoozeIntent = Intent(applicationContext, SnoozeReceiver::class.java)
+    return PendingIntent.getBroadcast(
+        applicationContext,
+        REQUEST_CODE,
+        snoozeIntent,
+        flag
+    )
 }
 
 fun NotificationManager.cancelAllNotifications() {
@@ -67,17 +109,18 @@ fun createEggTimerNotificationChannel(
         val notificationChannel = NotificationChannel(
             channelId,
             channelName,
-            NotificationManager.IMPORTANCE_LOW
-        )
-        notificationChannel.enableLights(true)
-        notificationChannel.lightColor = Color.RED
-        notificationChannel.enableVibration(true)
-        notificationChannel.description = "Time for breakfast"
+            NotificationManager.IMPORTANCE_HIGH
+        ).apply {
+            enableLights(true)
+            lightColor = Color.RED
+            enableVibration(true)
+            description = "Time for breakfast"
+            setShowBadge(false)
+        }
 
         notificationManager.createNotificationChannel(notificationChannel)
     }
 }
-
 
 fun hasNotificationPermission(applicationContext: Context) =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
