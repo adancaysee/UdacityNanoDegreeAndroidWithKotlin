@@ -16,10 +16,6 @@ import com.udacity.eggtimer.MainActivity
 import com.udacity.eggtimer.R
 import com.udacity.eggtimer.receiver.SnoozeReceiver
 
-/**
- * Pending intent = System will use it to open your app.
- */
-
 private const val NOTIFICATION_ID = 0
 private const val REQUEST_CODE = 1
 
@@ -45,21 +41,21 @@ fun NotificationManager.sendNotification(applicationContext: Context, messageBod
     val notification = NotificationCompat.Builder(
         applicationContext,
         applicationContext.getString(R.string.egg_notification_channel_id)
-    )
-        .setSmallIcon(R.drawable.cooked_egg)
-        .setLargeIcon(eggImageBitmap)
-        .setContentTitle(applicationContext.getString(R.string.notification_title))
-        .setContentText(messageBody)
-        .setContentIntent(contentPendingIntent)
-        .setAutoCancel(true)
-        .setStyle(bigPictureStyle)
-        .setPriority(NotificationCompat.PRIORITY_HIGH)
-        .addAction(
+    ).apply {
+        setSmallIcon(R.drawable.cooked_egg)
+        setLargeIcon(eggImageBitmap)
+        setContentTitle(applicationContext.getString(R.string.notification_title))
+        setContentText(messageBody)
+        setContentIntent(contentPendingIntent)
+        setAutoCancel(true)
+        setStyle(bigPictureStyle)
+        priority = NotificationCompat.PRIORITY_HIGH
+        addAction(
             R.drawable.egg_icon,
             applicationContext.getString(R.string.snooze),
             snoozePendingIntent
         )
-        .build()
+    }.build()
 
     //Step5: Send notification
     notify(NOTIFICATION_ID, notification)

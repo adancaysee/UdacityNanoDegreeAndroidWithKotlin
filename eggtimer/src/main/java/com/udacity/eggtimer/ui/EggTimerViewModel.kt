@@ -19,6 +19,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+
+/**
+ * A PendingIntent object wraps the functionality of an Intent object while allowing your app to specify
+ * something that another app should do, on your app’s behalf, in response to a future action
+ */
+
 private const val TRIGGER_TIME = "TRIGGER_AT"
 private const val REQUEST_CODE = 0
 
@@ -57,7 +63,7 @@ class EggTimerViewModel(private val application: Application) : AndroidViewModel
         }
 
         _alarmOn.value = PendingIntent.getBroadcast(
-            getApplication(),
+            application,
             REQUEST_CODE,
             notifyIntent,
             flagNoCreate
