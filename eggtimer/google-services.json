@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "429055994795",
+    "project_id": "egg-timer-b5ee5",
+    "storage_bucket": "egg-timer-b5ee5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:429055994795:android:847a05349b1a03af0ac0ee",
+        "android_client_info": {
+          "package_name": "com.udacity.eggtimer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "429055994795-cgfsu23l1m276inde1gnejbh86b8759c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCncIvXDFAFcMtd93JWKX8ADlqIuU86aGA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "429055994795-cgfsu23l1m276inde1gnejbh86b8759c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

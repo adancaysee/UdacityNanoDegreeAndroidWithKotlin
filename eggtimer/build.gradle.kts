@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("androidx.navigation.safeargs")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -51,6 +52,9 @@ dependencies {
     implementation(Libraries.androidxNavigationFragment)
 
     implementation(Libraries.timber)
+
+    implementation(platform(Libraries.firebaseBom))
+    implementation(Libraries.firebaseMessagingKtx)
 
     testImplementation(TestLibraries.junit)
     androidTestImplementation(AndroidTestLibraries.junit)

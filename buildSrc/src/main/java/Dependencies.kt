@@ -39,6 +39,10 @@ object Libraries {
     //Timber
     const val timber = "com.jakewharton.timber:timber:5.0.1"
 
+    //Firebase
+    const val firebaseBom = "com.google.firebase:firebase-bom:31.2.2"
+    const val firebaseMessagingKtx = "com.google.firebase:firebase-messaging-ktx"
+
 }
 
 object TestLibraries {
