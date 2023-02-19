@@ -31,6 +31,25 @@
             android:enabled="true"
             android:exported="false" />
 
+        <service
+            android:name="com.udacity.eggtimer.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/common_google_signin_btn_icon_dark"/>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/breakfast_notification_channel_id" />
+        <meta-data
+            android:name="com.google.firebase_default_notification_color"
+            android:value="@color/purple_200" />
+
     </application>
 
 </manifest>

@@ -96,7 +96,7 @@ fun NotificationManager.cancelAllNotifications() {
     cancelAll()
 }
 
-fun createEggTimerNotificationChannel(
+fun createNotificationChannel(
     notificationManager: NotificationManager,
     channelId: String,
     channelName: String
