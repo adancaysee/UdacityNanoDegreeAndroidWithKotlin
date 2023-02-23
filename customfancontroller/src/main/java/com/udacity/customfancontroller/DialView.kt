@@ -56,7 +56,7 @@ class DialView @JvmOverloads constructor(
 
     init {
         isClickable = true
-
+        
         context.withStyledAttributes(attrs,R.styleable.DialView) {
             fanSpeedLowColor = getColor(R.styleable.DialView_fanColor1,0)
             fanSpeedMediumColor = getColor(R.styleable.DialView_fanColor2,0)
