@@ -13,7 +13,16 @@ import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
 
-private enum class FanSpeed(val label: Int) {
+/**
+ * Create customView steps:
+ *   1. onMeasure() --> We set our custom with height to our custom view
+ *   2. onSizeChanged() --> is called for the first time, the correct size for the canvas has been
+ * calculated and is now available for use.(Width,height is ready)
+ *   3. onLayout() --> is called from layout when this view should assign a size and position to each of its children.
+ *   4. onDraw() --> to used draw the custom view
+ */
+
+enum class FanSpeed(val label: Int) {
     OFF(R.string.fan_off),
     LOW(R.string.fan_low),
     MEDIUM(R.string.fan_medium),
@@ -39,7 +48,7 @@ class DialView @JvmOverloads constructor(
     View(context, attrs, defStyleAttr) {
 
     private var radius = 0.0f
-    private var fanSpeed = FanSpeed.OFF
+    var fanSpeed = FanSpeed.OFF
 
     private var fanSpeedLowColor = 0
     private var fanSpeedMediumColor = 0
@@ -56,11 +65,11 @@ class DialView @JvmOverloads constructor(
 
     init {
         isClickable = true
-        
-        context.withStyledAttributes(attrs,R.styleable.DialView) {
-            fanSpeedLowColor = getColor(R.styleable.DialView_fanColor1,0)
-            fanSpeedMediumColor = getColor(R.styleable.DialView_fanColor2,0)
-            fanSeedMaxColor = getColor(R.styleable.DialView_fanColor3,0)
+
+        context.withStyledAttributes(attrs, R.styleable.DialView) {
+            fanSpeedLowColor = getColor(R.styleable.DialView_fanColor1, 0)
+            fanSpeedMediumColor = getColor(R.styleable.DialView_fanColor2, 0)
+            fanSeedMaxColor = getColor(R.styleable.DialView_fanColor3, 0)
         }
     }
 
@@ -105,13 +114,11 @@ class DialView @JvmOverloads constructor(
     }
 
     override fun performClick(): Boolean {
-        if (super.performClick()) return true
-
         fanSpeed = fanSpeed.next()
         contentDescription = resources.getString(fanSpeed.label)
-
         invalidate()
-        return true
+
+        return super.performClick()
 
     }
 
@@ -126,3 +133,10 @@ class DialView @JvmOverloads constructor(
 
 
 }
+
+
+/*override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        val dp = context.resources.getDimension(R.dimen.fan_dimen)
+        setMeasuredDimension(dp.toInt(), dp.toInt())
+    }*/
