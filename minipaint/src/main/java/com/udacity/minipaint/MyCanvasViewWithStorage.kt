@@ -8,17 +8,14 @@ import android.view.ViewConfiguration
 import androidx.core.content.res.ResourcesCompat
 import kotlin.math.abs
 
-/**
- * Better performance for drawing --> caching
- * We use bitmap for caching
- */
 
-const val STROKE_WIDTH = 12F
+class MyCanvasViewWithStorage(context: Context) : View(context) {
 
-class MyCanvasView(context: Context) : View(context) {
+    // Path representing the drawing so far
+    private val drawing = Path()
 
-    private lateinit var extraBitmap: Bitmap
-    private lateinit var extraCanvas: Canvas
+    // Path representing what's currently being drawn
+    private val curPath = Path()
 
     private val backgroundColor = ResourcesCompat.getColor(resources, R.color.colorBackground, null)
     private val drawColor = ResourcesCompat.getColor(resources, R.color.colorPaint, null)
@@ -52,10 +49,6 @@ class MyCanvasView(context: Context) : View(context) {
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        if (::extraBitmap.isInitialized) extraBitmap.recycle()
-        extraBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
-        extraCanvas = Canvas(extraBitmap)
-        extraCanvas.drawColor(backgroundColor)
 
         val inset = 40
         frame = Rect(inset,inset,width-inset,height-inset)
@@ -65,7 +58,13 @@ class MyCanvasView(context: Context) : View(context) {
         super.onDraw(canvas)
         if (canvas == null) return
 
-        canvas.drawBitmap(extraBitmap, 0f, 0f, null)
+        canvas.drawColor(backgroundColor)
+
+        canvas.drawPath(drawing,paint)
+
+        canvas.drawPath(curPath,paint)
+
+        //paint.color = drawColor
         canvas.drawRect(frame,paint)
 
 
@@ -113,13 +112,15 @@ class MyCanvasView(context: Context) : View(context) {
             currentX = motionTouchEventX
             currentY = motionTouchEventY
             // Draw the path in the extra bitmap to cache it.
-            extraCanvas.drawPath(path, paint)
+            curPath.addPath(path)
         }
         invalidate()
     }
 
     private fun touchUp() {
         path.reset()
+        drawing.addPath(curPath)
+        curPath.reset()
     }
 
 }
