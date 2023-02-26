@@ -40,6 +40,7 @@ private val data = listOf(
         "Step 3",
         "Modifying a path",
         "Learn how to use KeyFrames to modify a path between start and end.",
+        R.id.action_step3
     ),
     Step(
         "Step 4",

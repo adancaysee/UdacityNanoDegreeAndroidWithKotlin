@@ -16,6 +16,12 @@
         <action
             android:id="@+id/action_step2"
             app:destination="@id/step2_destination" />
+        <action
+            android:id="@+id/action_step3"
+            app:destination="@id/step3_destination" />
+        <action
+            android:id="@+id/action_animation_list_destination_to_step2_destination"
+            app:destination="@id/step2_destination" />
     </fragment>
     <fragment
         android:id="@+id/step1_destination"
@@ -27,4 +33,9 @@
         android:name="com.udacity.motionlayout.Step2Fragment"
         android:label="@string/title_activity_step2"
         tools:layout="@layout/fragment_step2"/>
+    <fragment
+        android:id="@+id/step3_destination"
+        android:name="com.udacity.motionlayout.Step3Fragment"
+        android:label="@string/title_activity_step3"
+        tools:layout="@layout/fragment_step3"/>
 </navigation>
