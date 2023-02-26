@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/animation_list_destination">
+
+    <fragment
+        android:id="@+id/animation_list_destination"
+        android:name="com.udacity.motionlayout.AnimationListFragment"
+        android:label="AnimationListFragment"
+        tools:layout="@layout/fragment_animation_list">
+        <action
+            android:id="@+id/action_step1"
+            app:destination="@id/step1_destination" />
+    </fragment>
+    <fragment
+        android:id="@+id/step1_destination"
+        android:name="com.udacity.motionlayout.Step1Fragment"
+        android:label="Step1Fragment"
+        tools:layout="@layout/fragment_step1"/>
+</navigation>
