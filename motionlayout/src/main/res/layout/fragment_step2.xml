@@ -7,5 +7,53 @@
         android:layout_height="match_parent"
         app:layoutDescription="@xml/step2_motion_scene">
 
+        <ImageView
+            android:id="@+id/background"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/star"
+            app:srcCompat="@drawable/background" />
+
+
+        <ImageView
+            android:id="@+id/left_star_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/star"
+            android:tint="@color/white"
+            app:srcCompat="@drawable/ic_star_outline" />
+
+        <ImageView
+            android:id="@+id/right_star_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/star"
+            android:tint="@color/white"
+            app:srcCompat="@drawable/ic_star_outline" />
+
+        <ImageView
+            android:id="@+id/red_star_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/star"
+            android:tint="?colorSecondary"
+            app:srcCompat="@drawable/ic_star_outline" />
+
+        <TextView
+            android:id="@+id/credits_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.8"
+            android:padding="16dp"
+            android:text="@string/credits"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>
