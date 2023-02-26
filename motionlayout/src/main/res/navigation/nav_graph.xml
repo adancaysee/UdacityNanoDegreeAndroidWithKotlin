@@ -13,10 +13,17 @@
         <action
             android:id="@+id/action_step1"
             app:destination="@id/step1_destination" />
+        <action
+            android:id="@+id/action_step2"
+            app:destination="@id/step2_destination" />
     </fragment>
     <fragment
         android:id="@+id/step1_destination"
         android:name="com.udacity.motionlayout.Step1Fragment"
         android:label="Step1Fragment"
         tools:layout="@layout/fragment_step1"/>
+    <fragment
+        android:id="@+id/step2_destination"
+        android:name="com.udacity.motionlayout.Step2Fragment"
+        android:label="Step2Fragment" />
 </navigation>

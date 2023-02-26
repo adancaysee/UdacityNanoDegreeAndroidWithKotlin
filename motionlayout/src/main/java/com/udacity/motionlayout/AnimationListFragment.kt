@@ -34,6 +34,7 @@ private val data = listOf(
         "Step 2",
         "Animating based on drag events",
         "Learn how to control animations with drag events. This will not display any animation until you complete the step in the codelab.",
+        R.id.action_step2
     ),
     Step(
         "Step 3",
