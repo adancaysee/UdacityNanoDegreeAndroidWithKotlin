@@ -16,6 +16,8 @@ class Step1Fragment : Fragment() {
     ): View {
         val binding = FragmentStep1Binding.inflate(inflater, container, false)
 
+        binding.motionLayout.progress = 1f
+
         return binding.root
     }
 }
