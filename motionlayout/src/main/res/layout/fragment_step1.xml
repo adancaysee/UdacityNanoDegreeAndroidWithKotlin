@@ -9,6 +9,17 @@
         app:layoutDescription="@xml/step1_motion_scene">
 
         <ImageView
+            android:id="@+id/background"
+            android:layout_width="0dp"
+            android:layout_height="1500dp"
+            android:contentDescription="@string/star"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:srcCompat="@drawable/background" />
+
+        <ImageView
             android:id="@+id/red_star"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -16,6 +27,8 @@
             android:contentDescription="@string/star"
             app:srcCompat="@drawable/ic_star_outline"
             app:tint="?colorSecondary" />
+
+
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>
