@@ -46,6 +46,7 @@ private val data = listOf(
         "Step 4",
         "Building complex paths",
         "Learn how to use KeyFrames to build complex paths through multiple KeyFrames.",
+        R.id.step4_destination
     ),
     Step(
         "Step 5",
