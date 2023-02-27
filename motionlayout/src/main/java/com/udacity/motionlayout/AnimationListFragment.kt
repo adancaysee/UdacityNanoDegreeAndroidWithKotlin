@@ -52,6 +52,7 @@ private val data = listOf(
         "Step 5",
         "Changing attributes with motion",
         "Learn how to resize and rotate views during animations.",
+        R.id.step5_destination
     ),
     Step(
         "Step 6",
