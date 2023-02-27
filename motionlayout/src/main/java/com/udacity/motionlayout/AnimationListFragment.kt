@@ -64,25 +64,16 @@ private val data = listOf(
         "Step 7",
         "OnSwipe with complex paths",
         "Learn how to control motion through complex paths with OnSwipe.",
-    ),
-    Step(
-        "Completed: Steps 2-7",
-        "Steps 2-7 completed",
-        "All changes in steps 2-7 applied",
-        highlight = true
+        R.id.step7_destination
     ),
     Step(
         "Step 8",
         "Running motion with code",
         "Learn how to use MotionLayout to build complex collapsing toolbar animations.",
+        R.id.step8_destination
     ),
-    Step(
-        "Completed: Step 8 ",
-        "Implements running motion with code",
-        "Changes applied from step 8",
-        highlight = true
+
     )
-)
 
 class AnimationListFragment : Fragment() {
 
