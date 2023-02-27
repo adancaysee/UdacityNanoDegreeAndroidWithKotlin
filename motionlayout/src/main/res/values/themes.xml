@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.UdacityNanoDegreeAndroidWithKotlin" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
+    <style name="Theme.MotionLayoutDemo" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/gray_500</item>
         <item name="colorPrimaryVariant">@color/gray_700</item>
@@ -12,5 +12,10 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="lollipop">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Theme.MotionLayoutDemo.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 </resources>
