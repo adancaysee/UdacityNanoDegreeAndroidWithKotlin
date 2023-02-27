@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_step5"
             app:destination="@id/step5_destination" />
+        <action
+            android:id="@+id/action_step6"
+            app:destination="@id/step6_destination" />
     </fragment>
     <fragment
         android:id="@+id/step1_destination"
@@ -54,4 +57,9 @@
         android:name="com.udacity.motionlayout.Step5Fragment"
         android:label="@string/title_activity_step5"
         tools:layout="@layout/fragment_step5"/>
+    <fragment
+        android:id="@+id/step6_destination"
+        android:name="com.udacity.motionlayout.Step6Fragment"
+        android:label="@string/title_activity_step6"
+        tools:layout="@layout/fragment_step6" />
 </navigation>

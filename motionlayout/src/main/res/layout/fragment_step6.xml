@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutDescription="@xml/step6_motion_scene"
+        app:motionDebug="SHOW_PATH">
+
+        <ImageView
+            android:id="@+id/background"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/star"
+            app:srcCompat="@drawable/background" />
+
+        <ImageView
+            android:id="@+id/moon_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/moon"
+            android:tint="@color/white"
+            app:srcCompat="@drawable/ic_moon" />
+
+        <TextView
+            android:id="@+id/credits_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="@string/credits"
+            android:textSize="24sp"
+            android:textColor="@color/white" />
+
+
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+</layout>

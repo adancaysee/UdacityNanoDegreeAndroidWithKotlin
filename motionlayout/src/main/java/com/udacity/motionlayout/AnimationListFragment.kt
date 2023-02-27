@@ -58,6 +58,7 @@ private val data = listOf(
         "Step 6",
         "Changing custom attributes",
         "Learn how to change custom attributes during motion.",
+        R.id.step6_destination
     ),
     Step(
         "Step 7",
