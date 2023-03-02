@@ -43,6 +43,9 @@ object Libraries {
     const val firebaseBom = "com.google.firebase:firebase-bom:31.2.2"
     const val firebaseMessagingKtx = "com.google.firebase:firebase-messaging-ktx"
 
+    //Google Map
+    const val playServicesMaps = "com.google.android.gms:play-services-maps:18.0.2"
+
 }
 
 object TestLibraries {
