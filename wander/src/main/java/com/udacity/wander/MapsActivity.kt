@@ -16,6 +16,11 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.udacity.wander.databinding.ActivityMapsBinding
 
+/**
+ * For styling I use cloud map styling
+ * https://developers.google.com/maps/documentation/cloud-customization/overview
+ */
+
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, MenuProvider {
 
     private lateinit var map: GoogleMap
@@ -36,6 +41,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, MenuProvider {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+        map.mapType = GoogleMap.MAP_TYPE_NORMAL
 
         val homeLatLng = LatLng(60.366124, 5.349366)
         map.addMarker(MarkerOptions().position(homeLatLng))
