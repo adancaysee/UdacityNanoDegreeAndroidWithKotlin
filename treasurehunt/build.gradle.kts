@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -18,7 +19,7 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
+        dataBinding = true
     }
 
     buildTypes {
@@ -46,6 +47,7 @@ dependencies {
     implementation(Libraries.material)
     implementation(Libraries.constraintLayout)
 
+    implementation(Libraries.playServicesMaps)
 
     testImplementation(TestLibraries.junit)
     androidTestImplementation(AndroidTestLibraries.junit)
