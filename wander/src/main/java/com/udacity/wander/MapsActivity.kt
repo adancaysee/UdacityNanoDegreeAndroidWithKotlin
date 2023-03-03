@@ -61,7 +61,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, MenuProvider {
 
         val homeLatLng = LatLng(60.366124, 5.349366)
         map.addMarker(MarkerOptions().position(homeLatLng))
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, 18f))
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, 15f))
 
         val overlayOptions = GroundOverlayOptions()
             .image(BitmapDescriptorFactory.fromResource(R.drawable.android))
