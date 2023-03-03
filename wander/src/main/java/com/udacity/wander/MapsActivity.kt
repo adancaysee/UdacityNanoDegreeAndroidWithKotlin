@@ -1,10 +1,15 @@
 package com.udacity.wander
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 
@@ -25,6 +30,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, MenuProvider {
     private lateinit var map: GoogleMap
     private lateinit var binding: ActivityMapsBinding
 
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) {
+        if (::map.isInitialized) {
+            enableMyLocation()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -36,6 +49,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, MenuProvider {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.map_options_menu, menu)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -52,13 +69,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, MenuProvider {
 
         map.addGroundOverlay(overlayOptions)
 
-
         setMapLongClick(map)
         setOnPoiClick(map)
-    }
 
-    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.map_options_menu, menu)
+        enableMyLocation()
+
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -101,4 +116,32 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, MenuProvider {
 
         }
     }
+
+    /**
+     * Enable location data layer
+     */
+    @SuppressLint("MissingPermission")
+    private fun enableMyLocation() {
+        if (hasLocationPermission()) {
+            map.isMyLocationEnabled = true
+        }else {
+            requestNotificationPermission()
+        }
+    }
+
+    private fun requestNotificationPermission() {
+        if (!hasLocationPermission()) {
+            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+    }
+
+
+    private fun hasLocationPermission() =
+        ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
 }
