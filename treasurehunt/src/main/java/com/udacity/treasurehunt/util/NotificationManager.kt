@@ -41,6 +41,7 @@ fun NotificationManager.sendGeofenceEnteredNotification(context: Context, foundI
 
     val bigPictureStyle = NotificationCompat.BigPictureStyle()
         .bigPicture(icon)
+        .bigLargeIcon(null)
 
     val notification = NotificationCompat.Builder(context, CHANNEL_ID).apply {
         setContentTitle(context.getString(R.string.app_name))
