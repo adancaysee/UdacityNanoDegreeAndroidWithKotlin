@@ -12,8 +12,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.udacity.wander.databinding.ActivityMapsBinding
 
 /**
@@ -45,7 +44,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, MenuProvider {
 
         val homeLatLng = LatLng(60.366124, 5.349366)
         map.addMarker(MarkerOptions().position(homeLatLng))
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, 15f))
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, 18f))
+
+        val overlayOptions = GroundOverlayOptions()
+            .image(BitmapDescriptorFactory.fromResource(R.drawable.android))
+            .position(homeLatLng, 100f)
+
+        map.addGroundOverlay(overlayOptions)
+
 
         setMapLongClick(map)
         setOnPoiClick(map)
@@ -71,6 +77,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, MenuProvider {
                 MarkerOptions()
                     .position(latLng)
                     .title(getString(R.string.dropped_pin))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
                     .snippet(
                         getString(
                             R.string.lat_long_snippet,
@@ -89,7 +96,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, MenuProvider {
         map.setOnPoiClickListener { poi ->
             val marker = map.addMarker(MarkerOptions().position(poi.latLng).title(poi.name))
             marker?.showInfoWindow()
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi.latLng,15f))
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi.latLng, 15f))
 
 
         }
