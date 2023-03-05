@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.udacity.treasurehunt"
-        minSdk = Config.minSdkVersion
+        minSdk = 23
         targetSdk = Config.targetSdkVersion
         versionCode = 1
         versionName = "1.0"
