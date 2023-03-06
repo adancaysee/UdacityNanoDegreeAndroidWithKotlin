@@ -46,8 +46,13 @@ dependencies {
     implementation(Libraries.androidxAppcompat)
     implementation(Libraries.material)
     implementation(Libraries.constraintLayout)
+    implementation(Libraries.androidxNavigationUi)
+    implementation(Libraries.androidxNavigationFragment)
+
+    implementation(Libraries.timber)
 
     implementation(Libraries.playServicesMaps)
+    implementation(Libraries.playServicesLocation)
 
     testImplementation(TestLibraries.junit)
     androidTestImplementation(AndroidTestLibraries.junit)

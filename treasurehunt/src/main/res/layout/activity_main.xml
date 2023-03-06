@@ -4,6 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.udacity.treasurehunt.ui.GeofenceViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
 
         android:id="@+id/activity_maps_main"
@@ -22,6 +29,7 @@
             android:layout_marginEnd="@dimen/horizontal_margin"
             android:layout_marginBottom="@dimen/vertical_margin"
             android:fontFamily="@font/della_respira"
+            android:text="@{context.getString(viewModel.geofenceHintResourceId)}"
             android:textAlignment="center"
             android:textSize="@dimen/hint_text_size"
             android:textStyle="bold"
@@ -43,6 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:contentDescription="@string/android_map_description"
+            android:src="@{context.getDrawable(viewModel.geofenceImageResourceId)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

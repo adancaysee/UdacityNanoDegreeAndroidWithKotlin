@@ -56,4 +56,6 @@
 
     <!-- Content Description Strings -->
     <string name="android_map_description">An Android robot with a map</string>
+    <string name="ok">OK</string>
+    <string name="not_started_hint" >No clue</string>
 </resources>
