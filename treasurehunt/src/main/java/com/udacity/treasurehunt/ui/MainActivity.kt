@@ -22,6 +22,11 @@ import com.udacity.treasurehunt.util.GeofencingConstants
 import com.udacity.treasurehunt.util.hasPermission
 import timber.log.Timber
 
+/**
+ * TODO : PendingIntent repeating
+ * TODO : Re-write this app with map sdk
+ * TODO : Control lifecycle
+ */
 
 class MainActivity : AppCompatActivity() {
 
