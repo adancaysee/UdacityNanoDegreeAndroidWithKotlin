@@ -11,10 +11,6 @@ import com.udacity.treasurehunt.util.GeofenceBroadcastReceiver
 import com.udacity.treasurehunt.util.GeofencingConstants
 
 import com.udacity.treasurehunt.R
-import com.udacity.treasurehunt.util.getPreference
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 /**
 Location Services provides
