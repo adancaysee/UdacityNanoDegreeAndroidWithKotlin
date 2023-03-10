@@ -12,5 +12,8 @@
 
     <string name="fact_type_android">Android</string>
     <string name="fact_type_california">California</string>
-    <string name="main_info_text">Android is the world\'s most popular platform.</string>
+
+    <!--Shared Preference Keys -->
+    <string name="preference_fact_type_key">fact_type_pref</string>
 </resources>
+

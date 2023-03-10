@@ -7,6 +7,10 @@ object Libraries {
 
     const val lifecyleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
 
+    const val preferences = "androidx.preference:preference:1.2.0"
+    //Timber
+    const val timber = "com.jakewharton.timber:timber:5.0.1"
+
     //Navigation
     const val androidxNavigationFragment = "androidx.navigation:navigation-fragment-ktx:${Versions.navVersion}"
     const val androidxNavigationUi = "androidx.navigation:navigation-ui-ktx:${Versions.navVersion}"
@@ -37,9 +41,6 @@ object Libraries {
 
     //Work Manager
     const val workManagerKtx = "androidx.work:work-runtime-ktx:${Versions.workVersion}"
-
-    //Timber
-    const val timber = "com.jakewharton.timber:timber:5.0.1"
 
     //Firebase
     const val firebaseBom = "com.google.firebase:firebase-bom:31.2.2"

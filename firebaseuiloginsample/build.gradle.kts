@@ -54,6 +54,8 @@ dependencies {
     implementation(platform(Libraries.firebaseBom))
     implementation(Libraries.firebaseAuthKtx)
 
+    implementation(Libraries.preferences)
+
     testImplementation(TestLibraries.junit)
     androidTestImplementation(AndroidTestLibraries.junit)
     androidTestImplementation(AndroidTestLibraries.espressoCore)
