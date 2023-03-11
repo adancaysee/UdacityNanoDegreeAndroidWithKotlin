@@ -2,14 +2,19 @@ package com.udacity.todo.tasklist
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import com.udacity.todo.R
 import com.udacity.todo.databinding.FragmentListTaskBinding
+import com.udacity.todo.util.MenuProviderViewModel
 
 class ListTaskFragment : Fragment(), MenuProvider {
+
+    private val menuProviderViewModel by activityViewModels<MenuProviderViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,7 +32,12 @@ class ListTaskFragment : Fragment(), MenuProvider {
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        //Toast.makeText(requireContext(), menuItem.title, Toast.LENGTH_LONG).show()
+        if(menuItem.title == null) {
+            menuProviderViewModel.selectDrawerMenu.value = true
+            return false
+        }
+        Toast.makeText(requireContext(), menuItem.title ?: "drawer menu", Toast.LENGTH_LONG).show()
         return true
     }
+
 }

@@ -5,7 +5,9 @@ object Libraries {
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.4"
     const val swiperefreshlayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
-    const val lifecyleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
+    const val lifecyleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
+    const val lifecyleKtx = "androidx.lifecycle:lifecycle-extensions:2.4.0"
+
 
     const val preferences = "androidx.preference:preference:1.2.0"
 

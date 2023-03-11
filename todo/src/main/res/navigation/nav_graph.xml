@@ -9,10 +9,19 @@
         android:id="@+id/list_task_destination"
         android:name="com.udacity.todo.tasklist.ListTaskFragment"
         android:label="@string/app_name"
-        tools:layout="@layout/fragment_list_task"/>
+        tools:layout="@layout/fragment_list_task">
+        <action
+            android:id="@+id/action_add_added_task"
+            app:destination="@id/add_edit_task_destination" />
+    </fragment>
     <fragment
         android:id="@+id/statics_destination"
         android:name="com.udacity.todo.statics.StaticsFragment"
         android:label="@string/app_name"
-        tools:layout="@layout/fragment_statics"/>
+        tools:layout="@layout/fragment_statics" />
+    <fragment
+        android:id="@+id/add_edit_task_destination"
+        android:name="com.udacity.todo.addedittask.AddEditTaskFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_add_edit_task" />
 </navigation>

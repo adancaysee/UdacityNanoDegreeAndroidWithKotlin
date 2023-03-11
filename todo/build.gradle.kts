@@ -50,6 +50,7 @@ dependencies {
     implementation(Libraries.constraintLayout)
     implementation(Libraries.swiperefreshlayout)
 
+
     implementation(Libraries.androidxNavigationUi)
     implementation(Libraries.androidxNavigationFragment)
     implementation(Libraries.androidxRoomRuntime)
