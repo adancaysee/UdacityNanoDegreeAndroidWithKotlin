@@ -27,10 +27,18 @@ class ListTaskFragment : Fragment(), MenuProvider {
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        if (menuItem.title == null) {
-            return false
+        when (menuItem.itemId) {
+            R.id.menu_filter -> {
+            }
+            R.id.menu_refresh -> {
+
+            }
+            R.id.menu_clear -> {
+
+            }
+            else -> return false
         }
-        Toast.makeText(requireContext(), menuItem.title, Toast.LENGTH_LONG).show()
+        Toast.makeText(requireContext(), menuItem.title ?: "", Toast.LENGTH_LONG).show()
         return true
     }
 
