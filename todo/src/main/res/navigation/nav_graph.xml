@@ -13,5 +13,6 @@
     <fragment
         android:id="@+id/statics_destination"
         android:name="com.udacity.todo.statics.StaticsFragment"
-        android:label="StaticsFragment" />
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_statics"/>
 </navigation>

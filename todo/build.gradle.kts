@@ -48,12 +48,13 @@ dependencies {
     implementation(Libraries.androidxAppcompat)
     implementation(Libraries.material)
     implementation(Libraries.constraintLayout)
+    implementation(Libraries.swiperefreshlayout)
 
     implementation(Libraries.androidxNavigationUi)
     implementation(Libraries.androidxNavigationFragment)
-
     implementation(Libraries.androidxRoomRuntime)
     implementation(Libraries.androidxRoomKtx)
+
     kapt(Libraries.androidxRoomCompiler)
 
     testImplementation(TestLibraries.junit)
