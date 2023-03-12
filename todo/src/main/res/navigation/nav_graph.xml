@@ -39,5 +39,12 @@
         android:id="@+id/task_detail_destination"
         android:name="com.udacity.todo.taskdetail.TaskDetailFragment"
         android:label="@string/task_details"
-        tools:layout="@layout/task_detail_fragment"/>
+        tools:layout="@layout/task_detail_fragment">
+        <action
+            android:id="@+id/action_task_detail_destination_to_add_edit_task_destination"
+            app:destination="@id/add_edit_task_destination" />
+        <action
+            android:id="@+id/action_task_detail_destination_to_add_edit_task_destination2"
+            app:destination="@id/add_edit_task_destination" />
+    </fragment>
 </navigation>

@@ -2,6 +2,7 @@ package com.udacity.todo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -13,10 +14,11 @@ import com.udacity.todo.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
@@ -25,6 +27,18 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(setOf(R.id.list_task_destination,R.id.statics_destination), binding.drawerLayout)
         setupActionBarWithNavController(navController,appBarConfiguration)
         binding.navView.setupWithNavController(navController)
+
+        addNavigationListener(navController)
+    }
+
+    private fun addNavigationListener(navController: NavController) {
+        navController.addOnDestinationChangedListener { controller, destination, _ ->
+            if (controller.graph.startDestinationId == destination.id) {
+                binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+            }else {
+                binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+            }
+        }
     }
 
     private fun getNavController(): NavController {
