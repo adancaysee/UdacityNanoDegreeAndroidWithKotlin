@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.udacity.todo.databinding.FragmentAddEditTaskBinding
+import com.udacity.todo.databinding.AddEditTaskFragmentBinding
 
 class AddEditTaskFragment : Fragment() {
 
@@ -14,7 +14,7 @@ class AddEditTaskFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentAddEditTaskBinding.inflate(inflater)
+        val binding = AddEditTaskFragmentBinding.inflate(inflater)
         return binding.root
     }
 }
