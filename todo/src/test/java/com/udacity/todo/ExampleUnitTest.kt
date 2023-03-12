@@ -1,5 +1,6 @@
 package com.udacity.todo
 
+import androidx.core.math.MathUtils
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -12,6 +13,7 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+        val result = MathUtils.multiplyExact(3,2)
+        assertEquals(6,result)
     }
 }
