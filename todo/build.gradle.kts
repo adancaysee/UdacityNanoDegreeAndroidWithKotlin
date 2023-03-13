@@ -53,10 +53,12 @@ dependencies {
 
     implementation(Libraries.androidxNavigationUi)
     implementation(Libraries.androidxNavigationFragment)
+
     implementation(Libraries.androidxRoomRuntime)
     implementation(Libraries.androidxRoomKtx)
-
     kapt(Libraries.androidxRoomCompiler)
+
+    implementation(Libraries.timber)
 
     testImplementation(TestLibraries.junit)
 
