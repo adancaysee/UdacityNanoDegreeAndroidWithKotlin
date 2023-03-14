@@ -5,4 +5,7 @@ data class Task(
     val title: String,
     val description: String,
     val isCompleted: Boolean
-)
+) {
+    val titleForList: String
+        get() = title.ifEmpty { description }
+}

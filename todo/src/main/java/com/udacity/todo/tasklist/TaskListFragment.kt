@@ -8,9 +8,12 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.udacity.todo.R
 import com.udacity.todo.databinding.TaskListFragmentBinding
+import kotlinx.coroutines.*
+import timber.log.Timber
 
 class TaskListFragment : Fragment(), MenuProvider {
 
@@ -31,6 +34,27 @@ class TaskListFragment : Fragment(), MenuProvider {
         binding.viewModel = taskListViewModel
         binding.lifecycleOwner = this
 
+
+        lifecycleScope.launch {
+            coroutineScope {
+                launch { delay("delay1",3) }
+                launch { delay("delay2",3) }
+            }
+            withContext(Dispatchers.IO) {
+                delay("delay3",3)
+                delay("delay4",3)
+            }
+
+            withContext(Dispatchers.IO) {
+                coroutineScope {
+                    launch { delay("delay5",3) }
+                    launch { delay("delay6",3) }
+                }
+            }
+            delay("delay7",3)
+        }
+
+
         return binding.root
     }
 
@@ -47,6 +71,13 @@ class TaskListFragment : Fragment(), MenuProvider {
                 )
                 taskListViewModel.doneAddTaskEvent()
             }
+        }
+    }
+
+    suspend fun delay(text: String, delay: Long) {
+        for (i in 1..delay) {
+            delay(1000)
+            Timber.d("$text - threadName - ${Thread.currentThread().name} -  ${1000*i}")
         }
     }
 

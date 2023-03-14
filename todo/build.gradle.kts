@@ -44,22 +44,22 @@ android {
 
 dependencies {
 
+    //App dependencies
     implementation(Libraries.androidxCore)
     implementation(Libraries.androidxAppcompat)
     implementation(Libraries.material)
     implementation(Libraries.constraintLayout)
     implementation(Libraries.swiperefreshlayout)
+    implementation(Libraries.timber)
 
-
+    //Architecture components
     implementation(Libraries.androidxNavigationUi)
     implementation(Libraries.androidxNavigationFragment)
-
     implementation(Libraries.androidxRoomRuntime)
     implementation(Libraries.androidxRoomKtx)
     kapt(Libraries.androidxRoomCompiler)
-
-    implementation(Libraries.timber)
-
+    //implementation(Libraries.lifecyleLivedataKtx)
+    
     testImplementation(TestLibraries.junit)
 
     androidTestImplementation(AndroidTestLibraries.junit)

@@ -16,13 +16,16 @@ interface TasksDao {
     suspend fun getTasks(): List<TaskEntity>
 
     @Query("SELECT * FROM tasks_table WHERE id = :taskId")
-    fun observeTask(taskId: String): LiveData<TaskEntity>
+    fun observeTaskById(taskId: String): LiveData<TaskEntity>
 
     @Query("SELECT * FROM tasks_table WHERE id = :taskId")
-    suspend fun getTask(taskId: String): TaskEntity?
+    suspend fun getTaskById(taskId: String): TaskEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTask(task: TaskEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTasks(tasks: List<TaskEntity>)
 
     @Update
     suspend fun updateTask(task: TaskEntity)
@@ -34,5 +37,5 @@ interface TasksDao {
     suspend fun deleteCompletedTasks()
 
     @Query("DELETE FROM tasks_table")
-    suspend fun deleteTasks()
+    suspend fun deleteAllTasks()
 }

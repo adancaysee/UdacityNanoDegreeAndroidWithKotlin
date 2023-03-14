@@ -1,9 +1,13 @@
 package com.udacity.todo.data.source.remote
 
-import com.udacity.todo.data.Result
 import com.udacity.todo.data.source.local.TaskEntity
 import kotlinx.coroutines.delay
-import timber.log.Timber
+
+/**
+ * *** NOTE ***
+ * I used TaskEntity here too. Because my remote data source is fake. It does the same things as local data source.
+ * That's why I used it here too
+ */
 
 private const val SERVICE_LATENCY_IN_MILLIS = 2000L
 
@@ -16,20 +20,16 @@ class TasksRemoteDataSource {
         addTask("Finish bridge in Tacoma", "Found awesome girders at half the cost!")
     }
 
-    suspend fun fetchTasks(): Result<List<TaskEntity>> {
+    suspend fun fetchTasks(): List<TaskEntity> {
         delay(SERVICE_LATENCY_IN_MILLIS)
-        return Result.Success(tasksServiceData)
+        return tasksServiceData
     }
 
-    suspend fun fetchTask(taskId: String): Result<TaskEntity> {
+    suspend fun fetchTask(taskId: String): TaskEntity? {
         delay(SERVICE_LATENCY_IN_MILLIS)
-        val task = tasksServiceData.find {
+        return tasksServiceData.find {
             it.id == taskId
         }
-        task?.let {
-            return Result.Success(task)
-        }
-        return Result.Error(Exception("Task not found"))
     }
 
     private fun addTask(title: String, description: String) {

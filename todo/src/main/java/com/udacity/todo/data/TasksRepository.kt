@@ -6,13 +6,13 @@ import com.udacity.todo.domain.Task
 
 interface TasksRepository {
 
-    fun observeTasks(): Result<LiveData<List<Task>>>
+    fun observeTasks(): LiveData<Result<List<Task>>>
 
     suspend fun getTasks(forceUpdate: Boolean = false): Result<List<Task>>
 
     suspend fun refreshTasks()
 
-    fun observeTask(taskId: String): Result<LiveData<Task>>
+    fun observeTask(taskId: String): LiveData<Result<Task>>
 
     suspend fun getTask(taskId: String, forceUpdate: Boolean = false): Result<Task>
 
@@ -22,7 +22,7 @@ interface TasksRepository {
 
     suspend fun completeTask(task: TaskEntity)
 
-    suspend fun activeTask(taskEntity: TaskEntity)
+    suspend fun activeTask(task: TaskEntity)
 
     suspend fun deleteTask(taskId: String)
 

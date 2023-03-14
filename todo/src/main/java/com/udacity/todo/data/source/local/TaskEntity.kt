@@ -19,6 +19,14 @@ data class TaskEntity(
     var isCompleted: Boolean = false
 )
 
+fun TaskEntity.asDomain() =
+    Task(
+        id = this.id,
+        title = this.title,
+        description = this.description,
+        isCompleted = this.isCompleted
+    )
+
 fun List<TaskEntity>.asDomain() = map {
     Task(
         id = it.id,
