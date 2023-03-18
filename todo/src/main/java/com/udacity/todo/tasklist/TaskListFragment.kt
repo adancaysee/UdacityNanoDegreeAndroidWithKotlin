@@ -2,25 +2,42 @@ package com.udacity.todo.tasklist
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
+import android.widget.PopupMenu
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.udacity.todo.R
+import com.udacity.todo.data.domain.Task
+import com.udacity.todo.data.source.TasksFilterType
 import com.udacity.todo.databinding.TaskListFragmentBinding
-import kotlinx.coroutines.*
-import timber.log.Timber
+import com.udacity.todo.util.EventObserver
+import com.udacity.todo.util.showSnackbar
 
+/**
+ * Note: We use coordinator layout. Because we want to show snackbar
+ */
 class TaskListFragment : Fragment(), MenuProvider {
 
     private lateinit var binding: TaskListFragmentBinding
-    private val taskListViewModel: TaskListViewModel by lazy {
-        ViewModelProvider(this)[TaskListViewModel::class.java]
+
+    private val taskListViewModel by viewModels<TaskListViewModel> {
+        TaskListViewModel.Factory
     }
+
+    private val tasksAdapter = TasksAdapter(object : TasksAdapter.OnClickListener {
+        override fun changeTaskActivateStatus(task: Task, isCompleted: Boolean) {
+            taskListViewModel.changeTaskActivateStatus(task, isCompleted)
+        }
+
+        override fun openTask(taskId: String) {
+            taskListViewModel.navigateToTaskDetail("")
+        }
+
+    })
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,52 +49,38 @@ class TaskListFragment : Fragment(), MenuProvider {
 
         binding = TaskListFragmentBinding.inflate(inflater)
         binding.viewModel = taskListViewModel
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
-
-        lifecycleScope.launch {
-            coroutineScope {
-                launch { delay("delay1",3) }
-                launch { delay("delay2",3) }
-            }
-            withContext(Dispatchers.IO) {
-                delay("delay3",3)
-                delay("delay4",3)
-            }
-
-            withContext(Dispatchers.IO) {
-                coroutineScope {
-                    launch { delay("delay5",3) }
-                    launch { delay("delay6",3) }
-                }
-            }
-            delay("delay7",3)
-        }
-
+        binding.tasksRecyclerView.adapter = tasksAdapter
 
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        taskListViewModel.addTaskEvent.observe(viewLifecycleOwner) {
-            if (it == true) {
-                findNavController().navigate(
-                    TaskListFragmentDirections.actionAddEditTask(
-                        null,
-                        getString(R.string.add_task)
-                    )
-                )
-                taskListViewModel.doneAddTaskEvent()
+        binding.swipeRefreshLayout.isRefreshing = taskListViewModel.dataLoading.value ?: false
+
+        taskListViewModel.tasks.observe(viewLifecycleOwner) {
+            it?.let {
+                tasksAdapter.submitList(it)
             }
         }
-    }
 
-    suspend fun delay(text: String, delay: Long) {
-        for (i in 1..delay) {
-            delay(1000)
-            Timber.d("$text - threadName - ${Thread.currentThread().name} -  ${1000*i}")
+        taskListViewModel.newTaskEvent.observe(viewLifecycleOwner) {
+            val action =
+                TaskListFragmentDirections.actionAddEditTask(null, getString(R.string.add_task))
+            findNavController().navigate(action)
+        }
+
+        taskListViewModel.openTaskEvent.observe(viewLifecycleOwner, EventObserver {
+            val action = TaskListFragmentDirections.actionOpenTaskDetail()
+            findNavController().navigate(action)
+        })
+
+        taskListViewModel.snackbarTextEvent.observe(viewLifecycleOwner) {
+            binding.root.showSnackbar(it.peekContent(),Snackbar.LENGTH_LONG)
         }
     }
 
@@ -88,17 +91,32 @@ class TaskListFragment : Fragment(), MenuProvider {
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
             R.id.menu_filter -> {
+                showFilteringPopupMenu(requireActivity().findViewById(R.id.menu_filter))
             }
             R.id.menu_refresh -> {
-
+                taskListViewModel.refreshTasks()
             }
             R.id.menu_clear -> {
-
+                taskListViewModel.clearCompletedTasks()
             }
             else -> return false
         }
-        Toast.makeText(requireContext(), menuItem.title ?: "", Toast.LENGTH_LONG).show()
         return true
     }
 
+    private fun showFilteringPopupMenu(view: View) {
+        PopupMenu(requireContext(), view).run {
+            menuInflater.inflate(R.menu.filter_tasks_menu, menu)
+
+            setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.all -> taskListViewModel.filterTasks(TasksFilterType.ALL_TASKS)
+                    R.id.active -> taskListViewModel.filterTasks(TasksFilterType.ACTIVE_TASKS)
+                    R.id.completed -> taskListViewModel.filterTasks(TasksFilterType.COMPLETED_TASKS)
+                }
+                true
+            }
+            show()
+        }
+    }
 }

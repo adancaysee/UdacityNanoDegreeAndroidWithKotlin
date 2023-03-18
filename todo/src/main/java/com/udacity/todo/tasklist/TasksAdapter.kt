@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.udacity.todo.databinding.ItemTaskBinding
-import com.udacity.todo.domain.Task
+import com.udacity.todo.data.domain.Task
 
 class TasksAdapter(private val onClickListener: OnClickListener) :
     ListAdapter<Task, TasksAdapter.ViewHolder>(DiffUtilCallback) {

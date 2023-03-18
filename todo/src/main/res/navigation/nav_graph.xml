@@ -14,7 +14,7 @@
             android:id="@+id/action_add_edit_task"
             app:destination="@id/add_edit_task_destination" />
         <action
-            android:id="@+id/action_list_task_destination_to_task_detail_destination"
+            android:id="@+id/action_open_task_detail"
             app:destination="@id/task_detail_destination" />
     </fragment>
     <fragment

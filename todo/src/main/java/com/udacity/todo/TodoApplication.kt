@@ -1,7 +1,7 @@
 package com.udacity.todo
 
 import android.app.Application
-import com.udacity.todo.data.TasksRepository
+import com.udacity.todo.data.source.TasksRepository
 import timber.log.Timber
 
 class TodoApplication : Application() {

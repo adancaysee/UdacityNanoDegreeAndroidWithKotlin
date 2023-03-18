@@ -5,7 +5,7 @@
     <string name="task_marked_complete">Task marked complete</string>
     <string name="task_marked_active">Task marked active</string>
     <string name="loading_tasks_error">Error while loading tasks</string>
-    <string name="completed_tasks_cleared">Completed tasks cleared</string>
+    <string name="completed_tasks_cleared">%d tasks are cleared</string>
     <string name="menu_filter">Filter</string>
     <string name="menu_clear">Clear completed</string>
     <string name="menu_delete_task">Delete task</string>

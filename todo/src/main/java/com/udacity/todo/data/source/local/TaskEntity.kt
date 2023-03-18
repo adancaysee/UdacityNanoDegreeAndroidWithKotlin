@@ -3,7 +3,7 @@ package com.udacity.todo.data.source.local
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.udacity.todo.domain.Task
+import com.udacity.todo.data.domain.Task
 import java.util.UUID
 
 @Entity(tableName = "tasks_table")

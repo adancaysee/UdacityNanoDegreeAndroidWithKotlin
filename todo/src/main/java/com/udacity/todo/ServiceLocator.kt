@@ -3,8 +3,8 @@ package com.udacity.todo
 import android.content.Context
 import androidx.annotation.VisibleForTesting
 import androidx.room.Room
-import com.udacity.todo.data.DefaultTasksRepository
-import com.udacity.todo.data.TasksRepository
+import com.udacity.todo.data.source.DefaultTasksRepository
+import com.udacity.todo.data.source.TasksRepository
 import com.udacity.todo.data.source.local.TasksDao
 import com.udacity.todo.data.source.local.ToDoDatabase
 import com.udacity.todo.data.source.remote.TasksRemoteDataSource

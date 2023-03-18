@@ -30,6 +30,9 @@ class TaskDetailFragment : Fragment(), MenuProvider {
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        if (menuItem.title == null) {
+            return false
+        }
         Toast.makeText(requireContext(), menuItem.title ?: "", Toast.LENGTH_LONG).show()
         return true
     }

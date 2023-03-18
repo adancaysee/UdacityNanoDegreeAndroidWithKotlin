@@ -2,6 +2,7 @@ package com.udacity.todo.data.source.local
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -12,30 +13,36 @@ interface TasksDao {
     @Query("SELECT * FROM tasks_table")
     fun observeTasks(): LiveData<List<TaskEntity>>
 
+    @Query("SELECT * FROM tasks_table WHERE isCompleted = :isCompleted")
+    fun observeFilteringTasks(isCompleted: Boolean): LiveData<List<TaskEntity>>
+
+    @Query("SELECT * FROM tasks_table WHERE isCompleted = :isCompleted")
+    fun getFilteringTasks(isCompleted: Boolean): List<TaskEntity>?
+
     @Query("SELECT * FROM tasks_table")
-    suspend fun getTasks(): List<TaskEntity>
+    fun getTasks(): List<TaskEntity>
 
     @Query("SELECT * FROM tasks_table WHERE id = :taskId")
     fun observeTaskById(taskId: String): LiveData<TaskEntity>
 
     @Query("SELECT * FROM tasks_table WHERE id = :taskId")
-    suspend fun getTaskById(taskId: String): TaskEntity?
+    fun getTaskById(taskId: String): TaskEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTask(task: TaskEntity)
+    fun insertTask(task: TaskEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTasks(tasks: List<TaskEntity>)
+    fun insertTasks(tasks: List<TaskEntity>)
 
     @Update
-    suspend fun updateTask(task: TaskEntity)
+    fun updateTask(task: TaskEntity)
 
     @Query("DELETE FROM tasks_table WHERE id = :taskId")
-    suspend fun deleteTask(taskId: String)
+    fun deleteTask(taskId: String)
 
-    @Query("DELETE FROM tasks_table WHERE isCompleted = 1")
-    suspend fun deleteCompletedTasks()
+    @Delete
+    fun deleteTasks(task: List<TaskEntity>)
 
     @Query("DELETE FROM tasks_table")
-    suspend fun deleteAllTasks()
+    fun deleteAllTasks()
 }

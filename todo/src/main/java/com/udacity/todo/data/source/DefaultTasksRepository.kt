@@ -1,13 +1,16 @@
-package com.udacity.todo.data
+package com.udacity.todo.data.source
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.udacity.todo.data.source.local.TaskEntity
+import com.udacity.todo.data.Result
 import com.udacity.todo.data.source.local.TasksDao
 import com.udacity.todo.data.source.local.asDomain
 import com.udacity.todo.data.source.remote.TasksRemoteDataSource
-import com.udacity.todo.domain.Task
+import com.udacity.todo.data.domain.Task
+import com.udacity.todo.data.domain.asDatabase
 import kotlinx.coroutines.*
+
+enum class TasksFilterType { ALL_TASKS, ACTIVE_TASKS, COMPLETED_TASKS }
 
 class DefaultTasksRepository(
     private val tasksLocalDataSource: TasksDao,
@@ -15,9 +18,18 @@ class DefaultTasksRepository(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : TasksRepository {
 
-    override fun observeTasks(): LiveData<Result<List<Task>>> {
-        return Transformations.map(tasksLocalDataSource.observeTasks()) {
-            Result.Success(it.asDomain())
+    override fun observeTasks(filterType: TasksFilterType): LiveData<List<Task>> {
+        return when (filterType) {
+            TasksFilterType.ALL_TASKS -> Transformations.map(tasksLocalDataSource.observeTasks()) {
+                it.asDomain()
+            }
+            else -> {
+                Transformations.map(
+                    tasksLocalDataSource.observeFilteringTasks(filterType != TasksFilterType.ACTIVE_TASKS)
+                ) {
+                    it.asDomain()
+                }
+            }
         }
     }
 
@@ -72,35 +84,37 @@ class DefaultTasksRepository(
             remoteTask?.let {
                 tasksLocalDataSource.updateTask(remoteTask)
             }
-
         }
     }
 
-    override suspend fun saveTask(task: TaskEntity) {
+    override suspend fun saveTask(task: Task) {
         withContext(dispatcher) {
+            val taskEntity = task.asDatabase()
             coroutineScope {
-                launch { tasksRemoteDataSource.saveTask(task) }
-                launch { tasksLocalDataSource.insertTask(task) }
+                launch { tasksRemoteDataSource.saveTask(taskEntity) }
+                launch { tasksLocalDataSource.insertTask(taskEntity) }
             }
         }
     }
 
-    override suspend fun completeTask(task: TaskEntity) {
+    override suspend fun completeTask(task: Task) {
         withContext(dispatcher) {
-            val newTask = task.copy(isCompleted = true)
+            val taskEntity = task.asDatabase()
+            taskEntity.isCompleted = true
             coroutineScope {
-                launch { tasksRemoteDataSource.updateTask(newTask) }
-                launch { tasksLocalDataSource.updateTask(newTask) }
+                launch { tasksRemoteDataSource.updateTask(taskEntity) }
+                launch { tasksLocalDataSource.updateTask(taskEntity) }
             }
         }
     }
 
-    override suspend fun activeTask(task: TaskEntity) {
+    override suspend fun activeTask(task: Task) {
         withContext(dispatcher) {
-            val newTask = task.copy(isCompleted = false)
+            val taskEntity = task.asDatabase()
+            taskEntity.isCompleted = false
             coroutineScope {
-                launch { tasksRemoteDataSource.updateTask(newTask) }
-                launch { tasksLocalDataSource.updateTask(newTask) }
+                launch { tasksRemoteDataSource.updateTask(taskEntity) }
+                launch { tasksLocalDataSource.updateTask(taskEntity) }
             }
         }
     }
@@ -114,10 +128,14 @@ class DefaultTasksRepository(
         }
     }
 
-    override suspend fun deleteCompletedTasks() {
-        withContext(dispatcher) {
+    override suspend fun deleteCompletedTasks(): Result<Int> {
+        return withContext(dispatcher) {
+            val completedTasks = tasksLocalDataSource.getFilteringTasks(true)
+            if (completedTasks.isNullOrEmpty())
+                return@withContext Result.Error(Exception("Not found completed tasks"))
             launch { tasksRemoteDataSource.deleteCompletedTasks() }
-            launch { tasksLocalDataSource.deleteCompletedTasks() }
+            launch { tasksLocalDataSource.deleteTasks(completedTasks) }
+            return@withContext Result.Success(completedTasks.size)
         }
     }
 

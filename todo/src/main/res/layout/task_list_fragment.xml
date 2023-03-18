@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
@@ -11,13 +14,16 @@
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.udacity.todo.util.ScrollChildSwipeRefreshLayout
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:onRefreshListener="@{viewModel::refreshTasks}"
+            app:refreshing="@{viewModel.dataLoading}">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -25,7 +31,28 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="@{viewModel.empty ? View.GONE : View.VISIBLE}">
+
+                    <TextView
+                        android:id="@+id/filtering_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/list_item_padding"
+                        android:layout_marginTop="@dimen/vertical_margin"
+                        android:layout_marginRight="@dimen/list_item_padding"
+                        android:layout_marginBottom="@dimen/vertical_margin"
+                        android:gravity="center_vertical"
+                        android:text="@{viewModel.currentFilteringLabel}"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/tasks_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_task" />
 
                 </LinearLayout>
 
@@ -34,24 +61,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="@{viewModel.empty ? View.VISIBLE : View.GONE}"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:id="@+id/no_tasks_icon"
                         android:layout_width="96dp"
                         android:layout_height="96dp"
                         android:layout_gravity="center"
-                        android:contentDescription="@string/no_tasks_image_content_description" />
+                        android:contentDescription="@string/no_tasks_image_content_description"
+                        android:src="@{viewModel.noTaskIconRes}" />
 
                     <TextView
                         android:id="@+id/no_tasks_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginBottom="@dimen/list_item_padding" />
+                        android:layout_marginBottom="@dimen/list_item_padding"
+                        android:text="@{viewModel.noTasksLabel}" />
                 </LinearLayout>
             </RelativeLayout>
-        </com.udacity.todo.util.ScrollChildSwipeRefreshLayout>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/add_task_fab"
@@ -59,7 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:contentDescription="@string/add_task"
-            android:onClick="@{() -> viewModel.addTask()}"
+            android:onClick="@{() -> viewModel.navigateToNewTask()}"
             android:src="@drawable/ic_add"
             app:fabSize="normal"
             app:layout_anchor="@id/swipe_refresh_layout"
