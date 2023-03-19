@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import com.udacity.todo.R
 import com.udacity.todo.databinding.TaskDetailFragmentBinding
 import com.udacity.todo.util.EventObserver
@@ -51,13 +50,13 @@ class TaskDetailFragment : Fragment(), MenuProvider {
 
 
         viewModel.deleteTaskEvent.observe(viewLifecycleOwner, EventObserver {
-            val action = TaskDetailFragmentDirections.actionToListTaskDestination()
+            val action = TaskDetailFragmentDirections.actionGlobalListTaskDestination()
             action.resultMessage = getString(R.string.successfully_deleted_task_message)
             findNavController().navigate(action)
         })
 
         viewModel.showSnackbarEvent.observe(viewLifecycleOwner, EventObserver {
-            binding.root.showSnackbar(it, Snackbar.LENGTH_LONG)
+            binding.root.showSnackbar(it)
         })
     }
 

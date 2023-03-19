@@ -1,9 +1,10 @@
 package com.udacity.todo.data.domain
 
 import com.udacity.todo.data.source.local.TaskEntity
+import java.util.*
 
 data class Task(
-    val id: String,
+    val id: String = UUID.randomUUID().toString(),
     val title: String,
     val description: String,
     val isCompleted: Boolean
@@ -12,7 +13,7 @@ data class Task(
         get() = title.ifEmpty { description }
 }
 
-fun Task.asDatabase() : TaskEntity = TaskEntity(
+fun Task.asDatabase(): TaskEntity = TaskEntity(
     id = this.id,
     title = this.title,
     description = this.description,

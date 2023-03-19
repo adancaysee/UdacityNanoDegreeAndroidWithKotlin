@@ -12,7 +12,7 @@ interface TasksRepository {
 
     suspend fun refreshTasks()
 
-    fun observeTask(taskId: String): LiveData<Task>
+    fun observeTask(taskId: String): LiveData<Task?>
 
     suspend fun getTask(taskId: String, forceUpdate: Boolean = false): Result<Task>
 

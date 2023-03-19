@@ -53,12 +53,14 @@
             android:name="taskId"
             app:argType="string" />
         <action
-            android:id="@+id/action_to_list_task_destination"
-            app:destination="@id/list_task_destination" />
-        <action
             android:id="@+id/action_edit_task"
             app:destination="@id/add_edit_task_destination" />
 
     </fragment>
+    <action
+        android:id="@+id/action_global_list_task_destination"
+        app:destination="@id/list_task_destination"
+        app:popUpTo="@id/list_task_destination"
+        app:popUpToInclusive="true" />
 
 </navigation>

@@ -54,7 +54,7 @@ class DefaultTasksRepository(
         }
     }
 
-    override fun observeTask(taskId: String): LiveData<Task> {
+    override fun observeTask(taskId: String): LiveData<Task?> {
         return Transformations.map(tasksLocalDataSource.observeTaskById(taskId)) {
             it?.asDomain()
         }

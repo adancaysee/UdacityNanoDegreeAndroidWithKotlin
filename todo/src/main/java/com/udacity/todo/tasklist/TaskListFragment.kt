@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.snackbar.Snackbar
 import com.udacity.todo.R
 import com.udacity.todo.data.domain.Task
 import com.udacity.todo.data.source.TasksFilterType
@@ -86,7 +85,7 @@ class TaskListFragment : Fragment(), MenuProvider {
         }
 
         taskListViewModel.snackbarTextEvent.observe(viewLifecycleOwner, EventObserver {
-            binding.root.showSnackbar(it, Snackbar.LENGTH_LONG)
+            binding.root.showSnackbar(it)
         })
 
     }
