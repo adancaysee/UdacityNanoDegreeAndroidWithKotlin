@@ -9,8 +9,7 @@ import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.udacity.todo.R
-import com.udacity.todo.TodoApplication
+import com.udacity.todo.*
 import com.udacity.todo.data.Result
 import com.udacity.todo.data.domain.Task
 import com.udacity.todo.data.source.TasksFilterType
@@ -58,6 +57,7 @@ class TaskListViewModel(
 
     private val _snackbarTextEvent = MutableLiveData<Event<String>>()
     val snackbarTextEvent = _snackbarTextEvent
+
 
     init {
         refreshTasks()
@@ -138,6 +138,16 @@ class TaskListViewModel(
 
     private fun showSnackbarMessage(message: String) {
         _snackbarTextEvent.value = Event(message)
+    }
+
+    fun showResultMessage(resultMessage: String?) {
+        if (resultMessage.isNullOrEmpty()) return
+        showSnackbarMessage(resultMessage)
+        /*when (result) {
+            EDIT_RESULT_OK -> showSnackbarMessage(application.getString(R.string.successfully_saved_task_message))
+            ADD_EDIT_RESULT_OK -> showSnackbarMessage(application.getString(R.string.successfully_added_task_message))
+            DELETE_RESULT_OK -> showSnackbarMessage(application.getString(R.string.successfully_deleted_task_message))
+        }*/
     }
 
     fun navigateToNewTask() {

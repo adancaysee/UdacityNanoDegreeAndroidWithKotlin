@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.udacity.todo.R
 import com.udacity.todo.data.domain.Task
@@ -28,13 +29,15 @@ class TaskListFragment : Fragment(), MenuProvider {
         TaskListViewModel.Factory
     }
 
+    private val navArguments: TaskListFragmentArgs by navArgs()
+
     private val tasksAdapter = TasksAdapter(object : TasksAdapter.OnClickListener {
         override fun changeTaskActivateStatus(task: Task, isCompleted: Boolean) {
             taskListViewModel.changeTaskActivateStatus(task, isCompleted)
         }
 
         override fun openTask(taskId: String) {
-            taskListViewModel.navigateToTaskDetail("")
+            taskListViewModel.navigateToTaskDetail(taskId)
         }
 
     })
@@ -60,28 +63,32 @@ class TaskListFragment : Fragment(), MenuProvider {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.swipeRefreshLayout.isRefreshing = taskListViewModel.dataLoading.value ?: false
-
         taskListViewModel.tasks.observe(viewLifecycleOwner) {
             it?.let {
                 tasksAdapter.submitList(it)
             }
         }
 
-        taskListViewModel.newTaskEvent.observe(viewLifecycleOwner) {
+        taskListViewModel.newTaskEvent.observe(viewLifecycleOwner,EventObserver {
             val action =
-                TaskListFragmentDirections.actionAddEditTask(null, getString(R.string.add_task))
-            findNavController().navigate(action)
-        }
-
-        taskListViewModel.openTaskEvent.observe(viewLifecycleOwner, EventObserver {
-            val action = TaskListFragmentDirections.actionOpenTaskDetail()
+                TaskListFragmentDirections.actionAddTask(null, getString(R.string.add_task))
             findNavController().navigate(action)
         })
 
-        taskListViewModel.snackbarTextEvent.observe(viewLifecycleOwner) {
-            binding.root.showSnackbar(it.peekContent(),Snackbar.LENGTH_LONG)
+        taskListViewModel.openTaskEvent.observe(viewLifecycleOwner, EventObserver {
+            val action = TaskListFragmentDirections.actionOpenTask(it)
+            findNavController().navigate(action)
+        })
+
+        arguments?.let {
+            val resultMessage = navArguments.resultMessage
+            taskListViewModel.showResultMessage(resultMessage)
         }
+
+        taskListViewModel.snackbarTextEvent.observe(viewLifecycleOwner, EventObserver {
+            binding.root.showSnackbar(it, Snackbar.LENGTH_LONG)
+        })
+
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {

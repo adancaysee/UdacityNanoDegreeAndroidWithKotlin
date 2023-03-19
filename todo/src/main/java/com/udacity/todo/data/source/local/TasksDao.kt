@@ -11,7 +11,7 @@ import androidx.room.Update
 @Dao
 interface TasksDao {
     @Query("SELECT * FROM tasks_table")
-    fun observeTasks(): LiveData<List<TaskEntity>>
+    fun observeTasks(): LiveData<List<TaskEntity>?>
 
     @Query("SELECT * FROM tasks_table WHERE isCompleted = :isCompleted")
     fun observeFilteringTasks(isCompleted: Boolean): LiveData<List<TaskEntity>>
@@ -23,7 +23,7 @@ interface TasksDao {
     fun getTasks(): List<TaskEntity>
 
     @Query("SELECT * FROM tasks_table WHERE id = :taskId")
-    fun observeTaskById(taskId: String): LiveData<TaskEntity>
+    fun observeTaskById(taskId: String): LiveData<TaskEntity?>
 
     @Query("SELECT * FROM tasks_table WHERE id = :taskId")
     fun getTaskById(taskId: String): TaskEntity?

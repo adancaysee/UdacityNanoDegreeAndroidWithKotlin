@@ -30,10 +30,11 @@
                 <EditText
                     android:id="@+id/add_task_title_edit_text"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:autofillHints="@string/title_hint"
                     android:background="@null"
                     android:hint="@string/title_hint"
+                    android:gravity="center_vertical"
                     android:imeOptions="flagNoExtractUi"
                     android:inputType="text"
                     android:maxLines="1"

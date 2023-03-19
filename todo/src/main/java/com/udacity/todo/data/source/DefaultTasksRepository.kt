@@ -18,16 +18,16 @@ class DefaultTasksRepository(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : TasksRepository {
 
-    override fun observeTasks(filterType: TasksFilterType): LiveData<List<Task>> {
+    override fun observeTasks(filterType: TasksFilterType): LiveData<List<Task>?> {
         return when (filterType) {
             TasksFilterType.ALL_TASKS -> Transformations.map(tasksLocalDataSource.observeTasks()) {
-                it.asDomain()
+                it?.asDomain()
             }
             else -> {
                 Transformations.map(
                     tasksLocalDataSource.observeFilteringTasks(filterType != TasksFilterType.ACTIVE_TASKS)
                 ) {
-                    it.asDomain()
+                    it?.asDomain()
                 }
             }
         }
@@ -54,9 +54,9 @@ class DefaultTasksRepository(
         }
     }
 
-    override fun observeTask(taskId: String): LiveData<Result<Task>> {
+    override fun observeTask(taskId: String): LiveData<Task> {
         return Transformations.map(tasksLocalDataSource.observeTaskById(taskId)) {
-            Result.Success(it.asDomain())
+            it?.asDomain()
         }
     }
 
