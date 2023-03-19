@@ -46,5 +46,6 @@
     <string name="tasks_header_image_content_description">Tasks header image</string>
     <string name="no_tasks_image_content_description">No tasks image</string>
     <string name="task_details">Task Details</string>
+    <string name="statistics">Statistics</string>
 
 </resources>

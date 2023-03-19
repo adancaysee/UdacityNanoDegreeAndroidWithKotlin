@@ -44,7 +44,7 @@ class TasksRemoteDataSource {
 
     suspend fun updateTask(task: TaskEntity) {
         delay(SERVICE_LATENCY_IN_MILLIS)
-        val index = tasksServiceData.indexOf(task)
+        val index = tasksServiceData.withIndex().first { it.value.id == task.id }.index
         if (index != -1) {
             tasksServiceData[index] = task
         }
