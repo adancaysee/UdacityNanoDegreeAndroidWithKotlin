@@ -38,12 +38,12 @@ class TasksRemoteDataSource {
     }
 
     suspend fun saveTask(task: TaskEntity) {
-        delay(SERVICE_LATENCY_IN_MILLIS)
+        delay(0)
         tasksServiceData.add(task)
     }
 
     suspend fun updateTask(task: TaskEntity) {
-        delay(SERVICE_LATENCY_IN_MILLIS)
+        delay(0)
         val index = tasksServiceData.withIndex().first { it.value.id == task.id }.index
         if (index != -1) {
             tasksServiceData[index] = task
@@ -51,7 +51,7 @@ class TasksRemoteDataSource {
     }
 
     suspend fun deleteTask(taskId: String) {
-        delay(SERVICE_LATENCY_IN_MILLIS)
+        delay(0)
         val task = tasksServiceData.find {
             it.id == taskId
         }
@@ -61,12 +61,12 @@ class TasksRemoteDataSource {
     }
 
     suspend fun deleteCompletedTasks() {
-        delay(SERVICE_LATENCY_IN_MILLIS)
+        delay(0)
         tasksServiceData.removeAll { it.isCompleted }
     }
 
     suspend fun deleteAllTasks() {
-        delay(SERVICE_LATENCY_IN_MILLIS)
+        delay(0)
         tasksServiceData.clear()
     }
 

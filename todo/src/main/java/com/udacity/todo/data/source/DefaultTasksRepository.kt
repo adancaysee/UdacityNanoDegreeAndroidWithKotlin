@@ -121,10 +121,8 @@ class DefaultTasksRepository(
 
     override suspend fun deleteTask(taskId: String) {
         withContext(dispatcher) {
-            coroutineScope {
-                launch { tasksRemoteDataSource.deleteTask(taskId) }
-                launch { tasksLocalDataSource.deleteTask(taskId) }
-            }
+            tasksRemoteDataSource.deleteTask(taskId)
+            tasksLocalDataSource.deleteTask(taskId)
         }
     }
 

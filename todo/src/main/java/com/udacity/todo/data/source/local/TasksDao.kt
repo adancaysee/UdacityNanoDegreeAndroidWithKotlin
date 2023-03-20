@@ -14,7 +14,7 @@ interface TasksDao {
     fun observeTasks(): LiveData<List<TaskEntity>?>
 
     @Query("SELECT * FROM tasks_table WHERE isCompleted = :isCompleted")
-    fun observeFilteringTasks(isCompleted: Boolean): LiveData<List<TaskEntity>>
+    fun observeFilteringTasks(isCompleted: Boolean): LiveData<List<TaskEntity>?>
 
     @Query("SELECT * FROM tasks_table WHERE isCompleted = :isCompleted")
     fun getFilteringTasks(isCompleted: Boolean): List<TaskEntity>?
