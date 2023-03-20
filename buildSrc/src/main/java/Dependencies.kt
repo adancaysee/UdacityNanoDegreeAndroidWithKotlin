@@ -63,6 +63,7 @@ object Libraries {
 
 object TestLibraries {
     const val junit = "junit:junit:4.13.2"
+    const val truth = "com.google.truth:truth:1.1.3"
 }
 
 object AndroidTestLibraries {

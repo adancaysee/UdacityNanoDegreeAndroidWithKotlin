@@ -58,9 +58,9 @@ dependencies {
     implementation(Libraries.androidxRoomRuntime)
     implementation(Libraries.androidxRoomKtx)
     kapt(Libraries.androidxRoomCompiler)
-    //implementation(Libraries.lifecyleLivedataKtx)
-    
+
     testImplementation(TestLibraries.junit)
+    testImplementation(TestLibraries.truth)
 
     androidTestImplementation(AndroidTestLibraries.junit)
     androidTestImplementation(AndroidTestLibraries.espressoCore)
