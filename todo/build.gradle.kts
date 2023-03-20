@@ -40,6 +40,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+
+
 }
 
 dependencies {
@@ -60,8 +63,11 @@ dependencies {
     kapt(Libraries.androidxRoomCompiler)
 
     testImplementation(TestLibraries.junit)
+    testImplementation(TestLibraries.junit)
+    testImplementation(TestLibraries.androidXTestCoreKtx)
+    testImplementation(TestLibraries.robolectric)
     testImplementation(TestLibraries.truth)
 
-    androidTestImplementation(AndroidTestLibraries.junit)
-    androidTestImplementation(AndroidTestLibraries.espressoCore)
+    androidTestImplementation(TestLibraries.androidXJunitKtx)
+    androidTestImplementation(TestLibraries.espressoCore)
 }

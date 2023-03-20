@@ -57,8 +57,8 @@ dependencies {
 
     testImplementation(TestLibraries.junit)
 
-    androidTestImplementation(AndroidTestLibraries.junit)
-    androidTestImplementation(AndroidTestLibraries.espressoCore)
-    androidTestImplementation(AndroidTestLibraries.room)
-    androidTestImplementation(AndroidTestLibraries.coroutine)
+    androidTestImplementation(TestLibraries.androidXJunitKtx)
+    androidTestImplementation(TestLibraries.espressoCore)
+    androidTestImplementation(TestLibraries.room)
+    androidTestImplementation(TestLibraries.coroutine)
 }

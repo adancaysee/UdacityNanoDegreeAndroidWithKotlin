@@ -49,6 +49,6 @@ dependencies {
     implementation(Libraries.playServicesMaps)
 
     testImplementation(TestLibraries.junit)
-    androidTestImplementation(AndroidTestLibraries.junit)
-    androidTestImplementation(AndroidTestLibraries.espressoCore)
+    androidTestImplementation(TestLibraries.androidXJunitKtx)
+    androidTestImplementation(TestLibraries.espressoCore)
 }
