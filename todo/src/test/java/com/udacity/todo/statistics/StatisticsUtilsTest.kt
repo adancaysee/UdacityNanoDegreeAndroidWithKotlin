@@ -1,4 +1,4 @@
-package com.udacity.todo
+package com.udacity.todo.statistics
 
 import com.google.common.truth.Truth.assertThat
 import com.udacity.todo.data.domain.Task

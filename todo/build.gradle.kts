@@ -63,8 +63,9 @@ dependencies {
     kapt(Libraries.androidxRoomCompiler)
 
     testImplementation(TestLibraries.junit)
-    testImplementation(TestLibraries.junit)
+    testImplementation(TestLibraries.androidXJunitKtx)
     testImplementation(TestLibraries.androidXTestCoreKtx)
+    testImplementation(TestLibraries.androidXArchCoreTesting)
     testImplementation(TestLibraries.robolectric)
     testImplementation(TestLibraries.truth)
 

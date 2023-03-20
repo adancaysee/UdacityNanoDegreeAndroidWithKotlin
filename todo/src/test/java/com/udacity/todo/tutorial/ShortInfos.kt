@@ -1,4 +1,4 @@
-package com.udacity.todo
+package com.udacity.todo.tutorial
 
 /**
  * TESTING TYPE
