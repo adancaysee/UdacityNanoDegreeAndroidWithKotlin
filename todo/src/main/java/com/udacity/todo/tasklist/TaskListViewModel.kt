@@ -45,6 +45,9 @@ class TaskListViewModel(
     private val _noTaskIconRes = MutableLiveData<Drawable>()
     val noTaskIconRes: LiveData<Drawable> = _noTaskIconRes
 
+    private val _tasksAddViewVisible = MutableLiveData<Boolean>()
+    val tasksAddViewVisible: LiveData<Boolean> = _tasksAddViewVisible
+
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
 
@@ -75,24 +78,27 @@ class TaskListViewModel(
         currentFilteringType.value = filterType
     }
 
-    private fun setFiltering(filterType: TasksFilterType) {
+    fun setFiltering(filterType: TasksFilterType) {
         when (filterType) {
             TasksFilterType.ALL_TASKS -> {
                 setFilter(
                     R.string.label_all, R.string.no_tasks_all,
-                    R.drawable.logo_no_fill
+                    R.drawable.logo_no_fill,
+                    true
                 )
             }
             TasksFilterType.ACTIVE_TASKS -> {
                 setFilter(
                     R.string.label_active, R.string.no_tasks_active,
-                    R.drawable.ic_check_circle_96dp
+                    R.drawable.ic_check_circle_96dp,
+                    false
                 )
             }
             TasksFilterType.COMPLETED_TASKS -> {
                 setFilter(
                     R.string.label_completed, R.string.no_tasks_completed,
-                    R.drawable.ic_verified_user_96dp
+                    R.drawable.ic_verified_user_96dp,
+                    false
                 )
             }
         }
@@ -100,11 +106,12 @@ class TaskListViewModel(
 
     private fun setFilter(
         @StringRes filteringLabelString: Int, @StringRes noTasksLabelString: Int,
-        @DrawableRes noTaskIconDrawable: Int
+        @DrawableRes noTaskIconDrawable: Int, tasksAddVisible: Boolean
     ) {
         _currentFilteringLabel.value = application.getString(filteringLabelString)
         _noTasksLabel.value = application.getString(noTasksLabelString)
         _noTaskIconRes.value = ContextCompat.getDrawable(application, noTaskIconDrawable)
+        _tasksAddViewVisible.value = tasksAddVisible
     }
 
     fun changeTaskActivateStatus(task: Task, isCompleted: Boolean) {

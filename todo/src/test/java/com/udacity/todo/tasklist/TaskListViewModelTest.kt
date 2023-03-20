@@ -6,7 +6,9 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
 import com.udacity.todo.data.source.FakeTasksRepository
+import com.udacity.todo.data.source.TasksFilterType
 import com.udacity.todo.util.getOrAwaitValue
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -21,8 +23,12 @@ import org.junit.runner.RunWith
  * AndroidJUnit4 runner - in local test -> run on robolectric simulated environment
  *                        in instrumented test -> run on device or emulator
  */
+
+//RobolectricTestRunner::class
 @RunWith(AndroidJUnit4::class)
 class TaskListViewModelTest {
+
+    private lateinit var taskListViewModel: TaskListViewModel
 
     /**
      * It run all architecture components related background jobs in the same thread
@@ -31,21 +37,36 @@ class TaskListViewModelTest {
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
-    @Test
-    fun addNewTask_setsNewTaskEvent_emitLiveData() {
-        //Given a refresh ViewModel
+    @Before
+    fun setUp() {
         val application = ApplicationProvider.getApplicationContext<Application>()
         val repository = FakeTasksRepository()
-        val viewModel = TaskListViewModel(application, repository)
+        taskListViewModel = TaskListViewModel(application, repository)
+    }
+
+    @Test
+    fun addNewTask_setsNewTaskEvent_emitLiveData() {
 
         //When navigate for a new task
-        viewModel.navigateToNewTask()
+        taskListViewModel.navigateToNewTask()
 
         //Make sure live data is observed
-        val value = viewModel.newTaskEvent.getOrAwaitValue()
+        val value = taskListViewModel.newTaskEvent.getOrAwaitValue()
 
         //Then new task event is triggered
         assertThat(value).isNotNull()
+
+    }
+
+    @Test
+    fun setFiltering_setAllTasks_tasksAddViewVisible() {
+
+        // When the filter type is ALL_TASKS
+        taskListViewModel.setFiltering(TasksFilterType.ALL_TASKS)
+
+        // Then the "Add task" action is visible
+        val value = taskListViewModel.tasksAddViewVisible.getOrAwaitValue() //Observe livedata
+        assertThat(value).isTrue()
 
     }
 
