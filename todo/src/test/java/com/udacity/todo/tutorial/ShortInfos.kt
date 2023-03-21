@@ -30,4 +30,6 @@ package com.udacity.todo.tutorial
  *  Test that the app works as a whole
  *  Simulate real usage,almost always instrumented test
  *
+ * ** OTHER NOTES
+ * When to writing unit test for a class , the goal is to only test the code in that class
  */

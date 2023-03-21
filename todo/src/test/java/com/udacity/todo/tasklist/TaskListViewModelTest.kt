@@ -5,7 +5,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
-import com.udacity.todo.data.source.FakeTasksRepository
+import com.udacity.todo.data.source.TestTasksRepository
 import com.udacity.todo.data.source.TasksFilterType
 import com.udacity.todo.util.getOrAwaitValue
 import org.junit.Before
@@ -40,7 +40,7 @@ class TaskListViewModelTest {
     @Before
     fun setUp() {
         val application = ApplicationProvider.getApplicationContext<Application>()
-        val repository = FakeTasksRepository()
+        val repository = TestTasksRepository()
         taskListViewModel = TaskListViewModel(application, repository)
     }
 

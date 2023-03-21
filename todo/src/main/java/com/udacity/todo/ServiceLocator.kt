@@ -7,7 +7,7 @@ import com.udacity.todo.data.source.DefaultTasksRepository
 import com.udacity.todo.data.source.TasksRepository
 import com.udacity.todo.data.source.local.TasksDao
 import com.udacity.todo.data.source.local.ToDoDatabase
-import com.udacity.todo.data.source.remote.TasksRemoteDataSource
+import com.udacity.todo.data.source.remote.DefaultTasksNetworkDataSource
 
 object ServiceLocator {
 
@@ -26,7 +26,7 @@ object ServiceLocator {
     private fun createTaskRepository(context: Context): TasksRepository {
         val newRepo = DefaultTasksRepository(
             createTasksLocalDataSource(context),
-            TasksRemoteDataSource()
+            DefaultTasksNetworkDataSource()
         )
         tasksRepository = newRepo
         return newRepo

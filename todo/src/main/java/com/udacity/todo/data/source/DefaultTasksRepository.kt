@@ -5,16 +5,16 @@ import androidx.lifecycle.Transformations
 import com.udacity.todo.data.Result
 import com.udacity.todo.data.source.local.TasksDao
 import com.udacity.todo.data.source.local.asDomain
-import com.udacity.todo.data.source.remote.TasksRemoteDataSource
 import com.udacity.todo.data.domain.Task
 import com.udacity.todo.data.domain.asDatabase
+import com.udacity.todo.data.source.remote.TasksNetworkDataSource
 import kotlinx.coroutines.*
 
 enum class TasksFilterType { ALL_TASKS, ACTIVE_TASKS, COMPLETED_TASKS }
 
 class DefaultTasksRepository(
     private val tasksLocalDataSource: TasksDao,
-    private val tasksRemoteDataSource: TasksRemoteDataSource,
+    private val tasksNetworkDataSource: TasksNetworkDataSource,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : TasksRepository {
 
@@ -48,7 +48,7 @@ class DefaultTasksRepository(
 
     override suspend fun refreshTasks() {
         withContext(dispatcher) {
-            val result = tasksRemoteDataSource.fetchTasks()
+            val result = tasksNetworkDataSource.fetchTasks()
             tasksLocalDataSource.deleteAllTasks()
             tasksLocalDataSource.insertTasks(result)
         }
@@ -80,7 +80,7 @@ class DefaultTasksRepository(
 
     override suspend fun refreshTask(taskId: String) {
         withContext(dispatcher) {
-            val remoteTask = tasksRemoteDataSource.fetchTask(taskId)
+            val remoteTask = tasksNetworkDataSource.fetchTask(taskId)
             remoteTask?.let {
                 tasksLocalDataSource.updateTask(remoteTask)
             }
@@ -91,7 +91,7 @@ class DefaultTasksRepository(
         withContext(dispatcher) {
             val taskEntity = task.asDatabase()
             coroutineScope {
-                launch { tasksRemoteDataSource.saveTask(taskEntity) }
+                launch { tasksNetworkDataSource.saveTask(taskEntity) }
                 launch { tasksLocalDataSource.insertTask(taskEntity) }
             }
         }
@@ -102,7 +102,7 @@ class DefaultTasksRepository(
             val taskEntity = task.asDatabase()
             taskEntity.isCompleted = true
             coroutineScope {
-                launch { tasksRemoteDataSource.updateTask(taskEntity) }
+                launch { tasksNetworkDataSource.updateTask(taskEntity) }
                 launch { tasksLocalDataSource.updateTask(taskEntity) }
             }
         }
@@ -113,7 +113,7 @@ class DefaultTasksRepository(
             val taskEntity = task.asDatabase()
             taskEntity.isCompleted = false
             coroutineScope {
-                launch { tasksRemoteDataSource.updateTask(taskEntity) }
+                launch { tasksNetworkDataSource.updateTask(taskEntity) }
                 launch { tasksLocalDataSource.updateTask(taskEntity) }
             }
         }
@@ -121,7 +121,7 @@ class DefaultTasksRepository(
 
     override suspend fun deleteTask(taskId: String) {
         withContext(dispatcher) {
-            tasksRemoteDataSource.deleteTask(taskId)
+            tasksNetworkDataSource.deleteTask(taskId)
             tasksLocalDataSource.deleteTask(taskId)
         }
     }
@@ -131,7 +131,7 @@ class DefaultTasksRepository(
             val completedTasks = tasksLocalDataSource.getFilteringTasks(true)
             if (completedTasks.isNullOrEmpty())
                 return@withContext Result.Error(Exception("Not found completed tasks"))
-            launch { tasksRemoteDataSource.deleteCompletedTasks() }
+            launch { tasksNetworkDataSource.deleteCompletedTasks() }
             launch { tasksLocalDataSource.deleteTasks(completedTasks) }
             return@withContext Result.Success(completedTasks.size)
         }
@@ -139,7 +139,7 @@ class DefaultTasksRepository(
 
     override suspend fun deleteTasks() {
         withContext(dispatcher) {
-            launch { tasksRemoteDataSource.deleteAllTasks() }
+            launch { tasksNetworkDataSource.deleteAllTasks() }
             launch { tasksLocalDataSource.deleteAllTasks() }
         }
     }

@@ -11,7 +11,7 @@ import kotlinx.coroutines.delay
 
 private const val SERVICE_LATENCY_IN_MILLIS = 2000L
 
-class TasksRemoteDataSource {
+class DefaultTasksNetworkDataSource : TasksNetworkDataSource {
 
     private var tasksServiceData = ArrayList<TaskEntity>()
 
@@ -20,12 +20,12 @@ class TasksRemoteDataSource {
         addTask("Finish bridge in Tacoma", "Found awesome girders at half the cost!")
     }
 
-    suspend fun fetchTasks(): List<TaskEntity> {
+    override suspend fun fetchTasks(): List<TaskEntity> {
         delay(SERVICE_LATENCY_IN_MILLIS)
         return tasksServiceData
     }
 
-    suspend fun fetchTask(taskId: String): TaskEntity? {
+    override suspend fun fetchTask(taskId: String): TaskEntity? {
         delay(SERVICE_LATENCY_IN_MILLIS)
         return tasksServiceData.find {
             it.id == taskId
@@ -37,12 +37,12 @@ class TasksRemoteDataSource {
         tasksServiceData.add(newTask)
     }
 
-    suspend fun saveTask(task: TaskEntity) {
+    override suspend fun saveTask(task: TaskEntity) {
         delay(0)
         tasksServiceData.add(task)
     }
 
-    suspend fun updateTask(task: TaskEntity) {
+    override suspend fun updateTask(task: TaskEntity) {
         delay(0)
         val index = tasksServiceData.withIndex().first { it.value.id == task.id }.index
         if (index != -1) {
@@ -50,7 +50,7 @@ class TasksRemoteDataSource {
         }
     }
 
-    suspend fun deleteTask(taskId: String) {
+    override suspend fun deleteTask(taskId: String) {
         delay(0)
         val task = tasksServiceData.find {
             it.id == taskId
@@ -60,12 +60,12 @@ class TasksRemoteDataSource {
         }
     }
 
-    suspend fun deleteCompletedTasks() {
+    override suspend fun deleteCompletedTasks() {
         delay(0)
         tasksServiceData.removeAll { it.isCompleted }
     }
 
-    suspend fun deleteAllTasks() {
+    override suspend fun deleteAllTasks() {
         delay(0)
         tasksServiceData.clear()
     }

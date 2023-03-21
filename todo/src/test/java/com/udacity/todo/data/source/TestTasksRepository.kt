@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import com.udacity.todo.data.Result
 import com.udacity.todo.data.domain.Task
 
-class FakeTasksRepository : TasksRepository {
+class TestTasksRepository : TasksRepository {
     override fun observeTasks(filterType: TasksFilterType): LiveData<List<Task>?> {
         TODO("Not yet implemented")
     }
