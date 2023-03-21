@@ -1,8 +1,9 @@
-package com.udacity.todo.data.source
+package com.udacity.todo.data
 
 import androidx.lifecycle.LiveData
-import com.udacity.todo.data.Result
 import com.udacity.todo.data.domain.Task
+import com.udacity.todo.data.source.TasksFilterType
+import com.udacity.todo.data.source.TasksRepository
 
 class TestTasksRepository : TasksRepository {
     override fun observeTasks(filterType: TasksFilterType): LiveData<List<Task>?> {
