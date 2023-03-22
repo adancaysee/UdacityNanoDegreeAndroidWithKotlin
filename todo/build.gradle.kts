@@ -72,11 +72,10 @@ dependencies {
     testImplementation(TestLibraries.truth)
     testImplementation(TestLibraries.coroutine)
 
-    androidTestImplementation(TestLibraries.junit)
     androidTestImplementation(TestLibraries.androidXJunitKtx)
-
     androidTestImplementation(TestLibraries.espressoCore)
     androidTestImplementation(TestLibraries.coroutine)
+    androidTestImplementation(TestLibraries.truth)
 
     debugImplementation(TestLibraries.fragmentTesting)
     debugImplementation(TestLibraries.androidXTestCoreKtx)
