@@ -79,6 +79,7 @@ dependencies {
 
     debugImplementation(TestLibraries.fragmentTesting)
     debugImplementation(TestLibraries.androidXTestCoreKtx)
+
     /*
     debugImplementation("androidx.fragment:fragment-ktx:1.5.5")
     debugImplementation("androidx.test:rules:1.5.0")
