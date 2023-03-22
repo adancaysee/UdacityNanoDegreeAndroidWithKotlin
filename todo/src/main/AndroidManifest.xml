@@ -7,7 +7,7 @@
         android:name=".TodoApplication"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.UdacityNanoDegreeAndroidWithKotlin">
+        android:theme="@style/Theme.TodoApp">
         <activity
             android:name=".MainActivity"
             android:exported="true">

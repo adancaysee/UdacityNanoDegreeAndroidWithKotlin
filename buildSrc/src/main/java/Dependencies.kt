@@ -73,6 +73,8 @@ object TestLibraries {
 
     const val robolectric = "org.robolectric:robolectric:4.9.2"
     const val truth = "com.google.truth:truth:1.1.3"
+
+    const val fragmentTesting = "androidx.fragment:fragment-testing:1.5.5"
 }
 
 

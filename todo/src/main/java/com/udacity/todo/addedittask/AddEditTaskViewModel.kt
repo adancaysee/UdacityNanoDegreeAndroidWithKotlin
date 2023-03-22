@@ -74,7 +74,7 @@ class AddEditTaskViewModel(
         }
         viewModelScope.launch {
             if (currentTaskId != null) {
-                val task = Task(currentTaskId, currentTitle, currentDescription, isTaskCompleted)
+                val task = Task(currentTitle, currentDescription, isTaskCompleted,currentTaskId)
                 updateTask(task)
             } else {
                 createTask(currentTitle, currentDescription)

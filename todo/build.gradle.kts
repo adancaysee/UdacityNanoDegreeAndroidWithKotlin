@@ -72,6 +72,18 @@ dependencies {
     testImplementation(TestLibraries.truth)
     testImplementation(TestLibraries.coroutine)
 
+    androidTestImplementation(TestLibraries.junit)
     androidTestImplementation(TestLibraries.androidXJunitKtx)
+
     androidTestImplementation(TestLibraries.espressoCore)
+    androidTestImplementation(TestLibraries.coroutine)
+
+    debugImplementation(TestLibraries.fragmentTesting)
+    debugImplementation(TestLibraries.androidXTestCoreKtx)
+    /*
+    debugImplementation("androidx.fragment:fragment-ktx:1.5.5")
+    debugImplementation("androidx.test:rules:1.5.0")
+    debugImplementation("androidx.test:runner:1.5.2")
+     */
+
 }
