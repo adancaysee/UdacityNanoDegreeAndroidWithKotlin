@@ -7,7 +7,7 @@ import com.udacity.todo.data.source.TasksFilterType
 import com.udacity.todo.data.source.TasksRepository
 import kotlinx.coroutines.runBlocking
 
-class TestTasksRepository : TasksRepository {
+class FakeTasksRepository : TasksRepository {
 
     var fakeTasks = mutableListOf<Task>()
 

@@ -2,7 +2,7 @@ package com.udacity.todo.data.source.local
 
 import androidx.lifecycle.LiveData
 
-class TestTaskDao(
+class FakeTaskDao(
     var fakeTasks: MutableList<TaskEntity>? = mutableListOf()
 ) : TasksDao {
 

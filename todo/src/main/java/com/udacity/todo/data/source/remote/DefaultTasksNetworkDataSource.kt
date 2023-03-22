@@ -11,7 +11,7 @@ import kotlinx.coroutines.delay
 
 private const val SERVICE_LATENCY_IN_MILLIS = 2000L
 
-class FakeTasksNetworkDataSource : TasksNetworkDataSource {
+class DefaultTasksNetworkDataSource : TasksNetworkDataSource {
 
     private var tasksServiceData = ArrayList<TaskEntity>()
 

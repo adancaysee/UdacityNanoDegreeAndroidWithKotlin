@@ -2,7 +2,7 @@ package com.udacity.todo.data.source.remote
 
 import com.udacity.todo.data.source.local.TaskEntity
 
-class TestTasksNetworkDataSource(
+class FakeTasksNetworkDataSource(
     var tasks: MutableList<TaskEntity> = mutableListOf()
 ) : TasksNetworkDataSource {
 

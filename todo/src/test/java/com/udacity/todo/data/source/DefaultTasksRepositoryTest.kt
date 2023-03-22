@@ -2,9 +2,9 @@ package com.udacity.todo.data.source
 
 import com.google.common.truth.Truth.assertThat
 import com.udacity.todo.data.source.local.TaskEntity
-import com.udacity.todo.data.source.local.TestTaskDao
+import com.udacity.todo.data.source.local.FakeTaskDao
 import com.udacity.todo.data.source.local.asDomain
-import com.udacity.todo.data.source.remote.TestTasksNetworkDataSource
+import com.udacity.todo.data.source.remote.FakeTasksNetworkDataSource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -18,21 +18,21 @@ class DefaultTasksRepositoryTest {
     private var remoteTasks = listOf(task1,task2)
     private var localTasks = listOf(task3)
 
-    private lateinit var testTaskDao: TestTaskDao
+    private lateinit var fakeTaskDao: FakeTaskDao
 
-    private lateinit var testTasksNetworkDataSource: TestTasksNetworkDataSource
+    private lateinit var fakeTasksNetworkDataSource: FakeTasksNetworkDataSource
 
     private lateinit var defaultTasksRepository: DefaultTasksRepository
 
 
     @Before
     fun setUp() {
-        testTaskDao = TestTaskDao()
-        testTasksNetworkDataSource = TestTasksNetworkDataSource()
-        testTaskDao.fakeTasks = localTasks.toMutableList()
-        testTasksNetworkDataSource.tasks = remoteTasks.toMutableList()
+        fakeTaskDao = FakeTaskDao()
+        fakeTasksNetworkDataSource = FakeTasksNetworkDataSource()
+        fakeTaskDao.fakeTasks = localTasks.toMutableList()
+        fakeTasksNetworkDataSource.tasks = remoteTasks.toMutableList()
 
-        defaultTasksRepository = DefaultTasksRepository(testTaskDao, testTasksNetworkDataSource)
+        defaultTasksRepository = DefaultTasksRepository(fakeTaskDao, fakeTasksNetworkDataSource)
     }
 
     //How can I test  getTask function of the repository ?

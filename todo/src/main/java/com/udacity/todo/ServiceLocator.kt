@@ -7,9 +7,10 @@ import com.udacity.todo.data.source.DefaultTasksRepository
 import com.udacity.todo.data.source.TasksRepository
 import com.udacity.todo.data.source.local.TasksDao
 import com.udacity.todo.data.source.local.ToDoDatabase
-import com.udacity.todo.data.source.remote.FakeTasksNetworkDataSource
+import com.udacity.todo.data.source.remote.DefaultTasksNetworkDataSource
+import kotlinx.coroutines.runBlocking
 
-object AppContainer {
+object ServiceLocator {
 
     private var database: ToDoDatabase? = null
 
@@ -26,7 +27,7 @@ object AppContainer {
     private fun createTaskRepository(context: Context): TasksRepository {
         val newRepo = DefaultTasksRepository(
             createTasksLocalDataSource(context),
-            FakeTasksNetworkDataSource()
+            DefaultTasksNetworkDataSource()
         )
         tasksRepository = newRepo
         return newRepo
@@ -45,6 +46,22 @@ object AppContainer {
         ).build()
         database = roomDb
         return roomDb
+    }
+
+    @VisibleForTesting
+    fun resetRepository() {
+        synchronized(this) {
+            runBlocking {
+                tasksRepository?.deleteTasks()
+            }
+
+            database?.apply {
+                clearAllTables()
+                close()
+            }
+            database = null
+            tasksRepository = null
+        }
     }
 
 }
