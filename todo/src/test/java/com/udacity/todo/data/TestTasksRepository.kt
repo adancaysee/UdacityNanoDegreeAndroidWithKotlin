@@ -1,56 +1,69 @@
 package com.udacity.todo.data
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.udacity.todo.data.domain.Task
 import com.udacity.todo.data.source.TasksFilterType
 import com.udacity.todo.data.source.TasksRepository
+import kotlinx.coroutines.runBlocking
 
 class TestTasksRepository : TasksRepository {
+
+    var fakeTasks = mutableListOf<Task>()
+
+    private val observableTasks = MutableLiveData<List<Task>?>()
+
     override fun observeTasks(filterType: TasksFilterType): LiveData<List<Task>?> {
-        TODO("Not yet implemented")
+        runBlocking { refreshTasks() }
+        return observableTasks
     }
 
-    override suspend fun getTasks(forceUpdate: Boolean): Result<List<Task>> {
-        TODO("Not yet implemented")
+    override suspend fun getTasks(forceUpdate: Boolean): List<Task> {
+        return fakeTasks
     }
 
     override suspend fun refreshTasks() {
-
+        observableTasks.value = getTasks()
     }
 
     override fun observeTask(taskId: String): LiveData<Task?> {
-        TODO("Not yet implemented")
+        throw NotImplementedError("Unused in tests")
     }
 
-    override suspend fun getTask(taskId: String, forceUpdate: Boolean): Result<Task> {
-        TODO("Not yet implemented")
+    override suspend fun getTask(taskId: String, forceUpdate: Boolean): Task? {
+        throw NotImplementedError("Unused in tests")
     }
 
     override suspend fun refreshTask(taskId: String) {
-        TODO("Not yet implemented")
+        throw NotImplementedError("Unused in tests")
     }
 
     override suspend fun saveTask(task: Task) {
-        TODO("Not yet implemented")
+        throw NotImplementedError("Unused in tests")
     }
 
     override suspend fun completeTask(task: Task) {
-        TODO("Not yet implemented")
+        throw NotImplementedError("Unused in tests")
     }
 
     override suspend fun activeTask(task: Task) {
-        TODO("Not yet implemented")
+        throw NotImplementedError("Unused in tests")
     }
 
     override suspend fun deleteTask(taskId: String) {
-        TODO("Not yet implemented")
+        throw NotImplementedError("Unused in tests")
     }
 
     override suspend fun deleteCompletedTasks(): Result<Int> {
-        TODO("Not yet implemented")
+        throw NotImplementedError("Unused in tests")
     }
 
     override suspend fun deleteTasks() {
-        TODO("Not yet implemented")
+        throw NotImplementedError("Unused in tests")
+    }
+
+    fun addTasks(vararg tasks: Task) {
+        fakeTasks.addAll(tasks)
+        runBlocking { refreshTasks() }
     }
 }

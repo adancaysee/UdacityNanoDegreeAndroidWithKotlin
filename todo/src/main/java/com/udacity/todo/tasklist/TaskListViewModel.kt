@@ -150,11 +150,6 @@ class TaskListViewModel(
     fun showResultMessage(resultMessage: String?) {
         if (resultMessage.isNullOrEmpty()) return
         showSnackbarMessage(resultMessage)
-        /*when (result) {
-            EDIT_RESULT_OK -> showSnackbarMessage(application.getString(R.string.successfully_saved_task_message))
-            ADD_EDIT_RESULT_OK -> showSnackbarMessage(application.getString(R.string.successfully_added_task_message))
-            DELETE_RESULT_OK -> showSnackbarMessage(application.getString(R.string.successfully_deleted_task_message))
-        }*/
     }
 
     fun navigateToNewTask() {

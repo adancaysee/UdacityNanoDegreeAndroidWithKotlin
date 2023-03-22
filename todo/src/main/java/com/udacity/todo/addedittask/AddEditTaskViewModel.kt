@@ -10,7 +10,6 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.udacity.todo.R
 import com.udacity.todo.TodoApplication
-import com.udacity.todo.data.Result
 import com.udacity.todo.data.domain.Task
 import com.udacity.todo.data.source.TasksRepository
 import com.udacity.todo.util.Event
@@ -51,9 +50,9 @@ class AddEditTaskViewModel(
 
         _dataLoading.value = true
         viewModelScope.launch {
-            val result = tasksRepository.getTask(taskId)
-            if (result is Result.Success) {
-                loadTask(result.data)
+            val task = tasksRepository.getTask(taskId)
+            if (task != null) {
+                loadTask(task)
             }
             _dataLoading.value = false
         }

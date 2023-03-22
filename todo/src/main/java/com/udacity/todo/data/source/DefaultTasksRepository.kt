@@ -13,19 +13,19 @@ import kotlinx.coroutines.*
 enum class TasksFilterType { ALL_TASKS, ACTIVE_TASKS, COMPLETED_TASKS }
 
 class DefaultTasksRepository(
-    private val tasksLocalDataSource: TasksDao,
+    private val tasksDao: TasksDao,
     private val tasksNetworkDataSource: TasksNetworkDataSource,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : TasksRepository {
 
     override fun observeTasks(filterType: TasksFilterType): LiveData<List<Task>?> {
         return when (filterType) {
-            TasksFilterType.ALL_TASKS -> Transformations.map(tasksLocalDataSource.observeTasks()) {
+            TasksFilterType.ALL_TASKS -> Transformations.map(tasksDao.observeTasks()) {
                 it?.asDomain()
             }
             else -> {
                 Transformations.map(
-                    tasksLocalDataSource.observeFilteringTasks(filterType != TasksFilterType.ACTIVE_TASKS)
+                    tasksDao.observeFilteringTasks(filterType != TasksFilterType.ACTIVE_TASKS)
                 ) {
                     it?.asDomain()
                 }
@@ -33,15 +33,15 @@ class DefaultTasksRepository(
         }
     }
 
-    override suspend fun getTasks(forceUpdate: Boolean): Result<List<Task>> {
+    override suspend fun getTasks(forceUpdate: Boolean): List<Task>? {
         if (forceUpdate) {
             refreshTasks()
         }
         return withContext(dispatcher) {
             return@withContext try {
-                Result.Success(tasksLocalDataSource.getTasks().asDomain())
+                tasksDao.getTasks()!!.asDomain()
             } catch (e: Exception) {
-                Result.Error(e)
+                null
             }
         }
     }
@@ -49,31 +49,26 @@ class DefaultTasksRepository(
     override suspend fun refreshTasks() {
         withContext(dispatcher) {
             val result = tasksNetworkDataSource.fetchTasks()
-            tasksLocalDataSource.deleteAllTasks()
-            tasksLocalDataSource.insertTasks(result)
+            tasksDao.deleteAllTasks()
+            tasksDao.insertTasks(result)
         }
     }
 
     override fun observeTask(taskId: String): LiveData<Task?> {
-        return Transformations.map(tasksLocalDataSource.observeTaskById(taskId)) {
+        return Transformations.map(tasksDao.observeTaskById(taskId)) {
             it?.asDomain()
         }
     }
 
-    override suspend fun getTask(taskId: String, forceUpdate: Boolean): Result<Task> {
+    override suspend fun getTask(taskId: String, forceUpdate: Boolean): Task? {
         if (forceUpdate) {
             refreshTask(taskId)
         }
         return withContext(dispatcher) {
             return@withContext try {
-                val task = tasksLocalDataSource.getTaskById(taskId)
-                if (task != null) {
-                    Result.Success(task.asDomain())
-                } else {
-                    Result.Error(Exception("Task not found!"))
-                }
+                tasksDao.getTaskById(taskId)?.asDomain()
             } catch (e: Exception) {
-                Result.Error(e)
+                null
             }
         }
     }
@@ -82,7 +77,7 @@ class DefaultTasksRepository(
         withContext(dispatcher) {
             val remoteTask = tasksNetworkDataSource.fetchTask(taskId)
             remoteTask?.let {
-                tasksLocalDataSource.updateTask(remoteTask)
+                tasksDao.updateTask(remoteTask)
             }
         }
     }
@@ -92,7 +87,7 @@ class DefaultTasksRepository(
             val taskEntity = task.asDatabase()
             coroutineScope {
                 launch { tasksNetworkDataSource.saveTask(taskEntity) }
-                launch { tasksLocalDataSource.insertTask(taskEntity) }
+                launch { tasksDao.insertTask(taskEntity) }
             }
         }
     }
@@ -103,7 +98,7 @@ class DefaultTasksRepository(
             taskEntity.isCompleted = true
             coroutineScope {
                 launch { tasksNetworkDataSource.updateTask(taskEntity) }
-                launch { tasksLocalDataSource.updateTask(taskEntity) }
+                launch { tasksDao.updateTask(taskEntity) }
             }
         }
     }
@@ -114,7 +109,7 @@ class DefaultTasksRepository(
             taskEntity.isCompleted = false
             coroutineScope {
                 launch { tasksNetworkDataSource.updateTask(taskEntity) }
-                launch { tasksLocalDataSource.updateTask(taskEntity) }
+                launch { tasksDao.updateTask(taskEntity) }
             }
         }
     }
@@ -122,17 +117,17 @@ class DefaultTasksRepository(
     override suspend fun deleteTask(taskId: String) {
         withContext(dispatcher) {
             tasksNetworkDataSource.deleteTask(taskId)
-            tasksLocalDataSource.deleteTask(taskId)
+            tasksDao.deleteTask(taskId)
         }
     }
 
     override suspend fun deleteCompletedTasks(): Result<Int> {
         return withContext(dispatcher) {
-            val completedTasks = tasksLocalDataSource.getFilteringTasks(true)
+            val completedTasks = tasksDao.getFilteringTasks(true)
             if (completedTasks.isNullOrEmpty())
                 return@withContext Result.Error(Exception("Not found completed tasks"))
             launch { tasksNetworkDataSource.deleteCompletedTasks() }
-            launch { tasksLocalDataSource.deleteTasks(completedTasks) }
+            launch { tasksDao.deleteTasks(completedTasks) }
             return@withContext Result.Success(completedTasks.size)
         }
     }
@@ -140,7 +135,7 @@ class DefaultTasksRepository(
     override suspend fun deleteTasks() {
         withContext(dispatcher) {
             launch { tasksNetworkDataSource.deleteAllTasks() }
-            launch { tasksLocalDataSource.deleteAllTasks() }
+            launch { tasksDao.deleteAllTasks() }
         }
     }
 }

@@ -2,52 +2,55 @@ package com.udacity.todo.data.source.local
 
 import androidx.lifecycle.LiveData
 
-class TestTaskDao : TasksDao {
+class TestTaskDao(
+    var fakeTasks: MutableList<TaskEntity>? = mutableListOf()
+) : TasksDao {
+
     override fun observeTasks(): LiveData<List<TaskEntity>?> {
-        TODO("Not yet implemented")
+        throw NotImplementedError("Unused in tests")
     }
 
     override fun observeFilteringTasks(isCompleted: Boolean): LiveData<List<TaskEntity>?> {
-        TODO("Not yet implemented")
+        throw NotImplementedError("Unused in tests")
     }
 
     override fun getFilteringTasks(isCompleted: Boolean): List<TaskEntity>? {
-        TODO("Not yet implemented")
+        throw NotImplementedError("Unused in tests")
     }
 
     override fun getTasks(): List<TaskEntity> {
-        TODO("Not yet implemented")
+        return fakeTasks ?: listOf()
     }
 
     override fun observeTaskById(taskId: String): LiveData<TaskEntity?> {
-        TODO("Not yet implemented")
+        throw NotImplementedError("Unused in tests")
     }
 
     override fun getTaskById(taskId: String): TaskEntity? {
-        TODO("Not yet implemented")
+        throw NotImplementedError("Unused in tests")
     }
 
     override fun insertTask(task: TaskEntity) {
-        TODO("Not yet implemented")
+        throw NotImplementedError("Unused in tests")
     }
 
     override fun insertTasks(tasks: List<TaskEntity>) {
-        TODO("Not yet implemented")
+        this.fakeTasks?.addAll(tasks)
     }
 
     override fun updateTask(task: TaskEntity) {
-        TODO("Not yet implemented")
+        throw NotImplementedError("Unused in tests")
     }
 
     override fun deleteTask(taskId: String) {
-        TODO("Not yet implemented")
+        throw NotImplementedError("Unused in tests")
     }
 
     override fun deleteTasks(task: List<TaskEntity>) {
-        TODO("Not yet implemented")
+        throw NotImplementedError("Unused in tests")
     }
 
     override fun deleteAllTasks() {
-        TODO("Not yet implemented")
+        fakeTasks?.clear()
     }
 }

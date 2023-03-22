@@ -70,6 +70,7 @@ dependencies {
     testImplementation(TestLibraries.androidXArchCoreTesting)
     testImplementation(TestLibraries.robolectric)
     testImplementation(TestLibraries.truth)
+    testImplementation(TestLibraries.coroutine)
 
     androidTestImplementation(TestLibraries.androidXJunitKtx)
     androidTestImplementation(TestLibraries.espressoCore)

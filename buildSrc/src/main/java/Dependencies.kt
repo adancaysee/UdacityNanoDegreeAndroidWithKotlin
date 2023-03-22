@@ -69,7 +69,7 @@ object TestLibraries {
 
     const val androidXArchCoreTesting = "androidx.arch.core:core-testing:2.2.0"
     const val room = "androidx.room:room-testing:${Versions.roomVersion}"
-    const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.9"
+    const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
 
     const val robolectric = "org.robolectric:robolectric:4.9.2"
     const val truth = "com.google.truth:truth:1.1.3"

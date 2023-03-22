@@ -6,6 +6,10 @@ import androidx.room.PrimaryKey
 import com.udacity.todo.data.domain.Task
 import java.util.UUID
 
+/**
+ * Data layer representation of [Task]
+ */
+
 @Entity(tableName = "tasks_table")
 data class TaskEntity(
     @PrimaryKey

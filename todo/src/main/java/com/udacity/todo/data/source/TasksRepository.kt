@@ -8,13 +8,13 @@ interface TasksRepository {
 
     fun observeTasks(filterType: TasksFilterType): LiveData<List<Task>?>
 
-    suspend fun getTasks(forceUpdate: Boolean = false): Result<List<Task>>
+    suspend fun getTasks(forceUpdate: Boolean = false): List<Task>?
 
     suspend fun refreshTasks()
 
     fun observeTask(taskId: String): LiveData<Task?>
 
-    suspend fun getTask(taskId: String, forceUpdate: Boolean = false): Result<Task>
+    suspend fun getTask(taskId: String, forceUpdate: Boolean = false): Task?
 
     suspend fun refreshTask(taskId: String)
 

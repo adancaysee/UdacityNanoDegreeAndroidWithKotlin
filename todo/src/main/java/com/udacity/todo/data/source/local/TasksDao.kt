@@ -20,7 +20,7 @@ interface TasksDao {
     fun getFilteringTasks(isCompleted: Boolean): List<TaskEntity>?
 
     @Query("SELECT * FROM tasks_table")
-    fun getTasks(): List<TaskEntity>
+    fun getTasks(): List<TaskEntity>?
 
     @Query("SELECT * FROM tasks_table WHERE id = :taskId")
     fun observeTaskById(taskId: String): LiveData<TaskEntity?>

@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.udacity.todo.R
 import com.udacity.todo.data.domain.Task
 import com.udacity.todo.data.source.TasksFilterType
@@ -28,8 +27,6 @@ class TaskListFragment : Fragment(), MenuProvider {
         TaskListViewModel.Factory
     }
 
-    private val navArguments: TaskListFragmentArgs by navArgs()
-
     private val tasksAdapter = TasksAdapter(object : TasksAdapter.OnClickListener {
         override fun changeTaskActivateStatus(task: Task, isCompleted: Boolean) {
             taskListViewModel.changeTaskActivateStatus(task, isCompleted)
@@ -40,6 +37,10 @@ class TaskListFragment : Fragment(), MenuProvider {
         }
 
     })
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -80,7 +81,7 @@ class TaskListFragment : Fragment(), MenuProvider {
         })
 
         arguments?.let {
-            val resultMessage = navArguments.resultMessage
+            val resultMessage = TaskListFragmentArgs.fromBundle(it).resultMessage
             taskListViewModel.showResultMessage(resultMessage)
         }
 
@@ -88,6 +89,11 @@ class TaskListFragment : Fragment(), MenuProvider {
             binding.root.showSnackbar(it)
         })
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        arguments?.clear()
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
