@@ -65,7 +65,13 @@ object TestLibraries {
     const val junit = "junit:junit:4.13.2"
     const val androidXJunitKtx = "androidx.test.ext:junit-ktx:1.1.5"
     const val androidXTestCoreKtx = "androidx.test:core-ktx:1.5.0"
-    const val espressoCore = "androidx.test.espresso:espresso-core:3.5.0"
+    const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espressoVersion}"
+    const val espressoContrib = "androidx.test.espresso:espresso-contrib:${Versions.espressoVersion}"
+
+    // required if you want to use Mockito for unit tests
+    const val mockitoCore = "org.mockito:mockito-core:5.2.0"
+    // required if you want to use Mockito for Android tests
+    const val mockitoAndroid =  "org.mockito:mockito-android:5.2.0"
 
     const val androidXArchCoreTesting = "androidx.arch.core:core-testing:2.2.0"
     const val room = "androidx.room:room-testing:${Versions.roomVersion}"

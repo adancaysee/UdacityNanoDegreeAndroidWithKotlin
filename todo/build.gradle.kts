@@ -74,16 +74,19 @@ dependencies {
 
     androidTestImplementation(TestLibraries.androidXJunitKtx)
     androidTestImplementation(TestLibraries.espressoCore)
+    androidTestImplementation(TestLibraries.espressoContrib)
+    androidTestImplementation(TestLibraries.mockitoAndroid)
     androidTestImplementation(TestLibraries.coroutine)
     androidTestImplementation(TestLibraries.truth)
 
     debugImplementation(TestLibraries.fragmentTesting)
     debugImplementation(TestLibraries.androidXTestCoreKtx)
 
-    /*
+
+}
+
+/*
     debugImplementation("androidx.fragment:fragment-ktx:1.5.5")
     debugImplementation("androidx.test:rules:1.5.0")
     debugImplementation("androidx.test:runner:1.5.2")
-     */
-
-}
+*/
