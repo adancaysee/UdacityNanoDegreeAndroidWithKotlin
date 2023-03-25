@@ -89,6 +89,10 @@ class TaskListFragment : Fragment(), MenuProvider {
             binding.root.showSnackbar(it)
         })
 
+        taskListViewModel.snackbarIntEvent.observe(viewLifecycleOwner, EventObserver {
+            binding.root.showSnackbar(getString(it))
+        })
+
     }
 
     override fun onDestroyView() {

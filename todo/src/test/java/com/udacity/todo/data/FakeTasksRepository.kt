@@ -31,7 +31,7 @@ class FakeTasksRepository : TasksRepository {
     }
 
     override suspend fun getTask(taskId: String, forceUpdate: Boolean): Task? {
-        throw NotImplementedError("Unused in tests")
+        return fakeTasks.find { it.id == taskId }
     }
 
     override suspend fun refreshTask(taskId: String) {
@@ -39,15 +39,25 @@ class FakeTasksRepository : TasksRepository {
     }
 
     override suspend fun saveTask(task: Task) {
-        throw NotImplementedError("Unused in tests")
+        fakeTasks.add(task)
     }
 
     override suspend fun completeTask(task: Task) {
-        throw NotImplementedError("Unused in tests")
+        refreshTasks()
+        val index = fakeTasks.withIndex().first { it.value.id == task.id }.index
+        if (index != -1) {
+            val currentTask = fakeTasks[index].copy(isCompleted = true)
+            fakeTasks[index] = currentTask
+        }
     }
 
     override suspend fun activeTask(task: Task) {
-        throw NotImplementedError("Unused in tests")
+        refreshTasks()
+        val index = fakeTasks.withIndex().first { it.value.id == task.id }.index
+        if (index != -1) {
+            val currentTask = fakeTasks[index].copy(isCompleted = false)
+            fakeTasks[index] = currentTask
+        }
     }
 
     override suspend fun deleteTask(taskId: String) {

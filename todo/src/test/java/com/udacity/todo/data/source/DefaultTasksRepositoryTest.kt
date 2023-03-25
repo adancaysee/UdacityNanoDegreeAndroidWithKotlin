@@ -5,11 +5,15 @@ import com.udacity.todo.data.source.local.TaskEntity
 import com.udacity.todo.data.source.local.FakeTaskDao
 import com.udacity.todo.data.source.local.asDomain
 import com.udacity.todo.data.source.remote.FakeTasksNetworkDataSource
+import com.udacity.todo.util.MainDispatcherRule
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
+@ExperimentalCoroutinesApi
 class DefaultTasksRepositoryTest {
 
     private val task1 = TaskEntity(title = "Title1", description = "Description1")
@@ -24,6 +28,8 @@ class DefaultTasksRepositoryTest {
 
     private lateinit var defaultTasksRepository: DefaultTasksRepository
 
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
 
     @Before
     fun setUp() {
@@ -32,7 +38,7 @@ class DefaultTasksRepositoryTest {
         fakeTaskDao.fakeTasks = localTasks.toMutableList()
         fakeTasksNetworkDataSource.tasks = remoteTasks.toMutableList()
 
-        defaultTasksRepository = DefaultTasksRepository(fakeTaskDao, fakeTasksNetworkDataSource)
+        defaultTasksRepository = DefaultTasksRepository(fakeTaskDao, fakeTasksNetworkDataSource,Dispatchers.Main)
     }
 
     //How can I test  getTask function of the repository ?

@@ -1,7 +1,7 @@
 package com.udacity.todo.tutorial
 
 /**
- * Espresso --> Ui testing library (Interact with view and check their state)
+ * ESPRESSO --> Ui testing library (Interact with view and check their state)
  * This parts :
  *  1. Static Espresso method --> Starts espresso statement.Basically says you're going to do something with a view (ex:onView())
  *  2. ViewMatcher --> Finds view in the ui and about it's view states (ex:withId())
@@ -16,4 +16,7 @@ package com.udacity.todo.tutorial
  *     onView(withId()) --> find view and start statement --> The view
  *     perform(click()) --> perform click action on the view
  *     check(matches(isChecked())) --> check assertion , matches(isChecked()) --> is the view's state matches checked
+ *
+ * MOCKITO --> Mock Test Double
+ * Don't use too many mock test doubles. If there is a state change you can use assertion instead of method call verify
  */
