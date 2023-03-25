@@ -13,12 +13,22 @@ class FakeTasksRepository : TasksRepository {
 
     private val observableTasks = MutableLiveData<List<Task>?>()
 
+    private var shouldReturnError = false
+
+    fun setReturnError(value: Boolean) {
+        shouldReturnError = value
+    }
+
+
     override fun observeTasks(filterType: TasksFilterType): LiveData<List<Task>?> {
         runBlocking { refreshTasks() }
         return observableTasks
     }
 
     override suspend fun getTasks(forceUpdate: Boolean): List<Task> {
+        if (shouldReturnError) {
+            return listOf()
+        }
         return fakeTasks
     }
 

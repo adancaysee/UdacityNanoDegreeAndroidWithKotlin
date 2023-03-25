@@ -3,6 +3,7 @@ package com.udacity.todo.statistics
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
 import com.udacity.todo.data.FakeTasksRepository
+import com.udacity.todo.data.domain.Task
 import com.udacity.todo.statics.StaticsViewModel
 import com.udacity.todo.util.MainDispatcherRule
 import com.udacity.todo.util.getOrAwaitValue
@@ -50,5 +51,28 @@ class StaticsViewModelTest {
         // Then progress indicator is hidden
         assertThat(statisticsViewModel.dataLoading.getOrAwaitValue()).isFalse()
     }
+
+    /**
+     * Simulate error handling with repository
+     */
+    @Test
+    fun loadStatisticsWhenTasksAreUnavailable_callErrorToDisplay() = runTest {
+        // GIVEN -- Create an error case
+        val task1 = Task("TITLE1", "DESCRIPTION1", false, "id1")
+        val task2 = Task("TITLE2", "DESCRIPTION2", true, "id2")
+        fakeTasksRepository.saveTask(task1)
+        fakeTasksRepository.saveTask(task2)
+        fakeTasksRepository.setReturnError(true)
+
+        //WHEN -- refresh tasks
+        statisticsViewModel.refresh()
+
+        //THEN -- event updated
+        assertThat(statisticsViewModel.empty.getOrAwaitValue()).isTrue()
+
+
+    }
+
+
 
 }
