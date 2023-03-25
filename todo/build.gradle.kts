@@ -73,6 +73,7 @@ dependencies {
     testImplementation(TestLibraries.coroutine)
 
     androidTestImplementation(TestLibraries.androidXJunitKtx)
+    androidTestImplementation(TestLibraries.androidXArchCoreTesting)
     androidTestImplementation(TestLibraries.espressoCore)
     androidTestImplementation(TestLibraries.espressoContrib)
     androidTestImplementation(TestLibraries.mockitoAndroid)
