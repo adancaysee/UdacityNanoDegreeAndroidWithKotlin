@@ -1,10 +1,7 @@
 package com.udacity.todo.tasklist
 
-import android.app.Application
-import android.graphics.drawable.Drawable
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
@@ -18,13 +15,12 @@ import com.udacity.todo.util.Event
 import kotlinx.coroutines.launch
 
 /**
- *  The function passed to switchMap() must return a LiveData object. Bir livedata değişikliği başka bir livedata ile sonuçlanıcak
+ *  The function passed to switchMap() must return a LiveData object. "Bir livedata değişikliği başka bir livedata ile sonuçlanıcak"
  */
 
 class TaskListViewModel(
-    private val application: Application,
     private val tasksRepository: TasksRepository
-) : AndroidViewModel(application) {
+) : ViewModel() {
 
     private var currentFilteringType = MutableLiveData(TasksFilterType.ALL_TASKS)
     private val _tasks: LiveData<List<Task>> =
@@ -36,14 +32,14 @@ class TaskListViewModel(
     val tasks: LiveData<List<Task>> = _tasks
     val empty = Transformations.map(_tasks) { it.isNullOrEmpty() }
 
-    private val _currentFilteringLabel = MutableLiveData<String>()
-    val currentFilteringLabel: LiveData<String> = _currentFilteringLabel
+    private val _currentFilteringLabel = MutableLiveData<Int>()
+    val currentFilteringLabel: LiveData<Int> = _currentFilteringLabel
 
-    private val _noTasksLabel = MutableLiveData<String>()
-    val noTasksLabel: LiveData<String> = _noTasksLabel
+    private val _noTasksLabel = MutableLiveData<Int>()
+    val noTasksLabel: LiveData<Int> = _noTasksLabel
 
-    private val _noTaskIconRes = MutableLiveData<Drawable>()
-    val noTaskIconRes: LiveData<Drawable> = _noTaskIconRes
+    private val _noTaskIconRes = MutableLiveData<Int>()
+    val noTaskIconRes: LiveData<Int> = _noTaskIconRes
 
     private val _tasksAddViewVisible = MutableLiveData<Boolean>()
     val tasksAddViewVisible: LiveData<Boolean> = _tasksAddViewVisible
@@ -60,6 +56,8 @@ class TaskListViewModel(
 
     private val _snackbarTextEvent = MutableLiveData<Event<String>>()
     val snackbarTextEvent = _snackbarTextEvent
+    private val _snackbarIntEvent = MutableLiveData<Event<Int>>()
+    val snackbarIntEvent = _snackbarIntEvent
 
 
     init {
@@ -108,9 +106,9 @@ class TaskListViewModel(
         @StringRes filteringLabelString: Int, @StringRes noTasksLabelString: Int,
         @DrawableRes noTaskIconDrawable: Int, tasksAddVisible: Boolean
     ) {
-        _currentFilteringLabel.value = application.getString(filteringLabelString)
-        _noTasksLabel.value = application.getString(noTasksLabelString)
-        _noTaskIconRes.value = ContextCompat.getDrawable(application, noTaskIconDrawable)
+        _currentFilteringLabel.value = filteringLabelString
+        _noTasksLabel.value = noTasksLabelString
+        _noTaskIconRes.value = noTaskIconDrawable
         _tasksAddViewVisible.value = tasksAddVisible
     }
 
@@ -118,10 +116,10 @@ class TaskListViewModel(
         viewModelScope.launch {
             if (isCompleted) {
                 tasksRepository.completeTask(task)
-                showSnackbarMessage(application.getString(R.string.task_marked_complete))
+                showSnackbarMessage(R.string.task_marked_complete)
             } else {
                 tasksRepository.activeTask(task)
-                showSnackbarMessage(application.getString(R.string.task_marked_active))
+                showSnackbarMessage(R.string.task_marked_active)
             }
         }
     }
@@ -130,12 +128,7 @@ class TaskListViewModel(
         viewModelScope.launch {
             val result = tasksRepository.deleteCompletedTasks()
             if (result is Result.Success) {
-                showSnackbarMessage(
-                    application.getString(
-                        R.string.completed_tasks_cleared,
-                        result.data
-                    )
-                )
+                showSnackbarMessage(R.string.completed_tasks_cleared)
             } else if (result is Result.Error) {
                 showSnackbarMessage(result.exception.message ?: "Error found")
             }
@@ -145,6 +138,10 @@ class TaskListViewModel(
 
     private fun showSnackbarMessage(message: String) {
         _snackbarTextEvent.value = Event(message)
+    }
+
+    private fun showSnackbarMessage(resourceId:Int) {
+        _snackbarIntEvent.value = Event(resourceId)
     }
 
     fun showResultMessage(resultMessage: String?) {
@@ -164,7 +161,7 @@ class TaskListViewModel(
         val Factory = viewModelFactory {
             initializer {
                 val application = this[APPLICATION_KEY] as TodoApplication
-                TaskListViewModel(application, application.tasksRepository)
+                TaskListViewModel(application.tasksRepository)
             }
         }
     }
