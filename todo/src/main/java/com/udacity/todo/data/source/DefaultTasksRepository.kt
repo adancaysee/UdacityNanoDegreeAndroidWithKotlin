@@ -8,6 +8,7 @@ import com.udacity.todo.data.source.local.asDomain
 import com.udacity.todo.data.domain.Task
 import com.udacity.todo.data.domain.asDatabase
 import com.udacity.todo.data.source.remote.TasksNetworkDataSource
+import com.udacity.todo.util.wrapEspressoIdlingResource
 import kotlinx.coroutines.*
 
 enum class TasksFilterType { ALL_TASKS, ACTIVE_TASKS, COMPLETED_TASKS }
@@ -18,22 +19,23 @@ class DefaultTasksRepository(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : TasksRepository {
 
-    override fun observeTasks(filterType: TasksFilterType): LiveData<List<Task>?> {
-        return when (filterType) {
-            TasksFilterType.ALL_TASKS -> Transformations.map(tasksDao.observeTasks()) {
-                it?.asDomain()
-            }
-            else -> {
-                Transformations.map(
-                    tasksDao.observeFilteringTasks(filterType != TasksFilterType.ACTIVE_TASKS)
-                ) {
+    override fun observeTasks(filterType: TasksFilterType): LiveData<List<Task>?> =
+        wrapEspressoIdlingResource {
+            return when (filterType) {
+                TasksFilterType.ALL_TASKS -> Transformations.map(tasksDao.observeTasks()) {
                     it?.asDomain()
+                }
+                else -> {
+                    Transformations.map(
+                        tasksDao.observeFilteringTasks(filterType != TasksFilterType.ACTIVE_TASKS)
+                    ) {
+                        it?.asDomain()
+                    }
                 }
             }
         }
-    }
 
-    override suspend fun getTasks(forceUpdate: Boolean): List<Task>? {
+    override suspend fun getTasks(forceUpdate: Boolean): List<Task>? = wrapEspressoIdlingResource {
         if (forceUpdate) {
             refreshTasks()
         }
@@ -46,7 +48,7 @@ class DefaultTasksRepository(
         }
     }
 
-    override suspend fun refreshTasks() {
+    override suspend fun refreshTasks() = wrapEspressoIdlingResource {
         withContext(dispatcher) {
             val result = tasksNetworkDataSource.fetchTasks()
             tasksDao.deleteAllTasks()
@@ -54,26 +56,27 @@ class DefaultTasksRepository(
         }
     }
 
-    override fun observeTask(taskId: String): LiveData<Task?> {
+    override fun observeTask(taskId: String): LiveData<Task?> = wrapEspressoIdlingResource {
         return Transformations.map(tasksDao.observeTaskById(taskId)) {
             it?.asDomain()
         }
     }
 
-    override suspend fun getTask(taskId: String, forceUpdate: Boolean): Task? {
-        if (forceUpdate) {
-            refreshTask(taskId)
-        }
-        return withContext(dispatcher) {
-            return@withContext try {
-                tasksDao.getTaskById(taskId)?.asDomain()
-            } catch (e: Exception) {
-                null
+    override suspend fun getTask(taskId: String, forceUpdate: Boolean): Task? =
+        wrapEspressoIdlingResource {
+            if (forceUpdate) {
+                refreshTask(taskId)
+            }
+            return withContext(dispatcher) {
+                return@withContext try {
+                    tasksDao.getTaskById(taskId)?.asDomain()
+                } catch (e: Exception) {
+                    null
+                }
             }
         }
-    }
 
-    override suspend fun refreshTask(taskId: String) {
+    override suspend fun refreshTask(taskId: String): Unit = wrapEspressoIdlingResource {
         withContext(dispatcher) {
             val remoteTask = tasksNetworkDataSource.fetchTask(taskId)
             remoteTask?.let {
@@ -82,7 +85,7 @@ class DefaultTasksRepository(
         }
     }
 
-    override suspend fun saveTask(task: Task) {
+    override suspend fun saveTask(task: Task): Unit = wrapEspressoIdlingResource {
         withContext(dispatcher) {
             val taskEntity = task.asDatabase()
             coroutineScope {
@@ -92,7 +95,7 @@ class DefaultTasksRepository(
         }
     }
 
-    override suspend fun completeTask(task: Task) {
+    override suspend fun completeTask(task: Task): Unit = wrapEspressoIdlingResource {
         withContext(dispatcher) {
             val taskEntity = task.asDatabase()
             taskEntity.isCompleted = true
@@ -103,7 +106,7 @@ class DefaultTasksRepository(
         }
     }
 
-    override suspend fun activeTask(task: Task) {
+    override suspend fun activeTask(task: Task): Unit = wrapEspressoIdlingResource {
         withContext(dispatcher) {
             val taskEntity = task.asDatabase()
             taskEntity.isCompleted = false
@@ -114,14 +117,14 @@ class DefaultTasksRepository(
         }
     }
 
-    override suspend fun deleteTask(taskId: String) {
+    override suspend fun deleteTask(taskId: String): Unit = wrapEspressoIdlingResource {
         withContext(dispatcher) {
             tasksNetworkDataSource.deleteTask(taskId)
             tasksDao.deleteTask(taskId)
         }
     }
 
-    override suspend fun deleteCompletedTasks(): Result<Int> {
+    override suspend fun deleteCompletedTasks(): Result<Int> = wrapEspressoIdlingResource {
         return withContext(dispatcher) {
             val completedTasks = tasksDao.getFilteringTasks(true)
             if (completedTasks.isNullOrEmpty())
@@ -132,7 +135,7 @@ class DefaultTasksRepository(
         }
     }
 
-    override suspend fun deleteTasks() {
+    override suspend fun deleteTasks(): Unit = wrapEspressoIdlingResource {
         withContext(dispatcher) {
             launch { tasksNetworkDataSource.deleteAllTasks() }
             launch { tasksDao.deleteAllTasks() }

@@ -41,8 +41,9 @@ android {
         jvmTarget = "1.8"
     }
 
-    testOptions {
-        unitTests.isIncludeAndroidResources = true
+    testOptions.unitTests {
+        isIncludeAndroidResources = true
+        isReturnDefaultValues = true
     }
 
 }
@@ -56,6 +57,8 @@ dependencies {
     implementation(Libraries.constraintLayout)
     implementation(Libraries.swiperefreshlayout)
     implementation(Libraries.timber)
+
+    implementation("androidx.test.espresso:espresso-idling-resource:3.5.1")
 
     //Architecture components
     implementation(Libraries.androidxNavigationUi)

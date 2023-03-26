@@ -6,7 +6,7 @@ import java.util.*
 data class Task(
     val title: String,
     val description: String,
-    val isCompleted: Boolean,
+    val isCompleted: Boolean = false,
     val id: String = UUID.randomUUID().toString(),
 ) {
     val titleForList: String

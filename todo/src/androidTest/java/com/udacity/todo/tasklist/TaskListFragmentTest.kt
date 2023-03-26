@@ -56,6 +56,9 @@ class TaskListFragmentTest {
         val mockNavController = mock(NavController::class.java)
 
         scenario.onFragment {
+
+        }
+        scenario.onFragment {
             Navigation.setViewNavController(it.view!!, mockNavController)
         }
 
