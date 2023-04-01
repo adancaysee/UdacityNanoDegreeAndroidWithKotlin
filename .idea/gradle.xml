@@ -11,16 +11,12 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/aboutme" />
-            <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/clippingdemo" />
-            <option value="$PROJECT_DIR$/colormyviews" />
             <option value="$PROJECT_DIR$/customfancontroller" />
             <option value="$PROJECT_DIR$/dessertpusher" />
             <option value="$PROJECT_DIR$/devbyteviewer" />
             <option value="$PROJECT_DIR$/eggtimer" />
-            <option value="$PROJECT_DIR$/firebaseuiloginsample" />
             <option value="$PROJECT_DIR$/gdgfinder" />
             <option value="$PROJECT_DIR$/guesstheword" />
             <option value="$PROJECT_DIR$/marsrealestate" />
@@ -31,7 +27,6 @@
             <option value="$PROJECT_DIR$/trackmysleepquality" />
             <option value="$PROJECT_DIR$/treasurehunt" />
             <option value="$PROJECT_DIR$/trivia" />
-            <option value="$PROJECT_DIR$/wander" />
           </set>
         </option>
       </GradleProjectSettings>

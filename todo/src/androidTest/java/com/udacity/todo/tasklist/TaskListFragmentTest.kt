@@ -77,7 +77,7 @@ class TaskListFragmentTest {
     }
 
     @Test
-    fun clickAddTaskButton_navigateToAddEditFragment() {
+    fun clickFirstItem_navigateToAddEditFragment() {
 
         val scenario = launchFragmentInContainer<TaskListFragment>(Bundle(), R.style.Theme_TodoApp)
         val mockNavController = mock(NavController::class.java)

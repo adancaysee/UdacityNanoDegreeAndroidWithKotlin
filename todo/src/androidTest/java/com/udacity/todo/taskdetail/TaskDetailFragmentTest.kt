@@ -39,6 +39,7 @@ class TaskDetailFragmentTest {
         ServiceLocator.resetRepository()
     }
 
+    //Test the displayed data on the UI.
     @Test
     fun activeTask_displayedInUI() = runTest {
         // GIVEN - Add active task to the db

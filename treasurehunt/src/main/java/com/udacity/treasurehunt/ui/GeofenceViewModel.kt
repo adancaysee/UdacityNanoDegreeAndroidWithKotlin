@@ -153,7 +153,6 @@ class GeofenceViewModel(private val application: Application, state: SavedStateH
                 _removeAllGeofencesEvent.value = false
             }
         }
-
     }
 
     fun doneAddGeofenceForClueEvent() {

@@ -13,9 +13,6 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "UdacityNanoDegreeAndroidWithKotlin"
-include ':app'
-include ':aboutme'
-include ':colormyviews'
 include ':trivia'
 include ':dessertpusher'
 include ':guesstheword'
@@ -29,7 +26,5 @@ include ':minipaint'
 include ':clippingdemo'
 include ':propertyanimation'
 include ':motionlayout'
-include ':wander'
 include ':treasurehunt'
-include ':firebaseuiloginsample'
 include ':todo'
